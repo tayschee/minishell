@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:40:09 by abarot            #+#    #+#             */
-/*   Updated: 2020/09/15 16:01:05 by abarot           ###   ########.fr       */
+/*   Updated: 2020/09/21 11:28:33 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct 		s_shell
 	char			*r_cwd;
 	char			**envp;
 	char			*tilde;
+	int				l_rtrval ;
 	pid_t			cpid;
 	struct stat		stat;
 }				t_shell;
@@ -90,7 +91,8 @@ void	ft_show_prompt_line();
 char	*ft_multiline_mng(char *line);
 char	*ft_get_cmd_r(char *cmd_line);
 int 	ft_parse_cmdline(char *cmd_line);
-int		ft_redirect_cmd(t_list *cmd, int fd_in, int fd_out);
+int		ft_exec(t_cmd *cmd);
+int		ft_redirect_cmd(t_cmd *cmd);
 int		ft_redirection(char *cmd, int *fd_in, int *fd_out);
 void	ft_show_env(char **envp);
 void	ft_append_env(char *str);
@@ -101,5 +103,4 @@ void	ft_inthandler();
 void 	ft_quithandler();
 void	subdivise_cmd(char *unique_cmd);
 void	ft_init_cmd(char **cmd_char);
-
 #endif
