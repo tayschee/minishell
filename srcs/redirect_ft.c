@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/01 15:23:28 by abarot            #+#    #+#             */
-/*   Updated: 2020/09/21 15:43:35 by abarot           ###   ########.fr       */
+/*   Updated: 2020/09/21 16:09:35 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,6 @@ void	ft_restore_promptfd(int *p_fd, int *p_fd_save)
 		close(p_fd[WR_END]);
 		close(p_fd_save[WR_END]);
 	}
-	if (p_fd[ERR_END])
-	{
-		dup2(p_fd_save[ERR_END], STDERR_FILENO);
-		close(p_fd[ERR_END]);
-		close(p_fd_save[ERR_END]);
-	}
 }
 
 void	ft_show_fileerr(char *file)
@@ -48,10 +42,6 @@ void	ft_get_fdrdr(t_rdr *rdr, int *p_fd)
 		p_fd[WR_END] = open(rdr->path, O_RDWR | O_TRUNC | O_CREAT, 0644);
 	if (rdr && rdr->e_rdr == RDR_OUT_APPEND)
 		p_fd[WR_END] = open(rdr->path, O_RDWR | O_APPEND | O_CREAT, 0644);
-	if (rdr && rdr->e_rdr == RDR_ERR)
-		p_fd[ERR_END] = open(rdr->path, O_RDWR | O_TRUNC | O_CREAT, 0644);
-	if (rdr && rdr->e_rdr == RDR_ERR_APPEND)
-		p_fd[ERR_END] = open(rdr->path, O_RDWR | O_APPEND | O_CREAT, 0644);
 	if (rdr && rdr->e_rdr == RDR_IN)
 		p_fd[RD_END] = open(rdr->path, O_RDWR, 0644);
 }
@@ -63,13 +53,10 @@ int		ft_redirection(t_rdr *rdr, int *p_fd)
 		if (p_fd[WR_END] && (rdr->e_rdr == RDR_OUT || 
 				rdr->e_rdr == RDR_OUT_APPEND))
 			close(p_fd[WR_END]);
-		else if (p_fd[ERR_END] && (rdr->e_rdr == RDR_ERR || 
-				rdr->e_rdr == RDR_ERR_APPEND))
-			close(p_fd[ERR_END]);
 		else if (p_fd[RD_END] && rdr->e_rdr == RDR_IN)
 			close(p_fd[RD_END]);
 		ft_get_fdrdr(rdr, p_fd);
-		if (p_fd[WR_END] == -1 || p_fd[RD_END] == -1 || p_fd[ERR_END] == -1)
+		if (p_fd[WR_END] == -1 || p_fd[RD_END] == -1)
 		{
 			ft_show_fileerr(rdr->path);
 			return (EXIT_FAILURE);
@@ -86,24 +73,19 @@ int		ft_manage_rdr(t_cmd *cmd)
 
 	p_fd_save[RD_END] = dup(STDIN_FILENO);
 	p_fd_save[WR_END] = dup(STDOUT_FILENO);
-	p_fd_save[ERR_END] = dup(STDERR_FILENO);
 	p_fd[RD_END] = 0;
 	p_fd[WR_END] = 0;
-	p_fd[ERR_END] = 0;
 	if (cmd->rdr)
 		if (ft_redirection(cmd->rdr, p_fd) == EXIT_FAILURE)
 		{
 			close(p_fd_save[RD_END]);
 			close(p_fd_save[WR_END]);
-			close(p_fd_save[ERR_END]);
 			return (EXIT_FAILURE);
 		}
 	if (p_fd[RD_END] != 0)
 		dup2(p_fd[RD_END], STDIN_FILENO);
 	if (p_fd[WR_END] != 0)
 		dup2(p_fd[WR_END], STDOUT_FILENO);
-	if (p_fd[ERR_END] != 0)
-		dup2(p_fd[ERR_END], STDERR_FILENO);
 	if (cmd->type == PATH)
 		ft_exec(cmd);
 	else if (cmd->type == CMD)

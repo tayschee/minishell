@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:40:09 by abarot            #+#    #+#             */
-/*   Updated: 2020/09/21 15:26:52 by abarot           ###   ########.fr       */
+/*   Updated: 2020/09/21 16:08:25 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ enum			e_fdends
 {
 	RD_END = 0,
 	WR_END = 1,
-	ERR_END = 2,
 };
 
 enum 			e_type
@@ -61,8 +60,6 @@ enum 			e_rdr
 	RDR_OUT,
 	RDR_OUT_APPEND,
 	RDR_IN,
-	RDR_ERR,
-	RDR_ERR_APPEND,
 };
 
 struct 				s_rdr
