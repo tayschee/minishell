@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 12:02:44 by abarot            #+#    #+#             */
-/*   Updated: 2019/10/14 10:50:13 by abarot           ###   ########.fr       */
+/*   Updated: 2020/09/21 11:40:03 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	int		end;
 
 	end = 0;
-	if (!(dest = (char *)malloc(sizeof(char) * (len + 1))))
+	if (!s || !(dest = (char *)malloc(sizeof(char) * (len + 1))))
 		return (0);
 	if (start > ft_strlen(s))
 	{
