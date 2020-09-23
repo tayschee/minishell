@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:40:09 by abarot            #+#    #+#             */
-/*   Updated: 2020/09/21 16:08:25 by abarot           ###   ########.fr       */
+/*   Updated: 2020/09/23 13:57:26 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 // 		- check memory leeks
 // 		- gestion "  ; "
 // 		- gestion des droits avec lstat et fstat
+//		- redirection sans cmd ni path
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -107,4 +108,5 @@ char	*ft_search_var(char **envp, char *str);
 void	ft_retreive_env(char *str);
 void	ft_inthandler();
 void 	ft_quithandler(); 
+t_cmd    *ft_init_cmd(char *unique_cmd);
 #endif
