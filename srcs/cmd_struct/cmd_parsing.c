@@ -140,7 +140,7 @@ t_cmd    *ft_init_cmd(char *unique_cmd)
         }
         cmd = cmd->next;
     }*/
-    free_cmd_list(&cmd);
+    // free_cmd_list(&cmd);
     //printf("cmd null : %p\n", cmd);
     return (cmd);
 }

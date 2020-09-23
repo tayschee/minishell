@@ -6,68 +6,21 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/09 15:15:17 by abarot            #+#    #+#             */
-/*   Updated: 2020/09/15 16:01:11 by abarot           ###   ########.fr       */
+/*   Updated: 2020/09/23 14:21:10 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		ft_create_cmdlist(char *cmd)
-{
-	t_list	*cmdlist;
-	char	*elt;
-	int		fd_in;
-	int		fd_out;
-
-	cmdlist = 0;
-	elt = 0;
-	fd_in = STDIN_FILENO;
-	fd_out = STDOUT_FILENO;
-	while (*cmd)
-	{
-		if (*cmd == '\"' || *cmd == '\'')
-			elt = ft_get_string(cmd);
-		else
-			elt = ft_get_word(cmd);
-		if (elt && *cmd != '<' && *cmd != '>')
-			ft_append_elt(&cmdlist, elt);
-		else if (elt)
-			free(elt);
-		if (*cmd == '\"' || *cmd == '\'')
-			cmd += 2;
-		else if (*cmd == '>' || *cmd == '<')
-		{
-			if (ft_redirection(cmd, &fd_in, &fd_out) == EXIT_FAILURE)
-				return (EXIT_FAILURE);
-			break;
-		}
-		if (*cmd)
-			cmd += ft_strlen(elt);
-		while (*cmd == ' ')
-			cmd++;
-		if (!ft_strlen(elt))
-			break;
-	}
-	if (ft_redirect_cmd(cmdlist, fd_in, fd_out) == EXIT_FAILURE)
-	{
-		ft_putstr_fd(cmdlist->data, 1);
-		ft_putstr_fd(": command not found\n", 1);
-		ft_clear_list(&cmdlist);
-		return (EXIT_FAILURE);
-	}
-	ft_clear_list(&cmdlist);
-	return (EXIT_SUCCESS);
-}
-
 int 	ft_parse_cmdline(char *cmd_line)
 {
 	char	*cmd;
 	int		cmd_end;
+	t_cmd	*cmd_struc;
 
 	cmd_end = 0;
 	if (!cmd_line)
 		return (EXIT_SUCCESS);
-	//subdivise_cmd(cmd_line);
 	while (*cmd_line)
 	{
 		while (!cmd_end)
@@ -83,8 +36,9 @@ int 	ft_parse_cmdline(char *cmd_line)
 		cmd = ft_substr(cmd_line, 0, cmd_end);
 		if (cmd)
 			ft_append_elt(&g_garb_cltor, cmd);
-		subdivise_cmd(cmd);
-		ft_create_cmdlist(cmd);
+		cmd_struc = ft_init_cmd(cmd);
+		if (ft_cmd_treatment(cmd_struc) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
 		cmd_end++;
 		cmd_line += cmd_end;
 		while (*cmd_line == ' ')
@@ -93,7 +47,6 @@ int 	ft_parse_cmdline(char *cmd_line)
 	}
 	return (EXIT_SUCCESS);
 }
-
 
 char	*ft_replace_var(char *res, char *cmd_line)
 {

@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:37:55 by abarot            #+#    #+#             */
-/*   Updated: 2020/09/15 15:50:34 by abarot           ###   ########.fr       */
+/*   Updated: 2020/09/23 14:26:18 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,6 @@ void	ft_show_prompt_line()
 	ft_putstr_fd(g_shell.r_cwd, 1);
 	write (1, "$ " , 2);
 	ft_putstr_fd(ANSI_COLOR_RESET, 1);
-}
-
-void	ft_set_cwd()
-{
-	g_shell.cwd = ft_strdup(getcwd(g_shell.cwd, PATH_MAX));
-	if (!(g_shell.r_cwd = ft_replace_in_str(g_shell.cwd, g_shell.tilde, "~")))
-		g_shell.r_cwd = ft_strdup(getcwd(g_shell.cwd, PATH_MAX));
-	ft_append_elt(&g_garb_cltor, g_shell.cwd);
-	ft_append_elt(&g_garb_cltor, g_shell.r_cwd);
 }
 
 int		ft_syntax_ok(char *cmd_line, char c)
@@ -92,7 +83,7 @@ int		ft_read_input()
 	return (EXIT_SUCCESS);
 }
 
-/*void	ft_init_shell(char **envp)
+void	ft_init_shell(char **envp)
 {
 	g_shell.cpid = 0;
 	g_shell.envp = envp;
@@ -108,7 +99,7 @@ int		ft_read_input()
 			g_shell.tilde = 0;
 	}
 	ft_set_cwd();
-}*/
+}
 
 int		main(int ac, char **av, char **envp) 
 {

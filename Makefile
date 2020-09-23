@@ -6,15 +6,26 @@
 #    By: abarot <abarot@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/02 20:31:48 by abarot            #+#    #+#              #
-#    Updated: 2020/09/16 14:42:30 by tbigot           ###   ########.fr        #
+#    Updated: 2020/09/23 14:41:01 by abarot           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	minishell
 
-SRCS	=	srcs/main.c srcs/parse_ft.c srcs/ft_redirect_cmd.c srcs/env_ft.c \
-			srcs/pipe_ft.c srcs/signal_handling.c srcs/redirection_ft.c srcs/init_struct.c \
-			srcs/cmd_parsing.c
+SRCS	=	srcs/main.c \
+			srcs/parse_ft.c \
+			srcs/cmd_struct/cmd_parsing.c \
+			srcs/cmd_struct/free_cmd.c \
+			srcs/cmd_struct/init_cmd_struct.c \
+			srcs/cmd_struct/utils.c \
+			srcs/cmd_treatment.c \
+			srcs/exec_ft/env_ft.c \
+			srcs/exec_ft/exec_ft.c \
+			srcs/exec_ft/ft_redirect_cmd.c \
+			srcs/redirect_ft.c \
+			srcs/signal_handling.c 
+			
+			
 OBJS	=	$(SRCS:.c=.o)
 
 CFLAGS	=	-Wall -Wextra -Werror

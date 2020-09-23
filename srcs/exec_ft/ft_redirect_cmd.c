@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 16:00:15 by abarot            #+#    #+#             */
-/*   Updated: 2020/09/19 15:40:08 by abarot           ###   ########.fr       */
+/*   Updated: 2020/09/23 14:26:45 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int		ft_redirect_cmd(t_cmd *cmd)
 	else if	(ft_issamestr(cmd->argv[0], "cd"))
 		cd_cmd(cmd);
 	else if (ft_issamestr(cmd->argv[0], "echo"))
-		echo_cmd(cmd);
+		echo_cmd(cmd->argv);
 	else if	(ft_issamestr(cmd->argv[0], "pwd"))
 		ft_putendl_fd(g_shell.cwd, 1);
 	else if	(ft_issamestr(cmd->argv[0], "export"))

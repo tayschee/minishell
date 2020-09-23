@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/14 14:07:55 by abarot            #+#    #+#             */
-/*   Updated: 2020/09/14 14:29:16 by abarot           ###   ########.fr       */
+/*   Updated: 2020/09/23 14:35:06 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,4 @@ char	*ft_delete(char *str, char *elt, unsigned int index)
 		i++;
 	}
 	return (res);
-}
-
-int main(int ac, char **av)
-{
-	printf("\nres : |%s|\n", ft_delete(av[1], av[2], atoi(av[3])));
-
 }

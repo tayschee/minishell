@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:40:09 by abarot            #+#    #+#             */
-/*   Updated: 2020/09/23 13:57:26 by abarot           ###   ########.fr       */
+/*   Updated: 2020/09/23 14:23:50 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # include <stdlib.h>
 # include <signal.h>
 # include <dirent.h>
-#include <errno.h>
+# include <errno.h>
 # define ANSI_COLOR_RED     "\x1b[31m"
 # define ANSI_COLOR_GREEN   "\x1b[32m"
 # define ANSI_COLOR_YELLOW  "\x1b[33m"
@@ -40,6 +40,12 @@
 # define ANSI_COLOR_CYAN    "\x1b[36m"
 # define ANSI_COLOR_RESET   "\x1b[0m"
 # define PATH_MAX        	4096
+
+# define CMD_LIST "exit cd export unset env echo"
+# define OPERATOR_LIST "> >> < | <<"
+# define RDR_LIST "> >> <"
+
+# define UNEXPECTED_NEWLINE "bash: erreur de syntaxe près du symbole inattendu « newline »"
 
 typedef struct s_cmd t_cmd;
 typedef struct s_rdr t_rdr;
@@ -75,7 +81,7 @@ struct 				s_cmd
 	int 			type;
 	char			**argv;
 	t_rdr			*rdr;
-	t_cmd			*next_cmd;
+	t_cmd			*next;
 };
 
 typedef struct s_shell
@@ -109,4 +115,8 @@ void	ft_retreive_env(char *str);
 void	ft_inthandler();
 void 	ft_quithandler(); 
 t_cmd    *ft_init_cmd(char *unique_cmd);
+t_cmd   *char_to_struct_cmd(char **cmd_char);
+void    free_cmd_list(t_cmd **cmd);
+int     this_is_operator(char *txt, char *operator);
+int		ft_cmd_treatment(t_cmd *cmd);
 #endif

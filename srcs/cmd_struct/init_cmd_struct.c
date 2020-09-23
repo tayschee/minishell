@@ -16,10 +16,10 @@ static int		what_operator(char *operator, char *rdr_list)
         	while(rdr_list[i + n] && rdr_list[i + n] != ' ')
             	n++;
 			j++;
-			printf("rdr_list[i] : %s\n", &rdr_list[i]);
+			// printf("rdr_list[i] : %s\n", &rdr_list[i]);
         	if (!ft_strncmp(operator, &rdr_list[i], ft_strlen(operator)))
 				return (j);
-			printf("n : %d\n", n);
+			// printf("n : %d\n", n);
         	i += n;
         	if (rdr_list[i])
             	i++;
@@ -94,7 +94,7 @@ static char  **ft_init_rdr(t_cmd **cmd, char **cmd_char, t_rdr **next)
 		exit(1);// fonction pour quitte
 	rdr->path = NULL;
 	rdr->next = NULL;
-	printf("cmd_char[0] : %s\n", cmd_char[0]);
+	// printf("cmd_char[0] : %s\n", cmd_char[0]);
 	rdr->e_rdr = what_operator(cmd_char[0], RDR_LIST);
 	free(cmd_char[0]);
 	cmd_char[0] = NULL;
@@ -128,7 +128,7 @@ t_cmd *char_to_struct_cmd(char **cmd_char)
 	cmd->argv = cmd_char;
 	cmd->rdr = NULL;
 	cmd->next = NULL;
-	cmd->e_type = path_or_cmd(*cmd_char, CMD_LIST);
+	cmd->type = path_or_cmd(*cmd_char, CMD_LIST);
 	n = cmd_by_cmd(cmd_char, OPERATOR_LIST);
 	/*if (n != -1 && !ft_strncmp(cmd_char[n], "|", 2))
 	{
@@ -144,7 +144,7 @@ t_cmd *char_to_struct_cmd(char **cmd_char)
 	}
 	if (n != -1 && cmd_char[n] && !ft_strncmp(cmd_char[n], "|", 2))
 	{
-		printf("pass here\n");
+		// printf("pass here\n");
 		free(cmd_char[n]);
 		cmd_char[n] = NULL;
 		cmd->next = char_to_struct_cmd(&cmd_char[n + 1]);

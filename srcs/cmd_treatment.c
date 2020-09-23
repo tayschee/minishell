@@ -1,31 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_handling.c                                  :+:      :+:    :+:   */
+/*   cmd_treatment.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/09/04 16:26:16 by abarot            #+#    #+#             */
-/*   Updated: 2020/09/22 13:22:32 by abarot           ###   ########.fr       */
+/*   Created: 2020/09/23 14:12:53 by abarot            #+#    #+#             */
+/*   Updated: 2020/09/23 14:34:49 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void ft_quithandler() 
+int		ft_cmd_treatment(t_cmd *cmd)
 {
-	//quit signal à voir
-	printf("\nQuit signal detected\n");
-}
-
-void ft_inthandler() 
-{
-	//interrup signal à voir
-	if (g_shell.cpid)
-		kill(g_shell.cpid, SIGTERM);
-	else
+	if (cmd->rdr)
+		ft_manage_rdr(cmd);
+	else if (cmd->next)
 	{
-		write(1, "\n", 1);
-		ft_show_prompt_line();
+		printf("\nthere is a pipe\n");
+		ft_cmd_treatment(cmd->next);
 	}
+	else if (cmd->type == CMD)
+		ft_redirect_cmd(cmd);
+	else if (cmd->type == PATH)
+		ft_exec(cmd);
+	return (EXIT_SUCCESS);
 }
