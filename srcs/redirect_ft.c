@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/01 15:23:28 by abarot            #+#    #+#             */
-/*   Updated: 2020/09/21 16:09:35 by abarot           ###   ########.fr       */
+/*   Updated: 2020/09/23 11:37:10 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,20 +82,14 @@ int		ft_manage_rdr(t_cmd *cmd)
 			close(p_fd_save[WR_END]);
 			return (EXIT_FAILURE);
 		}
-	if (p_fd[RD_END] != 0)
+	if (p_fd[RD_END])
 		dup2(p_fd[RD_END], STDIN_FILENO);
-	if (p_fd[WR_END] != 0)
+	if (p_fd[WR_END])
 		dup2(p_fd[WR_END], STDOUT_FILENO);
 	if (cmd->type == PATH)
 		ft_exec(cmd);
 	else if (cmd->type == CMD)
 		ft_redirect_cmd(cmd);
 	ft_restore_promptfd(p_fd, p_fd_save);
-	if (g_shell.l_rtrval == EXIT_FAILURE)
-	{
-		ft_putstr_fd(cmd->argv[0], STDOUT_FILENO);
-		ft_putstr_fd(": command not found\n", STDOUT_FILENO);
-		return (EXIT_FAILURE);
-	}
 	return (EXIT_SUCCESS);
 }
