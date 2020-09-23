@@ -40,6 +40,12 @@
 # define ANSI_COLOR_RESET   "\x1b[0m"
 # define PATH_MAX        	4096
 
+# define CMD_LIST "exit cd export unset env echo"
+# define OPERATOR_LIST "> >> < | <<"
+# define RDR_LIST "> >> <"
+
+# define UNEXPECTED_NEWLINE "bash: erreur de syntaxe près du symbole inattendu « newline »"
+
 typedef struct s_cmd t_cmd;
 typedef struct s_rdr t_rdr;
 
@@ -74,7 +80,7 @@ struct 				s_cmd
 	int 			type;
 	char			**argv;
 	t_rdr			*rdr;
-	t_cmd			*next_cmd;
+	t_cmd			*next;
 };
 
 typedef struct s_shell
@@ -107,4 +113,7 @@ char	*ft_search_var(char **envp, char *str);
 void	ft_retreive_env(char *str);
 void	ft_inthandler();
 void 	ft_quithandler(); 
+t_cmd   *char_to_struct_cmd(char **cmd_char);
+void    free_cmd_list(t_cmd **cmd);
+int     this_is_operator(char *txt, char *operator);
 #endif
