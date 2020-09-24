@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/15 17:03:57 by abarot            #+#    #+#             */
-/*   Updated: 2020/09/23 13:53:35 by abarot           ###   ########.fr       */
+/*   Updated: 2020/09/24 17:31:32 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,10 @@ void	ft_exec_paths(t_cmd *cmd)
 			else
 				exit(EXIT_SUCCESS);
 		}
-		g_shell.l_rtrval = EXIT_FAILURE;
+		free(cmd->argv[0]);
+		cmd->argv[0] = first_cmd;
+		ft_putstr_fd(cmd->argv[0], STDOUT_FILENO);
+		ft_putstr_fd(": command not found\n", STDOUT_FILENO);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -75,12 +78,6 @@ int		ft_exec(t_cmd *cmd)
 			wait(&g_shell.cpid);
 			break;
 		}
-	}
-	if (g_shell.l_rtrval == EXIT_FAILURE)
-	{
-		ft_putstr_fd(cmd->argv[0], STDOUT_FILENO);
-		ft_putstr_fd(": command not found\n", STDOUT_FILENO);
-		return (EXIT_FAILURE);
 	}
 	g_shell.cpid = 0;
 	return (EXIT_SUCCESS);

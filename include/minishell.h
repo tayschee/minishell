@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:40:09 by abarot            #+#    #+#             */
-/*   Updated: 2020/09/23 14:23:50 by abarot           ###   ########.fr       */
+/*   Updated: 2020/09/24 17:26:09 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@
 # include <signal.h>
 # include <dirent.h>
 # include <errno.h>
+# include <curses.h>
+# include <term.h>
 # define ANSI_COLOR_RED     "\x1b[31m"
 # define ANSI_COLOR_GREEN   "\x1b[32m"
 # define ANSI_COLOR_YELLOW  "\x1b[33m"
@@ -84,6 +86,14 @@ struct 				s_cmd
 	t_cmd			*next;
 };
 
+typedef struct s_tcap
+{
+	char		*cl_cap;
+	char		*cm_cap;
+	int			num_co;
+	int			num_li;
+}				t_tcap;
+
 typedef struct s_shell
 {
 	char			*cwd;
@@ -96,9 +106,9 @@ typedef struct s_shell
 }				t_shell;
 
 t_shell g_shell;
+t_tcap 	g_tcap;
 t_list	*g_garb_cltor;
 
-void	ft_init_shell(char **envp);
 void	ft_set_cwd();
 void	ft_show_prompt_line();
 char	*ft_multiline_mng(char *line);
