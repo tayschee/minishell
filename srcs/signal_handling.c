@@ -18,6 +18,7 @@ void ft_quithandler()
 	if (g_shell.cpid)
 	{
 		kill(g_shell.cpid, SIGQUIT);
+		g_shell.cpid = 0;
 		write(1, "Quit (core dumped)\n", 19);
 	}
 }
@@ -27,7 +28,8 @@ void ft_inthandler()
 	//interrup signal à voir
 	if (g_shell.cpid)
 	{
-		kill(g_shell.cpid, SIGINT);
+		kill(g_shell.cpid, SIGQUIT);
+		g_shell.cpid = 0;
 		write(1, "\n", 1);
 	}
 	else

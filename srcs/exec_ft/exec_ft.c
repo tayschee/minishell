@@ -82,5 +82,6 @@ int		ft_exec(t_cmd *cmd)
 		ft_putstr_fd(": command not found\n", STDOUT_FILENO);
 		return (EXIT_FAILURE);
 	}
+	g_shell.cpid = 0;
 	return (EXIT_SUCCESS);
 }
