@@ -15,14 +15,21 @@
 void ft_quithandler() 
 {
 	//quit signal à voir
-	printf("\nQuit signal detected\n");
+	if (g_shell.cpid)
+	{
+		kill(g_shell.cpid, SIGQUIT);
+		write(1, "Quit (core dumped)\n", 19);
+	}
 }
 
 void ft_inthandler() 
 {
 	//interrup signal à voir
 	if (g_shell.cpid)
-		kill(g_shell.cpid, SIGTERM);
+	{
+		kill(g_shell.cpid, SIGINT);
+		write(1, "\n", 1);
+	}
 	else
 	{
 		write(1, "\n", 1);
