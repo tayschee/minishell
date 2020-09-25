@@ -6,7 +6,7 @@
 #    By: abarot <abarot@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/02 20:31:48 by abarot            #+#    #+#              #
-#    Updated: 2020/09/23 14:41:01 by abarot           ###   ########.fr        #
+#    Updated: 2020/09/24 17:32:37 by abarot           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ all	:
 		make $(NAME)
 
 $(NAME)	: $(OBJS) 
-			gcc $(CFLAGS) $(OBJS) -L./libft/. -lft -o $(NAME) -I$(INCL)
+			gcc $(CFLAGS) $(OBJS) -lcurses -L./libft/. -lft -o $(NAME) -I$(INCL)
 			
 clean	:
 		$(RM) $(OBJS) && make -C libft fclean
