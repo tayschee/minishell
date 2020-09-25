@@ -30,27 +30,16 @@ static int		what_operator(char *operator, char *rdr_list)
 
 }
 
-
-static int     path_or_cmd(const char *txt, const char *cmd_list)
+static int     path_or_cmd(char *argv)
 {
-    int n;
-    int i;
-
-    i = 0;
-	if (txt)
-	{
-    	while (cmd_list[i])
-    	{
-        	n = 0;
-        	while(cmd_list[i + n] && cmd_list[i + n] != ' ')
-            	n++;
-        	if (!ft_strncmp(txt, &cmd_list[i], n))
-				return (CMD);
-        	i += n;
-        	if (cmd_list[i])
-            	i++;
-    	}
-	}
+    if (ft_issamestr(argv, "exit") ||
+			ft_issamestr(argv, "cd") ||
+	 		ft_issamestr(argv, "echo") ||
+			ft_issamestr(argv, "pwd") ||
+			ft_issamestr(argv, "export") ||
+			ft_issamestr(argv, "unset") ||
+			ft_issamestr(argv, "env"))
+		return (CMD);
 	return (PATH);
 }
 
@@ -128,7 +117,7 @@ t_cmd *char_to_struct_cmd(char **cmd_char)
 	cmd->argv = cmd_char;
 	cmd->rdr = NULL;
 	cmd->next = NULL;
-	cmd->type = path_or_cmd(*cmd_char, CMD_LIST);
+	cmd->type = path_or_cmd(*cmd_char);
 	n = cmd_by_cmd(cmd_char, OPERATOR_LIST);
 	/*if (n != -1 && !ft_strncmp(cmd_char[n], "|", 2))
 	{

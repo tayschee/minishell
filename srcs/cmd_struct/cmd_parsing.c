@@ -98,25 +98,49 @@ static int    check_error_rdr(char **cmd)
     return (-1);
 }
 
+char	**ft_get_argv(char *cmd)
+{
+	char	**argv;
+	int		i;
+
+	i = 0;
+	if (!(argv = ft_calloc(ft_count_elt(cmd, " ") + 2, sizeof(char *))))
+		return (0);
+	while (*cmd)
+	{
+		if (*cmd == '\"' || *cmd == '\'')
+		{	
+			argv[i] = ft_get_string(cmd);
+			cmd += 2;
+		}
+		else
+			argv[i] = ft_get_word(cmd);
+		cmd += ft_strlen(argv[i]) + 1;
+		i++;
+	}
+	return (argv);
+}
 
 /*transforme cmd en un char** de mot avec < > | << >> || 
 compris comme un seul mot
 les deux fonctions au dessus sont utiles*/
 t_cmd    *ft_init_cmd(char *unique_cmd)
 {
-    //int  i;
+    // int  i;
     char *cmd_sentence;
     char **cmd_divise;
     t_cmd   *cmd;
 
-    //i = 0;
+    // i = 0;
     cmd = NULL;
-    cmd_sentence = split_word(unique_cmd, "<>|"); ///mistake here
-    cmd_divise = ft_split(cmd_sentence, ' ');
+    cmd_sentence = split_word(unique_cmd, "<>|");
+    cmd_divise = ft_get_argv(cmd_sentence);
     if (cmd_sentence)
         free(cmd_sentence);
     if (check_error_rdr(cmd_divise) < 0)
         cmd = char_to_struct_cmd(cmd_divise);
+	// while (1);
+	//test cmd parsing :
     /*while (cmd)
     {
         i = 0;
@@ -142,5 +166,7 @@ t_cmd    *ft_init_cmd(char *unique_cmd)
     }*/
     // free_cmd_list(&cmd);
     //printf("cmd null : %p\n", cmd);
+	//
+
     return (cmd);
 }
