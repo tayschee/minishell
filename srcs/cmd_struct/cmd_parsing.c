@@ -115,7 +115,9 @@ char	**ft_get_argv(char *cmd)
 		}
 		else
 			argv[i] = ft_get_word(cmd);
-		cmd += ft_strlen(argv[i]) + 1;
+		cmd += ft_strlen(argv[i]);
+		while (*cmd == ' ')
+			cmd++;
 		i++;
 	}
 	return (argv);
