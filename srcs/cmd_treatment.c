@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 14:12:53 by abarot            #+#    #+#             */
-/*   Updated: 2020/09/23 14:34:49 by abarot           ###   ########.fr       */
+/*   Updated: 2020/09/26 09:43:10 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@ int		ft_cmd_treatment(t_cmd *cmd)
 		ft_redirect_cmd(cmd);
 	else if (cmd->type == PATH)
 		ft_exec(cmd);
+	free_cmd_list(&cmd);
 	return (EXIT_SUCCESS);
 }

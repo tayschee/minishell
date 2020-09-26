@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 15:57:29 by abarot            #+#    #+#             */
-/*   Updated: 2020/09/21 11:51:22 by abarot           ###   ########.fr       */
+/*   Updated: 2020/09/26 10:54:03 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,19 @@
 
 void	ft_createkeep(char *keep, char *line)
 {
+	int		i;
+
+	i = 0;
 	line = ft_strchr(line, '\n');
 	*(line) = '\0';
-	(*(line + 1)) ? line++ : 0;
-	keep = ft_memcpy(keep, line, BUFFER_SIZE);
+	line++;
+	while (*line)
+	{
+		keep[i] = *line;
+		line++;
+		i++;
+	}
+	keep[i] = '\0';
 }
 
 int		ft_read_value(char **line, int fd)

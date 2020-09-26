@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/09 15:15:17 by abarot            #+#    #+#             */
-/*   Updated: 2020/09/23 14:21:10 by abarot           ###   ########.fr       */
+/*   Updated: 2020/09/26 12:35:10 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,15 +100,25 @@ char	*ft_multiline_mng(char *line)
 
 	cmd_line = line;
 	while (ft_count_elt(cmd_line, "\"") % 2 != 0 || 
-			ft_count_elt(cmd_line, "\'") % 2 != 0)
+			ft_count_elt(cmd_line, "\'") % 2 != 0 ||
+			(ft_strchr(line, '\\') && *(ft_strchr(line, '\\') + 1) == '\0'))
 	{
-		ft_append_elt(&(g_garb_cltor), line);
+		ft_append_elt(&(g_garb_cltor), cmd_line);
+		if (ft_strchr(line, '\\') && *(ft_strchr(line, '\\') + 1) == '\0')
+		{
+			cmd_line = ft_delete(line, "\\", ft_strlen(line) - 1);
+			ft_append_elt(&(g_garb_cltor), cmd_line);
+		}
 		ft_putstr_fd("> ", 0);
 		if (get_next_line(0, &line) == 0 && (ft_count_elt(line, "\"") % 2 != 1
-				|| ft_count_elt(line, "\'") % 2 != 1))
+				|| ft_count_elt(line, "\'") % 2 != 1 || 
+			(ft_strchr(line, '\\') && *(ft_strchr(line, '\\') + 1) != '\0')))
 			return ("\0");
-		cmd_line = ft_insert(cmd_line, "\\n", ft_strlen(cmd_line));
-		ft_append_elt(&(g_garb_cltor), cmd_line);
+		if (ft_count_elt(cmd_line, "\"") % 2 != 0 || ft_count_elt(cmd_line, "\'") % 2 != 0)
+		{
+			cmd_line = ft_insert(cmd_line, "\\n", ft_strlen(cmd_line));
+			ft_append_elt(&(g_garb_cltor), cmd_line);
+		}
 		cmd_line = ft_strjoin(cmd_line, line);
 		ft_append_elt(&(g_garb_cltor), cmd_line);
 	}
