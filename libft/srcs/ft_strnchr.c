@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   ft_strnchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/09 13:14:54 by abarot            #+#    #+#             */
-/*   Updated: 2020/09/29 17:50:13 by abarot           ###   ########.fr       */
+/*   Created: 2019/10/07 13:37:39 by abarot            #+#    #+#             */
+/*   Updated: 2020/09/29 15:55:43 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memcpy(void *dest, const void *src, size_t n)
+char	*ft_strnchr(const char *s, int c, unsigned int n)
 {
-	if (!dest || !src)
+	if (!s)
 		return (0);
-	while (n)
+	if (!c)
+		return ((char *)s);
+	while (*s && n)
 	{
-		*(char *)dest = *(const char *)src;
-		dest++;
-		src++;
+		if (*s == (unsigned char)c)
+			return ((char *)s);
+		s++;
 		n--;
 	}
-	return (dest);
+	return (0);
 }

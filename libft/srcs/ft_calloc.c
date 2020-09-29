@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/09 14:22:59 by abarot            #+#    #+#             */
-/*   Updated: 2020/04/20 20:59:37 by abarot           ###   ########.fr       */
+/*   Updated: 2020/09/29 19:44:09 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	*ft_calloc(size_t num, size_t size)
 {
 	void *dest;
 
-	if (!(num * size))
+	if (!num || !size)
 	{
 		num = 1;
 		size = 1;

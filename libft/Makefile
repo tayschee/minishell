@@ -6,7 +6,7 @@
 #    By: abarot <abarot@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/15 12:18:43 by abarot            #+#    #+#              #
-#    Updated: 2020/09/29 11:08:41 by abarot           ###   ########.fr        #
+#    Updated: 2020/09/29 15:52:37 by abarot           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ SRCS	=	srcs/ft_addtoa.c srcs/ft_atoi.c srcs/ft_bzero.c srcs/ft_calloc.c srcs/ft_
 			srcs/ft_count_line.c srcs/ft_max_value.c srcs/ft_count_elt.c srcs/ft_replace_in_str.c \
 			srcs/ft_list_size.c srcs/ft_list_to_array.c srcs/ft_clear_list.c srcs/ft_append_elt.c \
 			srcs/ft_isspace.c srcs/ft_issamestr.c srcs/ft_insert.c srcs/ft_get_word.c srcs/ft_get_string.c \
-			srcs/ft_delete.c srcs/ft_putchar.c srcs/ft_clear_tab.c
+			srcs/ft_delete.c srcs/ft_putchar.c srcs/ft_clear_tab.c srcs/ft_replace.c srcs/ft_strnchr.c
 
 OBJS	=	$(SRCS:.c=.o)
 
