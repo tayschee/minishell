@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/09 15:15:17 by abarot            #+#    #+#             */
-/*   Updated: 2020/09/27 18:22:46 by abarot           ###   ########.fr       */
+/*   Updated: 2020/09/29 12:02:13 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ int 	ft_parse_cmdline(char *cmd_line)
 		cmd = ft_substr(cmd_line, 0, cmd_end);
 		if (cmd)
 			ft_append_elt(&g_garb_cltor, cmd);
-		cmd_struc = ft_init_cmd(cmd);
+		if (!(cmd_struc = ft_init_cmd(cmd)))
+			return (EXIT_FAILURE);
 		if (ft_cmd_treatment(cmd_struc) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 		cmd_end++;
@@ -53,6 +54,14 @@ char	*ft_replace_var(char *res, char *cmd_line)
 	char	*var;
 	char	*var_dol;
 
+	if (*(cmd_line + 1) == '?')
+	{
+		var = ft_itoa(g_shell.l_rtrval);
+		res = ft_replace_in_str(res, "$?", var);
+		ft_append_elt(&(g_garb_cltor), res);
+		free(var);
+		return (res);
+	}
 	var = ft_search_var(g_shell.envp, cmd_line + 1);
 	if (var)
 	{
@@ -61,7 +70,11 @@ char	*ft_replace_var(char *res, char *cmd_line)
 			ft_get_value(g_shell.envp, var, '='));
 	}
 	else
-		return (res);
+	{
+		var = ft_get_word(cmd_line + 1);
+		var_dol = ft_strjoin("$", var);
+		res = ft_replace_in_str(res, var_dol, "");
+	}
 	ft_append_elt(&(g_garb_cltor), res);
 	free(var);
 	free(var_dol);
@@ -89,7 +102,8 @@ char	*ft_get_cmd_r(char *cmd_line)
 			res = ft_replace_in_str(res, "~", g_shell.tilde);
 		else if (*cmd_line == '$' && !(ft_count_elt(cmd_line, "\'") % 2))
 			res = ft_replace_var(res, cmd_line);
-		cmd_line++;
+		if (*cmd_line)
+			cmd_line++;
 	}
 	return (res);
 }

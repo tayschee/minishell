@@ -137,6 +137,8 @@ t_cmd    *ft_init_cmd(char *unique_cmd)
     cmd = NULL;
     cmd_sentence = split_word(unique_cmd, "<>|");
     cmd_divise = ft_get_argv(cmd_sentence);
+	// if (ft_check_syntax(cmd_divise) == EXIT_FAILURE)
+		// return (0);
     if (cmd_sentence)
         free(cmd_sentence);
     if (check_error_rdr(cmd_divise) < 0)

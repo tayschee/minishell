@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/09 17:31:34 by abarot            #+#    #+#             */
-/*   Updated: 2020/09/24 17:41:02 by abarot           ###   ########.fr       */
+/*   Updated: 2020/09/29 11:06:04 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,5 @@ char		*ft_get_word(char *str);
 char		*ft_get_string(char *str);
 char		*ft_delete(char *str, char *elt, unsigned int index);
 int			ft_putchar(int c);
+void		ft_clear_tab(char **tab);
 #endif

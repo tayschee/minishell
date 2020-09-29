@@ -6,7 +6,7 @@
 #    By: abarot <abarot@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/02 20:31:48 by abarot            #+#    #+#              #
-#    Updated: 2020/09/24 17:32:37 by abarot           ###   ########.fr        #
+#    Updated: 2020/09/29 12:08:12 by abarot           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,6 @@ SRCS	=	srcs/main.c \
 			srcs/exec_ft/ft_redirect_cmd.c \
 			srcs/redirect_ft.c \
 			srcs/signal_handling.c 
-			
 			
 OBJS	=	$(SRCS:.c=.o)
 

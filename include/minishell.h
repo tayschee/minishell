@@ -6,19 +6,14 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:40:09 by abarot            #+#    #+#             */
-/*   Updated: 2020/09/24 17:26:09 by abarot           ###   ########.fr       */
+/*   Updated: 2020/09/29 12:10:58 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // todo list :
-// 		- gestion pipeline
-//			- gestion pipe dans redirection cmd : == thing1 > temp_file && thing2 < temp_file
-// 		-  $azezaea ==> chaine nulle
-// 		- 'echo azezaeza', echo $? '$?'
+// 		- echo $? '$?'
 // 		- pb gestion des elt dans "" et '' -> si "string test "'"" ex : cd ""'"$HOME"'""
 // 		- check memory leeks
-// 		- gestion "  ; "
-// 		- gestion des droits avec lstat et fstat
 //		- redirection sans cmd ni path
 
 #ifndef MINISHELL_H
@@ -47,7 +42,7 @@
 # define OPERATOR_LIST "> >> < | <<"
 # define RDR_LIST "> >> <"
 
-# define UNEXPECTED_NEWLINE "bash: erreur de syntaxe près du symbole inattendu « newline »"
+# define UNEXPECTED_NEWLINE "minishell: syntax error near unexpected token `newline'\n"
 
 typedef struct s_cmd t_cmd;
 typedef struct s_rdr t_rdr;

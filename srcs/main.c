@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:37:55 by abarot            #+#    #+#             */
-/*   Updated: 2020/09/26 09:51:02 by abarot           ###   ########.fr       */
+/*   Updated: 2020/09/29 12:07:48 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,19 +87,19 @@ int		ft_read_input()
 	return (EXIT_SUCCESS);
 }
 
-int		ft_init_tcap()
-{
-	if (tgetent(NULL, ft_get_value(g_shell.envp, "TERM", '=')) == -1)
-	{
-		ft_putstr_fd("\nTermcap not defined, exiting\n", STDOUT_FILENO);
-		return (EXIT_FAILURE);
-	}
-	g_tcap.cm_cap = tgetstr("cm", NULL);
-	g_tcap.cl_cap = tgetstr("cl", NULL);
-	g_tcap.num_co = tgetnum("co");
-	g_tcap.num_li = tgetnum("li");
-	return (EXIT_SUCCESS);
-}
+// int		ft_init_tcap()
+// {
+// 	if (tgetent(NULL, ft_get_value(g_shell.envp, "TERM", '=')) == -1)
+// 	{
+// 		ft_putstr_fd("\nTermcap not defined, exiting\n", STDOUT_FILENO);
+// 		return (EXIT_FAILURE);
+// 	}
+// 	g_tcap.cm_cap = tgetstr("cm", NULL);
+// 	g_tcap.cl_cap = tgetstr("cl", NULL);
+// 	g_tcap.num_co = tgetnum("co");
+// 	g_tcap.num_li = tgetnum("li");
+// 	return (EXIT_SUCCESS);
+// }
 
 int		ft_init_shell(char **envp)
 {
