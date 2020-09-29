@@ -6,15 +6,14 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:40:09 by abarot            #+#    #+#             */
-/*   Updated: 2020/09/29 12:10:58 by abarot           ###   ########.fr       */
+/*   Updated: 2020/09/29 14:21:01 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // todo list :
-// 		- echo $? '$?'
+// 		- echo $? '$?' ==> pb replace in str
 // 		- pb gestion des elt dans "" et '' -> si "string test "'"" ex : cd ""'"$HOME"'""
 // 		- check memory leeks
-//		- redirection sans cmd ni path
 
 #ifndef MINISHELL_H
 # define MINISHELL_H

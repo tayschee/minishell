@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/09 15:15:17 by abarot            #+#    #+#             */
-/*   Updated: 2020/09/29 12:02:13 by abarot           ###   ########.fr       */
+/*   Updated: 2020/09/29 20:11:16 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int 	ft_parse_cmdline(char *cmd_line)
 	return (EXIT_SUCCESS);
 }
 
-char	*ft_replace_var(char *res, char *cmd_line)
+char	*ft_replace_var(char *res, char *cmd_line, int index)
 {
 	char	*var;
 	char	*var_dol;
@@ -57,8 +57,7 @@ char	*ft_replace_var(char *res, char *cmd_line)
 	if (*(cmd_line + 1) == '?')
 	{
 		var = ft_itoa(g_shell.l_rtrval);
-		res = ft_replace_in_str(res, "$?", var);
-		ft_append_elt(&(g_garb_cltor), res);
+		res = ft_replace(res, "$?", var, index);
 		free(var);
 		return (res);
 	}
@@ -66,16 +65,15 @@ char	*ft_replace_var(char *res, char *cmd_line)
 	if (var)
 	{
 		var_dol = ft_strjoin("$", var);
-		res = ft_replace_in_str(res, var_dol, 
-			ft_get_value(g_shell.envp, var, '='));
+		res = ft_replace(res, var_dol, 
+			ft_get_value(g_shell.envp, var, '='), index);
 	}
 	else
 	{
 		var = ft_get_word(cmd_line + 1);
 		var_dol = ft_strjoin("$", var);
-		res = ft_replace_in_str(res, var_dol, "");
+		res = ft_replace(res, var_dol, "", index);
 	}
-	ft_append_elt(&(g_garb_cltor), res);
 	free(var);
 	free(var_dol);
 	return (res);
@@ -83,29 +81,29 @@ char	*ft_replace_var(char *res, char *cmd_line)
 
 char	*ft_get_cmd_r(char *cmd_line)
 {
-	char	*res;
-
-	res = cmd_line;
-	// ---- ajouter $? treatment ----
-	if (*cmd_line == '$' && *(cmd_line + 1) == '?')
-		cmd_line++;
-	//-------------------------------
-	else if (*cmd_line == '$' && !(ft_count_elt(cmd_line, "\'") % 2))
-		res = ft_replace_var(res, cmd_line);
-	cmd_line++;
-	while (*cmd_line)
+	int		i;
+	char	*tmp;
+	
+	i = 0;
+	while (cmd_line[i])
 	{
-		if (*cmd_line == '\\')
-			cmd_line++;
-		else if (*cmd_line == '~' && !(ft_count_elt(cmd_line, "\'") % 2) 
-				&& !(ft_count_elt(cmd_line, "\"") % 2))
-			res = ft_replace_in_str(res, "~", g_shell.tilde);
-		else if (*cmd_line == '$' && !(ft_count_elt(cmd_line, "\'") % 2))
-			res = ft_replace_var(res, cmd_line);
-		if (*cmd_line)
-			cmd_line++;
+		if (cmd_line[i] == '\\' || !ft_strnchr("$~", cmd_line[i], 2))
+			i++;
+		else
+		{
+			tmp = cmd_line;
+			if (cmd_line[i] == '~' && !(ft_count_elt(cmd_line + i, "\'") % 2) 
+				&& !(ft_count_elt(cmd_line + i, "\"") % 2))
+				cmd_line = ft_replace(cmd_line, "~", g_shell.tilde, i); 
+			else if (cmd_line[i] == '$' && !(ft_count_elt(cmd_line + i, "\'") % 2))
+				cmd_line = ft_replace_var(cmd_line, cmd_line + i, i);
+			else
+				cmd_line = ft_strdup(cmd_line);
+			i++;
+			free(tmp);
+		}
 	}
-	return (res);
+	return (cmd_line);
 }
 
 char	*ft_multiline_mng(char *line)
