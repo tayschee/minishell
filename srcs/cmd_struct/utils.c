@@ -22,3 +22,23 @@ int     this_is_operator(char *cmd, char *operator)
     }
     return (-1);
 }
+
+int count_struct(t_cmd *cmd)
+{
+    int i;
+
+    i = 0;
+    while (cmd)
+    {
+        i++;
+        cmd = cmd->next;
+    }
+    return (i);
+}
+
+void rdr_in_out(int p_fd[2], int redirect, int in_out)
+{
+    dup2(redirect, in_out);
+    close(p_fd[0]);
+    close(p_fd[1]);
+}

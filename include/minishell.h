@@ -123,4 +123,8 @@ t_cmd   *char_to_struct_cmd(char **cmd_char);
 void    free_cmd_list(t_cmd **cmd);
 int     this_is_operator(char *txt, char *operator);
 int		ft_cmd_treatment(t_cmd *cmd);
+int		count_struct(t_cmd	*cmd);
+void	rdr_in_out(int p_fd[2], int redirect, int in_out);
+t_cmd	*fork_all(t_cmd *cmd);
+
 #endif
