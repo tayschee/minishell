@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/09 17:31:34 by abarot            #+#    #+#             */
-/*   Updated: 2020/09/29 19:42:53 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/01 12:25:08 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@ struct s_list
 {
 	void 	*data;
 	t_list	*next;
+};
+
+enum			e_fdends
+{
+	RD_END = 0,
+	WR_END = 1,
 };
 
 int			ft_atoi(const char *s);
@@ -87,4 +93,13 @@ int			ft_putchar(int c);
 void		ft_clear_tab(char **tab);
 char		*ft_replace(char *old_str, char *to_rpl, char *elt, int index);
 char		*ft_strnchr(const char *s, int c, unsigned int n);
+int			ft_varsize(char *var, char sep);
+void		ft_show_tab(char **envp);
+char		*ft_get_env(char **envp, char *var, char sep);
+void 		ft_retreive_env(char **envp, char *str);
+void		ft_append_env(char **envp, char *str);
+char		*ft_search_var(char **envp, char *str);
+void		ft_restore_stdfd(int *p_fd, int *saved_fd);
+void		ft_init_stdfd(int *n_fd, int *saved_fd);
+void		ft_replace_stdfd(int *n_fd);
 #endif
