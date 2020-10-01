@@ -80,7 +80,8 @@ int		ft_exec(t_cmd *cmd)
 				//free();
 				exit(0);
 			}
-			ft_exec_paths(cmd);
+			else
+				ft_exec_paths(cmd);
 		}
 		else
 		{

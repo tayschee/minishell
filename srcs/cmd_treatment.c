@@ -12,6 +12,20 @@
 
 #include "minishell.h"
 
+/*j'avais plus de place dans ma fonction juste renvoie
+dans ft_manage_redirection*/
+/*static void             redirection(t_cmd *cmd, int **p_fd, int mlc_size, int i)
+{
+        int pos;
+
+        pos = mlc_size - i;
+        if (g_shell.cpid)
+                wait(&g_shell.cpid);
+        ft_manage_rdr(cmd, pfd[pos]);
+        free(p_fd);
+
+}*/
+
 /*compte le nombre de pipe necessaire*/
 static int             **pipe_for_fork(int i)
 {
@@ -86,7 +100,7 @@ t_cmd           *fork_all(t_cmd *cmd)
         }
         if (mlc_size > 0)
                 redirect_stdin_stdout(p_fd, cmd, mlc_size, i);
-        free(p_fd);
+        //redirection(cmd, p_fd, mlc_size, i);
         return (cmd);
 }
 
@@ -95,9 +109,7 @@ int             ft_cmd_treatment(t_cmd *cmd)
 {
         int p_fd_save[2];
 
-        if (cmd->rdr)
-                ft_manage_rdr(cmd);
-        else if (cmd)
+        if (cmd)
         {
                 p_fd_save[RD_END] = dup(STDIN_FILENO);
                 p_fd_save[WR_END] = dup(STDOUT_FILENO);
