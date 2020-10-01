@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 11:27:26 by abarot            #+#    #+#             */
-/*   Updated: 2020/09/14 15:16:54 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/01 10:20:52 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_get_string(char *str)
 	str_end = 0;
 	if (!str)
 		return (0);
-	while (str[str_s] && str[str_s] != '\"' &&  str[str_s] != '\'')
+	while (str[str_s] && str[str_s] != '\"' && str[str_s] != '\'')
 		str_s++;
 	if (!str[str_s])
 		return (0);

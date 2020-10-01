@@ -6,13 +6,13 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/28 14:55:36 by abarot            #+#    #+#             */
-/*   Updated: 2020/07/28 15:06:40 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/01 10:11:25 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int ft_max_value(int a, int b)
+int		ft_max_value(int a, int b)
 {
 	if (a > b)
 		return (a);

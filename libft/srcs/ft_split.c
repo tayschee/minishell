@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 14:28:54 by abarot            #+#    #+#             */
-/*   Updated: 2020/07/17 18:33:23 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/01 10:22:52 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ int		ft_nbrsubstr(const char *s, char c)
 	return (count);
 }
 
-char		**ft_special_case(char **res, const char *s)
+char	**ft_special_case(char **res, const char *s)
 {
 	res[0] = ft_strdup(s);
 	res[1] = 0;
 	return (res);
 }
 
-char			**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c)
 {
 	char	**res;
 	int		start;
