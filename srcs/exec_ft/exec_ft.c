@@ -63,25 +63,31 @@ void	ft_exec_paths(t_cmd *cmd)
 
 int		ft_exec(t_cmd *cmd)
 {
-	int		p_fd[2];
-
-	pipe(p_fd);
-	if (cmd->type == CMD) //a rajouter dans exec_path pour faire 25 lignes
+	if  (!cmd->next && cmd->type == CMD)
 		ft_redirect_cmd(cmd);
-	g_shell.cpid = fork();
-	if (!g_shell.cpid)
-	{
-		rdr_in_out(p_fd, p_fd[0], 0);
-		cmd = fork_all(cmd);
-		if (g_shell.cpid)
-			wait(&g_shell.cpid);
-		ft_exec_paths(cmd);
-	}
 	else
 	{
-		rdr_in_out(p_fd, p_fd[1], 1);
-		wait(&g_shell.cpid);
-		g_shell.cpid = 0;
+		g_shell.cpid = fork();
+		if (!g_shell.cpid)
+		{
+			//rdr_in_out(p_fd, p_fd[0], 0);
+			cmd = fork_all(cmd);
+			if (g_shell.cpid)
+				wait(&g_shell.cpid);
+			if (cmd->type == CMD)
+			{
+				ft_redirect_cmd(cmd);
+				//free();
+				exit(0);
+			}
+			ft_exec_paths(cmd);
+		}
+		else
+		{
+			//rdr_in_out(p_fd, p_fd[1], 1);
+			wait(&g_shell.cpid);
+			g_shell.cpid = 0;
+		}
 	}
 	if (g_shell.l_rtrval == EXIT_FAILURE)
 	{
