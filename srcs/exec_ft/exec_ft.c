@@ -62,6 +62,9 @@ void	ft_exec_paths(t_cmd *cmd)
 
 int		ft_exec(t_cmd *cmd)
 {
+	int ex;
+
+	ex = EXIT_SUCCESS;
 	g_shell.cpid = fork();
 	if (!g_shell.cpid)
 	{
@@ -71,12 +74,12 @@ int		ft_exec(t_cmd *cmd)
 		if (cmd->type == CMD)
 		{
 			if (cmd->rdr)
-				ft_manage_rdr(cmd);
+				ex = ft_manage_rdr(cmd);
 			else
 			{
-				ft_redirect_cmd(cmd);
+				ex = ft_redirect_cmd(cmd);
 			}
-			exit(ft_redirect_cmd(cmd));
+			exit(ex);
 		}
 		else
 		{
@@ -85,6 +88,7 @@ int		ft_exec(t_cmd *cmd)
 			else
 				ft_exec_paths(cmd);
 		}
+		free_cmd_list(&cmd);
 	}
 	else
 	{
