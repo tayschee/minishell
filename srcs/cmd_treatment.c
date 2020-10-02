@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 14:12:53 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/02 11:52:53 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/02 12:07:56 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,26 +85,14 @@ t_cmd           *fork_all(t_cmd *cmd)
 
 int             ft_cmd_treatment(t_cmd *cmd)
 {
-	int	p_fd[3];
-	int p_fd_save[3];
-	
 	if (!cmd)
 		return (EXIT_FAILURE);
 	else if  (!cmd->next && cmd->type == CMD)
 	{
 		if (cmd->rdr)
-		{
-			ft_init_stdfd(p_fd, p_fd_save);
-			if (ft_redirection(cmd->rdr, p_fd) == EXIT_FAILURE)
-			{
-				close(p_fd_save[RD_END]);
-				close(p_fd_save[WR_END]);
-				return (EXIT_FAILURE);
-			}
-			ft_replace_stdfd(p_fd);
+			ft_manage_rdr(cmd);
+		else
 			ft_redirect_cmd(cmd);
-			ft_restore_stdfd(p_fd, p_fd_save);
-		}
 	}
     else
 	{

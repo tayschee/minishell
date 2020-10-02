@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/15 17:03:57 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/02 11:56:40 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/02 12:07:01 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,6 @@ void	ft_exec_paths(t_cmd *cmd)
 
 int		ft_exec(t_cmd *cmd)
 {
-	int	p_fd[3];
-	int p_fd_save[3];
-
 	g_shell.cpid = fork();
 	if (!g_shell.cpid)
 	{
@@ -75,18 +72,7 @@ int		ft_exec(t_cmd *cmd)
 		if (cmd->type == CMD)
 		{
 			if (cmd->rdr)
-			{
-				ft_init_stdfd(p_fd, p_fd_save);
-				if (ft_redirection(cmd->rdr, p_fd) == EXIT_FAILURE)
-				{
-					close(p_fd_save[RD_END]);
-					close(p_fd_save[WR_END]);
-					return (EXIT_FAILURE);
-				}
-				ft_replace_stdfd(p_fd);
-				ft_redirect_cmd(cmd);
-				ft_restore_stdfd(p_fd, p_fd_save);
-			}
+				ft_manage_rdr(cmd);
 			else
 			{
 				ft_redirect_cmd(cmd);
@@ -96,18 +82,7 @@ int		ft_exec(t_cmd *cmd)
 		else
 		{
 			if (cmd->rdr)
-			{
-				ft_init_stdfd(p_fd, p_fd_save);
-				if (ft_redirection(cmd->rdr, p_fd) == EXIT_FAILURE)
-				{
-					close(p_fd_save[RD_END]);
-					close(p_fd_save[WR_END]);
-					return (EXIT_FAILURE);
-				}
-				ft_replace_stdfd(p_fd);
-				ft_exec_paths(cmd);
-				ft_restore_stdfd(p_fd, p_fd_save);
-			}
+				ft_manage_rdr(cmd);
 			else
 				ft_exec_paths(cmd);
 		}

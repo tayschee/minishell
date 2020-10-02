@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/01 15:23:28 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/02 11:46:46 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/02 12:05:50 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,26 @@ int		ft_redirection(t_rdr *rdr, int *p_fd)
 		}
 		rdr = rdr->next;
 	}
+	return (EXIT_SUCCESS);
+}
+
+int		ft_manage_rdr(t_cmd *cmd)
+{
+	int	p_fd[3];
+	int p_fd_save[3];
+
+	ft_init_stdfd(p_fd, p_fd_save);
+	if (ft_redirection(cmd->rdr, p_fd) == EXIT_FAILURE)
+	{
+		close(p_fd_save[RD_END]);
+		close(p_fd_save[WR_END]);
+		return (EXIT_FAILURE);
+	}
+	ft_replace_stdfd(p_fd);
+	if (cmd->type == CMD)
+		ft_redirect_cmd(cmd);
+	else
+		ft_exec_paths(cmd);
+	ft_restore_stdfd(p_fd, p_fd_save);
 	return (EXIT_SUCCESS);
 }
