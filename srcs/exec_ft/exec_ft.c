@@ -88,7 +88,6 @@ int		ft_exec(t_cmd *cmd)
 			else
 				ft_exec_paths(cmd);
 		}
-		free_cmd_list(&cmd);
 	}
 	else
 	{

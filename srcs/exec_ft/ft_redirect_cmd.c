@@ -73,6 +73,7 @@ void	cd_cmd(t_cmd *cmd)
 		return ;
 	}
 	tmp = ft_strjoin("OLDPWD=", g_shell.cwd);
+	free(g_shell.cwd);
 	ft_append_env(g_shell.envp, tmp);
 	free(tmp);
 	ft_set_cwd();
@@ -125,7 +126,10 @@ int		ft_redirect_cmd(t_cmd *cmd)
 {
 	g_shell.status = EXIT_SUCCESS;
 	if	(ft_issamestr(cmd->argv[0], "exit"))
+	{
+		free_cmd_list(&cmd);
 		exit(EXIT_SUCCESS);
+	}
 	else if	(ft_issamestr(cmd->argv[0], "cd"))
 		cd_cmd(cmd);
 	else if (ft_issamestr(cmd->argv[0], "echo"))

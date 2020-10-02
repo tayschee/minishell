@@ -14,8 +14,7 @@
 
 static int             **pipe_for_fork(int i)
 {
-        int    **p_fd;
-        int     fd[i][2];
+        static int    **p_fd;
         int		j;
 
         j = 0;
@@ -23,8 +22,9 @@ static int             **pipe_for_fork(int i)
                 return (NULL);
         while (j < i)
         {
-                pipe(fd[j]);
-                p_fd[j] = fd[j];
+                if (!(p_fd[j] = malloc(sizeof(int) * 2)))
+                        return (NULL);
+                pipe(p_fd[j]);
                 j++;
         }
         return (p_fd);
@@ -36,13 +36,14 @@ static void     redirect_stdin_stdout(int *p_fd[2], t_cmd *cmd, int mlc_size, in
 
         pos = mlc_size - i;
         if (!g_shell.cpid && !cmd->next)
-			ft_replace_stdfd(p_fd[pos]);
+		ft_replace_stdfd(p_fd[pos]);
         else if (!g_shell.cpid)
                 dup2(p_fd[pos - 1][1], STDOUT_FILENO);
         else if (!cmd->next) 
                 dup2(p_fd[pos][0], STDIN_FILENO);
         else
         {
+                printf("last\n");
                 dup2(p_fd[pos][0], STDIN_FILENO);
                 dup2(p_fd[pos - 1][1], STDOUT_FILENO);
         }
@@ -80,6 +81,7 @@ t_cmd           *fork_all(t_cmd *cmd)
         }
         if (mlc_size > 0)
                 redirect_stdin_stdout(p_fd, cmd, mlc_size, i);
+        free(p_fd);
         return (cmd);
 }
 
@@ -104,5 +106,6 @@ int             ft_cmd_treatment(t_cmd *cmd)
 		ft_putstr_fd(": command not found\n", STDOUT_FILENO);
 		return (EXIT_FAILURE);
 	}
+        free_cmd_list(&cmd);
 	return (EXIT_SUCCESS);
 }

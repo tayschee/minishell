@@ -75,8 +75,10 @@ int		ft_read_input()
 		cmd_line_r = ft_get_cmd_r(cmd_line); 
 		if (ft_syntax_ok(cmd_line_r, ';') && ft_syntax_ok(cmd_line_r, '|'))
 			ft_parse_cmdline(cmd_line_r);
+		free(cmd_line_r);
 		ft_show_prompt_line();
 	}
+	free(line);
 	ft_putendl_fd("exit", 1);
 	return (EXIT_SUCCESS);
 }

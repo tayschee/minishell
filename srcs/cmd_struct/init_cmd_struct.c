@@ -113,7 +113,7 @@ t_cmd *char_to_struct_cmd(char **cmd_char)
 	if (!cmd_char)
 		return (NULL);
 	if (!(cmd = malloc(sizeof(t_cmd))))
-		exit(1);// fonction pour quitte
+		exit(1);// fonction pour quitter
 	cmd->argv = cmd_char;
 	cmd->rdr = NULL;
 	cmd->next = NULL;

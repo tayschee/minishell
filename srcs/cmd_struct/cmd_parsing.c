@@ -115,6 +115,8 @@ t_cmd    *ft_init_cmd(char *unique_cmd)
 
     cmd = NULL;
     cmd_sentence = split_word(unique_cmd, "<>|");
+    if (unique_cmd)
+        free(unique_cmd);
     cmd_divise = ft_get_argv(cmd_sentence);
     if (cmd_sentence)
         free(cmd_sentence);
