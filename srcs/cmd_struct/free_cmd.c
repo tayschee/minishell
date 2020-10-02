@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free_cmd.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/02 16:23:38 by abarot            #+#    #+#             */
+/*   Updated: 2020/10/02 16:49:44 by abarot           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void    free_char_2(char **txt, int nul)
@@ -71,9 +83,6 @@ void            free_cmd_list(t_cmd **cmd)
             before = *cmd;
             *cmd = (*cmd)->next;
         }
-        /*printf("cmd : %p\n", *cmd);
-        printf("char : %s\n", (*cmd)->argv[0]);
-        printf("before 2 : %p\n", before);*/
         if (before)
             nul = 1;
         free_cmd(*cmd, nul);
