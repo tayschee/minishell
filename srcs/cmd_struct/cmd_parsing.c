@@ -7,22 +7,23 @@ static char *cmd_with_split_word(char *cmd, char *operator, int j)
 
     if (!(new_cmd = ft_calloc(j + 1, sizeof(char))))
         return (NULL);
-    i = 0;
+    i = -1;
     j = 0;
-    while (cmd[i])
+    while (cmd[++i])
     {
         if (ft_strchr(operator, cmd[i]))
         {
-            if (i == 0 || (cmd[i - 1] != ' ' && cmd[i] != cmd[i - 1]))
+            if (i == 0 || ((cmd[i - 1] != ' ' && cmd[i - 1] != 92)
+            && (cmd[i] != cmd[i - 1] || (i >= 2 && cmd[i - 2] == '\\'))))
                 new_cmd[j++] = ' ';
             new_cmd[j] = cmd[i];
-            if (cmd[i + 1] != cmd[i] && cmd[i + 1] != ' ')
+            if ((i == 0 || cmd[i - 1] != '\\') &&
+            (cmd[i + 1] != cmd[i] && cmd[i + 1] != ' '))
                 new_cmd[++j] = ' ';
         }
         else
             new_cmd[j] = cmd[i];
         j++;
-        i++;
     }
     return (new_cmd);
 }
@@ -38,9 +39,11 @@ static char *split_word(char *cmd, char *operator)
     {
         if (ft_strchr(operator, cmd[i]))
         {
-            if (i == 0 || (cmd[i - 1] != ' ' && cmd[i] != cmd[i - 1]))
+            if (i == 0 || ((cmd[i - 1] != ' ' && cmd[i - 1] != '\\') &&
+            (cmd[i] != cmd[i - 1] || (i >= 2 && cmd[i - 2] == '\\'))))
                 j++;  
-            if (cmd[i + 1] != cmd[i] && cmd[i + 1] != ' ')
+            if ((i == 0 || cmd[i - 1] == '\\')
+            && (cmd[i + 1] != cmd[i] && cmd[i + 1] != ' '))
                 j++;
         }
         j++;
@@ -106,9 +109,11 @@ char	**ft_get_argv(char *cmd)
 
 t_cmd    *ft_init_cmd(char *unique_cmd)
 {
+    t_cmd   *save;
     char *cmd_sentence;
     char **cmd_divise;
     t_cmd   *cmd;
+    int      i;
 
     cmd = NULL;
     cmd_sentence = split_word(unique_cmd, "<>|");
@@ -117,5 +122,14 @@ t_cmd    *ft_init_cmd(char *unique_cmd)
         free(cmd_sentence);
     if (check_error_rdr(cmd_divise) < 0)
         cmd = char_to_struct_cmd(cmd_divise);
+    save = cmd;
+    while (cmd)
+    {
+        i = -1;
+        while(cmd->argv[++i])
+            cmd->argv[i] = cmd_without_backslash(cmd->argv[i]);
+        cmd = cmd->next;
+    }
+    cmd = save;
     return (cmd);
 }

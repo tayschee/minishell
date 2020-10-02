@@ -35,3 +35,57 @@ int count_struct(t_cmd *cmd)
     }
     return (i);
 }
+<<<<<<< HEAD
+
+static char     *cmd_without_bs2(char *cmd, int i)
+{
+    int j;
+    char *cmd_without_bs;
+
+    j = 0;
+    if (!(cmd_without_bs = ft_calloc(sizeof(char), (i + 1))))
+        return (NULL);
+    i = 0;
+    while (cmd[i])
+    {
+        if (cmd[i] != '\\')
+        {
+            cmd_without_bs[j] = cmd[i];
+            j++;
+        }
+        i++;
+    }
+    free(cmd);
+    return(cmd_without_bs);
+
+
+}
+
+char            *cmd_without_bs(char *cmd)
+{
+    int i;
+    int j;
+    int bs;
+
+    i = 0;
+    j = 0;
+    bs = 0;
+    if (cmd)
+    {
+        while (cmd[i])
+        {
+            if (cmd[i] == '\\')
+            {
+                bs = 1;
+                j++;
+            }
+            i++;
+        }
+        if (bs == 1)
+            return(cmd_without_bs2(cmd, j));
+        return (cmd);
+    }
+    return (NULL);
+}
+=======
+>>>>>>> 8497500ec7d9c600589afe1c58360cc9a4c5173d
