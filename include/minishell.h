@@ -6,14 +6,9 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:40:09 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/02 12:05:01 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/02 16:20:16 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// todo list :
-// 		- echo $? '$?' ==> pb replace in str
-// 		- pb gestion des elt dans "" et '' -> si "string test "'"" ex : cd ""'"$HOME"'""
-// 		- check memory leeks
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -41,81 +36,80 @@
 # define OPERATOR_LIST "> >> < | <<"
 # define RDR_LIST "> >> <"
 
-# define UNEXPECTED_NEWLINE "minishell: syntax error near unexpected token `newline'\n"
+# define UNEXP_NL "minishell: syntax error near unexpected token `newline'\n"
 
-typedef struct s_cmd t_cmd;
-typedef struct s_rdr t_rdr;
+typedef struct s_cmd	t_cmd;
+typedef struct s_rdr	t_rdr;
 
-enum 			e_type
+enum					e_type
 {
 	CMD,
 	PATH,
 };
 
-enum 			e_rdr
+enum					e_rdr
 {
 	RDR_OUT,
 	RDR_OUT_APPEND,
 	RDR_IN,
 };
 
-struct 				s_rdr
+struct					s_rdr
 {
-	int				e_rdr;
-	char			*path;
-	t_rdr			*next;
+	int					e_rdr;
+	char				*path;
+	t_rdr				*next;
 };
 
-struct 				s_cmd
+struct					s_cmd
 {
-	int 			type;
-	char			**argv;
-	t_rdr			*rdr;
-	t_cmd			*next;
+	int					type;
+	char				**argv;
+	t_rdr				*rdr;
+	t_cmd				*next;
 };
 
-typedef struct s_tcap
+typedef struct			s_tcap
 {
-	char		*cl_cap;
-	char		*cm_cap;
-	int			num_co;
-	int			num_li;
-}				t_tcap;
+	char				*cl_cap;
+	char				*cm_cap;
+	int					num_co;
+	int					num_li;
+}						t_tcap;
 
-typedef struct s_shell
+typedef struct			s_shell
 {
-	char			*cwd;
-	char			*r_cwd;
-	char			**envp;
-	char			*tilde;
-	int				l_rtrval;
-	pid_t			cpid;
-	struct stat		stat;
-}				t_shell;
+	char				*cwd;
+	char				*r_cwd;
+	char				**envp;
+	char				*tilde;
+	int					status;
+	pid_t				cpid;
+	struct stat			stat;
+}						t_shell;
 
 t_shell g_shell;
-t_tcap 	g_tcap;
-t_list	*g_garb_cltor;
+t_tcap g_tcap;
+t_list *g_garb_cltor;
 
-void	ft_set_cwd();
-void	ft_show_prompt_line();
-char	*ft_multiline_mng(char *line);
-char	*ft_get_cmd_r(char *cmd_line);
-int 	ft_parse_cmdline(char *cmd_line);
-int		ft_manage_rdr(t_cmd *cmd);
-int		ft_redirect_cmd(t_cmd *cmd);
-int		ft_exec(t_cmd *cmd);
-int		ft_redirection(t_rdr *rdr, int *p_fd);
-void	ft_inthandler();
-void 	ft_quithandler(); 
-t_cmd    *ft_init_cmd(char *unique_cmd);
-t_cmd   *char_to_struct_cmd(char **cmd_char);
-void    free_cmd_list(t_cmd **cmd);
-int     this_is_operator(char *txt, char *operator);
-int		ft_cmd_treatment(t_cmd *cmd);
-void	ft_exec_paths(t_cmd *cmd);
-int		count_struct(t_cmd	*cmd);
-void	rdr_in_out(int p_fd[2], int redirect, int in_out);
-t_cmd	*fork_all(t_cmd *cmd);
-
+void					ft_set_cwd();
+void					ft_show_prompt_line();
+char					*ft_multiline_mng(char *line);
+char					*ft_get_cmd_r(char *cmd_line);
+int						ft_parse_cmdline(char *cmd_line);
+int						ft_manage_rdr(t_cmd *cmd);
+int						ft_redirect_cmd(t_cmd *cmd);
+int						ft_exec(t_cmd *cmd);
+int						ft_redirection(t_rdr *rdr, int *p_fd);
+void					ft_inthandler();
+void					ft_quithandler();
+t_cmd					*ft_init_cmd(char *unique_cmd);
+t_cmd					*char_to_struct_cmd(char **cmd_char);
+void					free_cmd_list(t_cmd **cmd);
+int						this_is_operator(char *txt, char *operator);
+int						ft_cmd_treatment(t_cmd *cmd);
+void					ft_exec_paths(t_cmd *cmd);
+int						count_struct(t_cmd	*cmd);
+t_cmd					*fork_all(t_cmd *cmd);
+char					*cmd_without_bs(char *cmd);
 #endif
