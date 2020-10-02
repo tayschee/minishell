@@ -35,10 +35,3 @@ int count_struct(t_cmd *cmd)
     }
     return (i);
 }
-
-void rdr_in_out(int p_fd[2], int redirect, int in_out)
-{
-    dup2(redirect, in_out);
-    close(p_fd[0]);
-    close(p_fd[1]);
-}

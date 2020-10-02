@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 16:00:15 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/02 11:46:40 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/02 14:24:52 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,19 +46,31 @@ void	echo_cmd(char **argv)
 void	cd_cmd(t_cmd *cmd)
 {
 	char	*tmp;
+	int		val;
 
 	if (!cmd->argv[1])
 	{
 		if (chdir(ft_get_env(g_shell.envp, "HOME", '=')) == -1)
+		{
 			ft_putendl_fd("minishell: cd: HOME not set", 1);
+		}
+		g_shell.status = EXIT_FAILURE;
+		return ;
 	}
-	else if (cmd->argv[2])
-		ft_putendl_fd("minishell: cd: too many arguments", 1);
-	else if (chdir(cmd->argv[1]) == -1)
+	else if (cmd->argv[2] || (val = chdir(cmd->argv[1])) == -1)
 	{
-		ft_putstr_fd("minishell: cd: ", 1);
-		ft_putstr_fd(cmd->argv[1], 1);
-		ft_putendl_fd(": No such file or directory", 1);
+		if (cmd->argv[2])
+		{
+			ft_putendl_fd("minishell: cd: too many arguments", 1);
+		}
+		else if (val == -1)
+		{
+			ft_putstr_fd("minishell: cd: ", 1);
+			ft_putstr_fd(cmd->argv[1], 1);
+			ft_putendl_fd(": No such file or directory", 1);
+		}
+		g_shell.status = EXIT_FAILURE;
+		return ;
 	}
 	tmp = ft_strjoin("OLDPWD=", g_shell.cwd);
 	ft_append_env(g_shell.envp, tmp);

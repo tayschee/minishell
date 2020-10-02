@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/04 16:26:16 by abarot            #+#    #+#             */
-/*   Updated: 2020/09/22 13:22:32 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/02 13:55:49 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void ft_quithandler() 
 {
-	//quit signal à voir
 	if (g_shell.cpid)
 	{
 		kill(g_shell.cpid, SIGQUIT);
@@ -25,7 +24,6 @@ void ft_quithandler()
 
 void ft_inthandler() 
 {
-	//interrup signal à voir
 	if (g_shell.cpid)
 	{
 		kill(g_shell.cpid, SIGQUIT);

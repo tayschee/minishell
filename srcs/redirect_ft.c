@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/01 15:23:28 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/02 12:05:50 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/02 14:17:58 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	ft_show_fileerr(char *file)
 {
-	ft_putstr_fd("minishell: ", 1);
-	ft_putstr_fd(file, 1);
-	ft_putstr_fd(": ", 1);
-	ft_putendl_fd(strerror(errno), 1);
+	ft_putstr_fd("minishell: ", STDOUT_FILENO);
+	ft_putstr_fd(file, STDOUT_FILENO);
+	ft_putstr_fd(": ", STDOUT_FILENO);
+	ft_putendl_fd(strerror(errno), STDOUT_FILENO);
 }
 
 void	ft_get_fdrdr(t_rdr *rdr, int *p_fd)
