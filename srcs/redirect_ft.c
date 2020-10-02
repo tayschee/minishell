@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/01 15:23:28 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/02 14:17:58 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/02 15:00:40 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ void	ft_get_fdrdr(t_rdr *rdr, int *p_fd)
 	if (rdr && rdr->e_rdr == RDR_IN)
 		p_fd[RD_END] = open(rdr->path, O_RDWR, 0644);
 }
-	
+
 int		ft_redirection(t_rdr *rdr, int *p_fd)
 {
 	while (rdr)
 	{
-		if (p_fd[WR_END] && (rdr->e_rdr == RDR_OUT || 
+		if (p_fd[WR_END] && (rdr->e_rdr == RDR_OUT ||
 				rdr->e_rdr == RDR_OUT_APPEND))
 			close(p_fd[WR_END]);
 		else if (p_fd[RD_END] && rdr->e_rdr == RDR_IN)

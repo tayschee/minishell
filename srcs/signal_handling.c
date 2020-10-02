@@ -6,13 +6,13 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/04 16:26:16 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/02 13:55:49 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/02 15:01:45 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void ft_quithandler() 
+void	ft_quithandler(void)
 {
 	if (g_shell.cpid)
 	{
@@ -22,7 +22,7 @@ void ft_quithandler()
 	}
 }
 
-void ft_inthandler() 
+void	ft_inthandler(void)
 {
 	if (g_shell.cpid)
 	{
