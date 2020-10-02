@@ -127,7 +127,7 @@ t_cmd    *ft_init_cmd(char *unique_cmd)
     {
         i = -1;
         while(cmd->argv[++i])
-            cmd->argv[i] = cmd_without_backslash(cmd->argv[i]);
+            cmd->argv[i] = cmd_without_bs(cmd->argv[i]);
         cmd = cmd->next;
     }
     cmd = save;

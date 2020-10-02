@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:40:09 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/02 13:25:07 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/02 15:37:23 by tbigot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,4 +116,6 @@ int		ft_cmd_treatment(t_cmd *cmd);
 void	ft_exec_paths(t_cmd *cmd);
 int		count_struct(t_cmd	*cmd);
 t_cmd	*fork_all(t_cmd *cmd);
+char    *cmd_without_bs(char *cmd);
+
 #endif

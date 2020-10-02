@@ -35,7 +35,6 @@ int count_struct(t_cmd *cmd)
     }
     return (i);
 }
-<<<<<<< HEAD
 
 static char     *cmd_without_bs2(char *cmd, int i)
 {
@@ -87,5 +86,3 @@ char            *cmd_without_bs(char *cmd)
     }
     return (NULL);
 }
-=======
->>>>>>> 8497500ec7d9c600589afe1c58360cc9a4c5173d
