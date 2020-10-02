@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 14:12:53 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/02 12:09:44 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/02 12:19:35 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int             ft_cmd_treatment(t_cmd *cmd)
 	{
         ft_exec(cmd);
 	}
-	if (g_shell.l_rtrval == EXIT_FAILURE)
+	if (g_shell.status == EXIT_FAILURE)
 	{
 		ft_putstr_fd(cmd->argv[0], STDOUT_FILENO);
 		ft_putstr_fd(": command not found\n", STDOUT_FILENO);

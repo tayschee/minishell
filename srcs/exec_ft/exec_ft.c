@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/15 17:03:57 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/02 12:07:01 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/02 12:20:13 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	ft_exec_paths(t_cmd *cmd)
 			else
 				exit(EXIT_SUCCESS);
 		}
-		g_shell.l_rtrval = EXIT_FAILURE;
+		g_shell.status = EXIT_FAILURE;
 		exit(EXIT_FAILURE);
 	}
 }
@@ -90,6 +90,7 @@ int		ft_exec(t_cmd *cmd)
 	else
 	{
 		wait(&g_shell.cpid);
+		g_shell.status = WEXITSTATUS(g_shell.status);
 		g_shell.cpid = 0;
 	}
 	return (EXIT_SUCCESS);

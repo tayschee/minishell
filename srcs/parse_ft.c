@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/09 15:15:17 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/02 11:40:56 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/02 12:27:59 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*ft_replace_var(char *res, char *cmd_line, int index)
 
 	if (*(cmd_line + 1) == '?')
 	{
-		var = ft_itoa(g_shell.l_rtrval);
+		var = ft_itoa(g_shell.status);
 		res = ft_replace(res, "$?", var, index);
 		free(var);
 		return (res);
@@ -88,7 +88,15 @@ char	*ft_get_cmd_r(char *cmd_line)
 	while (cmd_line[i])
 	{
 		if (cmd_line[i] == '\\' || !ft_strnchr("$~", cmd_line[i], 2))
+		{
+			if (cmd_line[i] == '\\')
+			{
+				tmp = cmd_line;
+				cmd_line = ft_delete(cmd_line, "\\", i);
+				free(tmp);
+			}
 			i++;
+		}
 		else
 		{
 			tmp = cmd_line;
