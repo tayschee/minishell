@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 16:00:15 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/02 14:24:52 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/02 14:31:39 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ void	ft_export_cmd(t_cmd *cmd)
 
 int		ft_redirect_cmd(t_cmd *cmd)
 {
+	g_shell.status = EXIT_SUCCESS;
 	if	(ft_issamestr(cmd->argv[0], "exit"))
 		exit(EXIT_SUCCESS);
 	else if	(ft_issamestr(cmd->argv[0], "cd"))
