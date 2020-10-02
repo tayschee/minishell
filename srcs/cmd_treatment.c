@@ -6,32 +6,17 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 14:12:53 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/02 11:00:00 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/02 11:52:53 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*j'avais plus de place dans ma fonction juste renvoie
-dans ft_manage_redirection*/
-/*static void             redirection(t_cmd *cmd, int **p_fd, int mlc_size, int i)
-{
-        int pos;
-
-        pos = mlc_size - i;
-        if (g_shell.cpid)
-                wait(&g_shell.cpid);
-        ft_manage_rdr(cmd, pfd[pos]);
-        free(p_fd);
-
-}*/
-
-/*compte le nombre de pipe necessaire*/
 static int             **pipe_for_fork(int i)
 {
         int    **p_fd;
         int     fd[i][2];
-        int j;
+        int		j;
 
         j = 0;
         if (!(p_fd = malloc(sizeof(int *) * (i)))) 
@@ -45,25 +30,21 @@ static int             **pipe_for_fork(int i)
         return (p_fd);
 }
 
-/* fonction uniquement destine a rediriger les sortie dans les pipes*/
 static void     redirect_stdin_stdout(int *p_fd[2], t_cmd *cmd, int mlc_size, int i)
 {
         int pos;
 
         pos = mlc_size - i;
         if (!g_shell.cpid && !cmd->next)
-        {
-                dup2(p_fd[pos][0], 0);
-                dup2(p_fd[pos][1], 1);
-        }
+			ft_replace_stdfd(p_fd[pos]);
         else if (!g_shell.cpid)
-                dup2(p_fd[pos - 1][1], 1);
+                dup2(p_fd[pos - 1][1], STDOUT_FILENO);
         else if (!cmd->next) 
-                dup2(p_fd[pos][0], 0);
+                dup2(p_fd[pos][0], STDIN_FILENO);
         else
         {
-                dup2(p_fd[pos][0], 0);
-                dup2(p_fd[pos - 1][1], 1);
+                dup2(p_fd[pos][0], STDIN_FILENO);
+                dup2(p_fd[pos - 1][1], STDOUT_FILENO);
         }
         i = 0;
         while (i < mlc_size)
@@ -74,7 +55,6 @@ static void     redirect_stdin_stdout(int *p_fd[2], t_cmd *cmd, int mlc_size, in
         }
 }
 
-/*fork une par une chaque commande et fait des pipes pour les reliers*/
 t_cmd           *fork_all(t_cmd *cmd)
 {
         int     i;
@@ -100,17 +80,41 @@ t_cmd           *fork_all(t_cmd *cmd)
         }
         if (mlc_size > 0)
                 redirect_stdin_stdout(p_fd, cmd, mlc_size, i);
-        //redirection(cmd, p_fd, mlc_size, i);
         return (cmd);
 }
 
-/* fonction qui permet l'execution de toute les commandes*/
 int             ft_cmd_treatment(t_cmd *cmd)
 {
-
-        if (cmd)
-        {
-                ft_exec(cmd);
-        }
-        return (EXIT_SUCCESS);
+	int	p_fd[3];
+	int p_fd_save[3];
+	
+	if (!cmd)
+		return (EXIT_FAILURE);
+	else if  (!cmd->next && cmd->type == CMD)
+	{
+		if (cmd->rdr)
+		{
+			ft_init_stdfd(p_fd, p_fd_save);
+			if (ft_redirection(cmd->rdr, p_fd) == EXIT_FAILURE)
+			{
+				close(p_fd_save[RD_END]);
+				close(p_fd_save[WR_END]);
+				return (EXIT_FAILURE);
+			}
+			ft_replace_stdfd(p_fd);
+			ft_redirect_cmd(cmd);
+			ft_restore_stdfd(p_fd, p_fd_save);
+		}
+	}
+    else
+	{
+        ft_exec(cmd);
+	}
+	if (g_shell.l_rtrval == EXIT_FAILURE)
+	{
+		ft_putstr_fd(cmd->argv[0], STDOUT_FILENO);
+		ft_putstr_fd(": command not found\n", STDOUT_FILENO);
+		return (EXIT_FAILURE);
+	}
+    return (EXIT_SUCCESS);
 }

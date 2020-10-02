@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 16:00:15 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/02 11:04:13 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/02 11:46:40 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,11 @@ void	ft_export_cmd(t_cmd *cmd)
 	if (!cmd->argv[1])
 	{
 		free(cmd->argv[0]);
+		free(cmd->argv);
+		if (!(cmd->argv = ft_calloc(3, sizeof(char *))))
+			return ;
 		cmd->argv[0] = ft_strdup("declare");
+		cmd->argv[1] = ft_strdup("-x");
 		ft_exec(cmd);
 	}
 	else

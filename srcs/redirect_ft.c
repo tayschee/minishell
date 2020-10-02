@@ -6,27 +6,11 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/01 15:23:28 by abarot            #+#    #+#             */
-/*   Updated: 2020/09/29 10:35:08 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/02 11:46:46 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	ft_restore_promptfd(int *p_fd, int *p_fd_save)
-{
-	if (p_fd[RD_END])
-	{
-		dup2(p_fd_save[RD_END], STDIN_FILENO);
-		close(p_fd[RD_END]);
-		close(p_fd_save[RD_END]);
-	}
-	if (p_fd[WR_END])
-	{
-		dup2(p_fd_save[WR_END], STDOUT_FILENO);
-		close(p_fd[WR_END]);
-		close(p_fd_save[WR_END]);
-	}
-}
 
 void	ft_show_fileerr(char *file)
 {
@@ -63,33 +47,5 @@ int		ft_redirection(t_rdr *rdr, int *p_fd)
 		}
 		rdr = rdr->next;
 	}
-	return (EXIT_SUCCESS);
-}
-
-int		ft_manage_rdr(t_cmd *cmd)
-{
-	int	p_fd[3];
-	int p_fd_save[3];
-
-	p_fd_save[RD_END] = dup(STDIN_FILENO);
-	p_fd_save[WR_END] = dup(STDOUT_FILENO);
-	p_fd[RD_END] = 0;
-	p_fd[WR_END] = 0;
-	if (cmd->rdr)
-		if (ft_redirection(cmd->rdr, p_fd) == EXIT_FAILURE)
-		{
-			close(p_fd_save[RD_END]);
-			close(p_fd_save[WR_END]);
-			return (EXIT_FAILURE);
-		}
-	if (p_fd[RD_END])
-		dup2(p_fd[RD_END], STDIN_FILENO);
-	if (p_fd[WR_END])
-		dup2(p_fd[WR_END], STDOUT_FILENO);
-	if (cmd->type == PATH)
-		ft_exec(cmd);
-	else if (cmd->type == CMD)
-		ft_redirect_cmd(cmd);
-	ft_restore_promptfd(p_fd, p_fd_save);
 	return (EXIT_SUCCESS);
 }

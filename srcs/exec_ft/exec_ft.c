@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/15 17:03:57 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/02 11:01:38 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/02 11:56:40 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,38 +63,59 @@ void	ft_exec_paths(t_cmd *cmd)
 
 int		ft_exec(t_cmd *cmd)
 {
-	if  (!cmd->next && cmd->type == CMD)
-		ft_redirect_cmd(cmd);
-	else
+	int	p_fd[3];
+	int p_fd_save[3];
+
+	g_shell.cpid = fork();
+	if (!g_shell.cpid)
 	{
-		g_shell.cpid = fork();
-		if (!g_shell.cpid)
+		cmd = fork_all(cmd);
+		if (g_shell.cpid)
+			wait(&g_shell.cpid);
+		if (cmd->type == CMD)
 		{
-			//rdr_in_out(p_fd, p_fd[0], 0);
-			cmd = fork_all(cmd);
-			if (g_shell.cpid)
-				wait(&g_shell.cpid);
-			if (cmd->type == CMD)
+			if (cmd->rdr)
+			{
+				ft_init_stdfd(p_fd, p_fd_save);
+				if (ft_redirection(cmd->rdr, p_fd) == EXIT_FAILURE)
+				{
+					close(p_fd_save[RD_END]);
+					close(p_fd_save[WR_END]);
+					return (EXIT_FAILURE);
+				}
+				ft_replace_stdfd(p_fd);
+				ft_redirect_cmd(cmd);
+				ft_restore_stdfd(p_fd, p_fd_save);
+			}
+			else
 			{
 				ft_redirect_cmd(cmd);
-				//free();
-				exit(0);
+			}
+			exit(ft_redirect_cmd(cmd));
+		}
+		else
+		{
+			if (cmd->rdr)
+			{
+				ft_init_stdfd(p_fd, p_fd_save);
+				if (ft_redirection(cmd->rdr, p_fd) == EXIT_FAILURE)
+				{
+					close(p_fd_save[RD_END]);
+					close(p_fd_save[WR_END]);
+					return (EXIT_FAILURE);
+				}
+				ft_replace_stdfd(p_fd);
+				ft_exec_paths(cmd);
+				ft_restore_stdfd(p_fd, p_fd_save);
 			}
 			else
 				ft_exec_paths(cmd);
 		}
-		else
-		{
-			//rdr_in_out(p_fd, p_fd[1], 1);
-			wait(&g_shell.cpid);
-			g_shell.cpid = 0;
-		}
 	}
-	if (g_shell.l_rtrval == EXIT_FAILURE)
+	else
 	{
-		ft_putstr_fd(cmd->argv[0], STDOUT_FILENO);
-		ft_putstr_fd(": command not found\n", STDOUT_FILENO);
-		return (EXIT_FAILURE);
+		wait(&g_shell.cpid);
+		g_shell.cpid = 0;
 	}
 	return (EXIT_SUCCESS);
 }
