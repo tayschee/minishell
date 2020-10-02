@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/09 15:15:17 by abarot            #+#    #+#             */
-/*   Updated: 2020/09/29 20:11:16 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/02 11:01:38 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*ft_replace_var(char *res, char *cmd_line, int index)
 	{
 		var_dol = ft_strjoin("$", var);
 		res = ft_replace(res, var_dol, 
-			ft_get_value(g_shell.envp, var, '='), index);
+			ft_get_env(g_shell.envp, var, '='), index);
 	}
 	else
 	{

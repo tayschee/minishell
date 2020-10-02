@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:40:09 by abarot            #+#    #+#             */
-/*   Updated: 2020/09/29 14:21:01 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/02 11:01:02 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,6 @@
 
 typedef struct s_cmd t_cmd;
 typedef struct s_rdr t_rdr;
-
-enum			e_fdends
-{
-	RD_END = 0,
-	WR_END = 1,
-};
 
 enum 			e_type
 {
@@ -112,10 +106,6 @@ int		ft_manage_rdr(t_cmd *cmd);
 int		ft_redirect_cmd(t_cmd *cmd);
 int		ft_exec(t_cmd *cmd);
 void	ft_show_env(char **envp);
-void	ft_append_env(char *str);
-char	*ft_get_value(char **envp, char *var, char sep);
-char	*ft_search_var(char **envp, char *str);
-void	ft_retreive_env(char *str);
 void	ft_inthandler();
 void 	ft_quithandler(); 
 t_cmd    *ft_init_cmd(char *unique_cmd);

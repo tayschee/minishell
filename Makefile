@@ -6,7 +6,7 @@
 #    By: abarot <abarot@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/02 20:31:48 by abarot            #+#    #+#              #
-#    Updated: 2020/09/29 12:08:12 by abarot           ###   ########.fr        #
+#    Updated: 2020/10/02 11:02:27 by abarot           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,6 @@ SRCS	=	srcs/main.c \
 			srcs/cmd_struct/init_cmd_struct.c \
 			srcs/cmd_struct/utils.c \
 			srcs/cmd_treatment.c \
-			srcs/exec_ft/env_ft.c \
 			srcs/exec_ft/exec_ft.c \
 			srcs/exec_ft/ft_redirect_cmd.c \
 			srcs/redirect_ft.c \

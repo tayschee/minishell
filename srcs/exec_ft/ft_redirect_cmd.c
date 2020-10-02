@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 16:00:15 by abarot            #+#    #+#             */
-/*   Updated: 2020/09/26 09:53:54 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/02 11:04:13 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	cd_cmd(t_cmd *cmd)
 
 	if (!cmd->argv[1])
 	{
-		if (chdir(ft_get_value(g_shell.envp, "HOME", '=')) == -1)
+		if (chdir(ft_get_env(g_shell.envp, "HOME", '=')) == -1)
 			ft_putendl_fd("minishell: cd: HOME not set", 1);
 	}
 	else if (cmd->argv[2])
@@ -61,11 +61,11 @@ void	cd_cmd(t_cmd *cmd)
 		ft_putendl_fd(": No such file or directory", 1);
 	}
 	tmp = ft_strjoin("OLDPWD=", g_shell.cwd);
-	ft_append_env(tmp);
+	ft_append_env(g_shell.envp, tmp);
 	free(tmp);
 	ft_set_cwd();
 	tmp = ft_strjoin("PWD=", g_shell.cwd);
-	ft_append_env(tmp);
+	ft_append_env(g_shell.envp, tmp);
 	free(tmp);
 }
 
@@ -78,7 +78,7 @@ void	ft_unset_cmd(char **argv)
 	{
 		while (argv[i + 1])
 		{
-			ft_retreive_env(argv[i + 1]);
+			ft_retreive_env(g_shell.envp, argv[i + 1]);
 			i++;
 		}
 	}
@@ -99,7 +99,7 @@ void	ft_export_cmd(t_cmd *cmd)
 	{
 		while (cmd->argv[i + 1])
 		{
-			ft_append_env(cmd->argv[i + 1]);
+			ft_append_env(g_shell.envp, cmd->argv[i + 1]);
 			i++;
 		}
 	}
@@ -120,6 +120,6 @@ int		ft_redirect_cmd(t_cmd *cmd)
 	else if	(ft_issamestr(cmd->argv[0], "unset"))
 		ft_unset_cmd(cmd->argv);
 	else if	(ft_issamestr(cmd->argv[0], "env"))
-		ft_show_env(g_shell.envp);
+		ft_show_tab(g_shell.envp);
 	return (EXIT_SUCCESS);
 }

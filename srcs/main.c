@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:37:55 by abarot            #+#    #+#             */
-/*   Updated: 2020/09/29 20:10:56 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/02 11:01:56 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 void	ft_show_prompt_line()
 {
 	ft_putstr_fd(ANSI_COLOR_BLUE, 1);
-	if (ft_get_value(g_shell.envp, "USER", '='))
+	if (ft_get_env(g_shell.envp, "USER", '='))
 	{
-		ft_putstr_fd(ft_get_value(g_shell.envp, "USER", '='), 1);
+		ft_putstr_fd(ft_get_env(g_shell.envp, "USER", '='), 1);
 		ft_putstr_fd(":", 1);
 	}
-	else if (ft_get_value(g_shell.envp, "LOGNAME", '='))
+	else if (ft_get_env(g_shell.envp, "LOGNAME", '='))
 	{
-		ft_putstr_fd(ft_get_value(g_shell.envp, "LOGNAME", '='), 1);
+		ft_putstr_fd(ft_get_env(g_shell.envp, "LOGNAME", '='), 1);
 		ft_putstr_fd(":", 1);
 	}
 	else
@@ -87,7 +87,7 @@ int		ft_read_input()
 
 // int		ft_init_tcap()
 // {
-// 	if (tgetent(NULL, ft_get_value(g_shell.envp, "TERM", '=')) == -1)
+// 	if (tgetent(NULL, ft_get_env(g_shell.envp, "TERM", '=')) == -1)
 // 	{
 // 		ft_putstr_fd("\nTermcap not defined, exiting\n", STDOUT_FILENO);
 // 		return (EXIT_FAILURE);
@@ -103,12 +103,12 @@ int		ft_init_shell(char **envp)
 {
 	g_shell.cpid = 0;
 	g_shell.envp = envp;
-	if (!(g_shell.tilde = ft_get_value(g_shell.envp, "HOME", '=')))
+	if (!(g_shell.tilde = ft_get_env(g_shell.envp, "HOME", '=')))
 	{
-		if (ft_get_value(g_shell.envp, "LOGNAME", '='))
+		if (ft_get_env(g_shell.envp, "LOGNAME", '='))
 		{
 			g_shell.tilde = ft_strjoin("/home/",
-					ft_get_value(g_shell.envp, "LOGNAME", '='));
+					ft_get_env(g_shell.envp, "LOGNAME", '='));
 			ft_append_elt(&g_garb_cltor, g_shell.tilde);
 		}
 		else

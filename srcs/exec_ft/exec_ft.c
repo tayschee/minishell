@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/15 17:03:57 by abarot            #+#    #+#             */
-/*   Updated: 2020/09/23 14:56:47 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/02 11:01:38 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	ft_exec_paths(t_cmd *cmd)
 	first_cmd = ft_strdup(cmd->argv[0]);
 	if (execve(cmd->argv[0], cmd->argv, g_shell.envp) == -1)
 	{
-		while ((path_inst = ft_get_path(ft_get_value(g_shell.envp,
+		while ((path_inst = ft_get_path(ft_get_env(g_shell.envp,
 					"PATH", '='), instc)))
 		{
 			path_str = ft_strjoin(path_inst, "/");
@@ -63,25 +63,32 @@ void	ft_exec_paths(t_cmd *cmd)
 
 int		ft_exec(t_cmd *cmd)
 {
-	int		p_fd[2];
-
-	pipe(p_fd);
-	if (cmd->type == CMD) //a rajouter dans exec_path pour faire 25 lignes
+	if  (!cmd->next && cmd->type == CMD)
 		ft_redirect_cmd(cmd);
-	g_shell.cpid = fork();
-	if (!g_shell.cpid)
-	{
-		rdr_in_out(p_fd, p_fd[0], 0);
-		cmd = fork_all(cmd);
-		if (g_shell.cpid)
-			wait(&g_shell.cpid);
-		ft_exec_paths(cmd);
-	}
 	else
 	{
-		rdr_in_out(p_fd, p_fd[1], 1);
-		wait(&g_shell.cpid);
-		g_shell.cpid = 0;
+		g_shell.cpid = fork();
+		if (!g_shell.cpid)
+		{
+			//rdr_in_out(p_fd, p_fd[0], 0);
+			cmd = fork_all(cmd);
+			if (g_shell.cpid)
+				wait(&g_shell.cpid);
+			if (cmd->type == CMD)
+			{
+				ft_redirect_cmd(cmd);
+				//free();
+				exit(0);
+			}
+			else
+				ft_exec_paths(cmd);
+		}
+		else
+		{
+			//rdr_in_out(p_fd, p_fd[1], 1);
+			wait(&g_shell.cpid);
+			g_shell.cpid = 0;
+		}
 	}
 	if (g_shell.l_rtrval == EXIT_FAILURE)
 	{
