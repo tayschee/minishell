@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/15 17:03:57 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/02 12:07:01 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/02 16:45:17 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	ft_exec_paths(t_cmd *cmd)
 			else
 				exit(EXIT_SUCCESS);
 		}
-		g_shell.l_rtrval = EXIT_FAILURE;
 		exit(EXIT_FAILURE);
 	}
 }

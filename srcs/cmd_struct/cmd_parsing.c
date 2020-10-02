@@ -62,15 +62,13 @@ static int    check_error_rdr(char **cmd)
             && (!cmd[i + 1] || this_is_operator(cmd[i + 1],
             OPERATOR_LIST) > 0))
             {
-                write(1, UNEXPECTED_NEWLINE,
-                ft_strlen(UNEXPECTED_NEWLINE));
+                write(1, UNEXP_NL, ft_strlen(UNEXP_NL));
                 return (EXIT_FAILURE);
             }
-            if (!ft_strncmp(cmd[i], "|", 2) && (i == 0 || this_is_operator(cmd[i - 1],
-            OPERATOR_LIST)> 0))
+            if (!ft_strncmp(cmd[i], "|", 2) && (i == 0 || 
+			this_is_operator(cmd[i - 1], OPERATOR_LIST)> 0))
             {
-                write(1, UNEXPECTED_NEWLINE,
-                ft_strlen(UNEXPECTED_NEWLINE));
+                write(1, UNEXP_NL, ft_strlen(UNEXP_NL));
                 return (EXIT_FAILURE);
             }
             i++;
