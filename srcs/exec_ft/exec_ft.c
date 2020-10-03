@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/15 17:03:57 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/03 14:59:43 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/03 22:47:05 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*ft_get_path(char *paths, int instc)
 	return (ft_substr(paths, path_s, path_end - path_s));
 }
 
-void	ft_exec_paths(t_cmd *cmd)
+int		ft_exec_paths(t_cmd *cmd)
 {
 	char	*path_inst;
 	char	*path_str;
@@ -54,43 +54,17 @@ void	ft_exec_paths(t_cmd *cmd)
 			if (execve(path_str, cmd->argv, g_shell.envp) == -1)
 				instc++;
 			else
-				exit(EXIT_SUCCESS);
+				return (EXIT_SUCCESS);
 		}
-		exit(127);
 	}
-}
-
-void	exec_conditionnal(t_cmd *cmd)
-{
-	if (cmd->type == CMD)
-	{
-		if (cmd->rdr)
-			ft_manage_rdr(cmd);
-		else
-		{
-			ft_redirect_cmd(cmd);
-		}
-		exit(ft_redirect_cmd(cmd));
-	}
-	else
-	{
-		if (cmd->rdr)
-			ft_manage_rdr(cmd);
-		else
-			ft_exec_paths(cmd);
-	}
+	return (127);
 }
 
 int		ft_exec(t_cmd *cmd)
 {
 	g_shell.cpid = fork();
 	if (!g_shell.cpid)
-	{
-		cmd = fork_all(cmd);
-		if (g_shell.cpid)
-			wait(&g_shell.cpid);
-		exec_conditionnal(cmd);
-	}
+		exit(ft_exec_paths(cmd));
 	else
 	{
 		wait(&g_shell.cpid);

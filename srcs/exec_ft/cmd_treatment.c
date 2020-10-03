@@ -6,80 +6,68 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 14:12:53 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/03 14:08:56 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/03 22:58:47 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int		**pipe_for_fork(int i)
+void	exec_conditionnal(t_cmd *cmd)
 {
-	int		**p_fd;
-	int		j;
-
-	j = 0;
-	if (!(p_fd = malloc(sizeof(int *) * i)))
-		return (NULL);
-	while (j < i)
+	if (cmd->type == CMD)
 	{
-		p_fd[j] = malloc(sizeof(int) * 2);
-		pipe(p_fd[j]);
-		j++;
+		if (cmd->rdr)
+			exit(ft_manage_rdr(cmd));
+		else
+			exit(ft_redirect_cmd(cmd));
 	}
-	return (p_fd);
-}
-
-static void		redirect_std(int *p_fd[2], t_cmd *cmd, int mlc_size, int i)
-{
-	int	pos;
-
-	pos = mlc_size - i;
-	if (!g_shell.cpid && !cmd->next)
-		ft_replace_stdfd(p_fd[pos]);
-	else if (!g_shell.cpid)
-		dup2(p_fd[pos - 1][1], STDOUT_FILENO);
-	else if (!cmd->next)
-		dup2(p_fd[pos][0], STDIN_FILENO);
 	else
 	{
-		dup2(p_fd[pos][0], STDIN_FILENO);
-		dup2(p_fd[pos - 1][1], STDOUT_FILENO);
-	}
-	i = 0;
-	while (i < mlc_size)
-	{
-		close(p_fd[i][0]);
-		close(p_fd[i][1]);
-		i++;
+		if (cmd->rdr)
+			exit (ft_manage_rdr(cmd));
+		else
+			exit (ft_exec_paths(cmd));
 	}
 }
 
-t_cmd			*fork_all(t_cmd *cmd)
+int		ft_exec_pipe(t_cmd *cmd)
 {
-	int	i;
-	int	j;
-	int	mlc_size;
-	int	**p_fd;
+	int		fd[2];
+	int		fd_save[2];
 
-	i = count_struct(cmd) - 1;
-	j = 0;
-	if ((mlc_size = i) + 1 > 0)
-		p_fd = pipe_for_fork(mlc_size);
-	while (i > 0 && !g_shell.cpid)
+	fd_save[0] = dup(STDIN_FILENO);
+	fd_save[1] = dup(STDOUT_FILENO);
+	while (cmd->next)
 	{
+		pipe(fd);
 		g_shell.cpid = fork();
-		if (g_shell.cpid)
-			break ;
-		i--;
-	}
-	while (j < i)
-	{
+		if (!g_shell.cpid)
+		{
+			close(fd[0]);
+        	close(STDOUT_FILENO);
+			dup2(fd[1], STDOUT_FILENO);
+			exec_conditionnal(cmd);
+		}
+		wait(&g_shell.cpid);
+		close(fd[1]);
+        close(STDIN_FILENO);
+		dup2(fd[0], STDIN_FILENO);
 		cmd = cmd->next;
-		j++;
 	}
-	if (mlc_size > 0)
-		redirect_std(p_fd, cmd, mlc_size, i);
-	return (cmd);
+	g_shell.cpid = fork();
+	if (!g_shell.cpid)
+		exec_conditionnal(cmd);
+	else
+	{
+		dup2(fd_save[0], STDIN_FILENO);
+		dup2(fd_save[1], STDOUT_FILENO);
+		close(fd_save[0]);
+		close(fd_save[1]);
+		wait(&g_shell.cpid);
+		g_shell.status = WEXITSTATUS(g_shell.cpid);
+		g_shell.cpid = 0;
+	}
+	return (EXIT_SUCCESS);
 }
 
 int				ft_cmd_treatment(t_cmd *cmd)
@@ -93,10 +81,10 @@ int				ft_cmd_treatment(t_cmd *cmd)
 		else
 			ft_redirect_cmd(cmd);
 	}
-	else
-	{
+	else if (!cmd->next && cmd->type == PATH)
 		ft_exec(cmd);
-	}
+	else
+		ft_exec_pipe(cmd);
 	if (g_shell.status && cmd->type == PATH)
 	{
 		ft_putstr_fd(cmd->argv[0], STDOUT_FILENO);
