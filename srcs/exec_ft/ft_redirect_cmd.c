@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 16:00:15 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/02 14:31:39 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/02 17:07:36 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ void	cd_cmd(t_cmd *cmd)
 		if (chdir(ft_get_env(g_shell.envp, "HOME", '=')) == -1)
 		{
 			ft_putendl_fd("minishell: cd: HOME not set", 1);
+			g_shell.status = EXIT_FAILURE;
+			return ;
 		}
-		g_shell.status = EXIT_FAILURE;
-		return ;
 	}
 	else if (cmd->argv[2] || (val = chdir(cmd->argv[1])) == -1)
 	{
