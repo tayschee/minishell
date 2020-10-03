@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/15 17:03:57 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/02 16:48:56 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/03 14:59:43 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,27 @@ void	ft_exec_paths(t_cmd *cmd)
 	}
 }
 
+void	exec_conditionnal(t_cmd *cmd)
+{
+	if (cmd->type == CMD)
+	{
+		if (cmd->rdr)
+			ft_manage_rdr(cmd);
+		else
+		{
+			ft_redirect_cmd(cmd);
+		}
+		exit(ft_redirect_cmd(cmd));
+	}
+	else
+	{
+		if (cmd->rdr)
+			ft_manage_rdr(cmd);
+		else
+			ft_exec_paths(cmd);
+	}
+}
+
 int		ft_exec(t_cmd *cmd)
 {
 	g_shell.cpid = fork();
@@ -68,23 +89,7 @@ int		ft_exec(t_cmd *cmd)
 		cmd = fork_all(cmd);
 		if (g_shell.cpid)
 			wait(&g_shell.cpid);
-		if (cmd->type == CMD)
-		{
-			if (cmd->rdr)
-				ft_manage_rdr(cmd);
-			else
-			{
-				ft_redirect_cmd(cmd);
-			}
-			exit(ft_redirect_cmd(cmd));
-		}
-		else
-		{
-			if (cmd->rdr)
-				ft_manage_rdr(cmd);
-			else
-				ft_exec_paths(cmd);
-		}
+		exec_conditionnal(cmd);
 	}
 	else
 	{

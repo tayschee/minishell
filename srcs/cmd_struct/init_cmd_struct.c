@@ -1,92 +1,91 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_cmd_struct.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/03 14:30:19 by abarot            #+#    #+#             */
+/*   Updated: 2020/10/03 14:53:03 by abarot           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-static int		what_operator(char *operator, char *rdr_list)
+static int	what_operator(char *operator, char *rdr_list)
 {
-	int n;
-    int i;
+	int	n;
+	int	i;
 	int	j;
 
-    i = 0;
+	i = 0;
 	j = -1;
 	if (operator)
 	{
-    	while (rdr_list[i])
-    	{
-        	n = 0;
-        	while(rdr_list[i + n] && rdr_list[i + n] != ' ')
-            	n++;
+		while (rdr_list[i])
+		{
+			n = 0;
+			while (rdr_list[i + n] && rdr_list[i + n] != ' ')
+				n++;
 			j++;
-			// printf("rdr_list[i] : %s\n", &rdr_list[i]);
-        	if (!ft_strncmp(operator, &rdr_list[i], ft_strlen(operator)))
+			if (!ft_strncmp(operator, &rdr_list[i], ft_strlen(operator)))
 				return (j);
-			// printf("n : %d\n", n);
-        	i += n;
-        	if (rdr_list[i])
-            	i++;
-    	}
+			i += n;
+			if (rdr_list[i])
+				i++;
+		}
 	}
 	return (-1);
-
-
-}
-
-static int     path_or_cmd(char *argv)
-{
-    if (ft_issamestr(argv, "exit") ||
-			ft_issamestr(argv, "cd") ||
-	 		ft_issamestr(argv, "echo") ||
-			ft_issamestr(argv, "pwd") ||
-			ft_issamestr(argv, "export") ||
-			ft_issamestr(argv, "unset") ||
-			ft_issamestr(argv, "env"))
-		return (CMD);
-	return (PATH);
 }
 
 static int	cmd_by_cmd(char **cmd, char *operator)
 {
-	int i;
-	int j;
-	int n;
+	int	i;
+	int	j;
+	int	n;
 
 	i = 0;
 	if (cmd)
 	{
-		while(cmd[i])
+		while (cmd[i])
 		{
 			j = 0;
-			while(operator[j])
+			while (operator[j])
 			{
 				n = 0;
-				while(operator[j + n] && operator[j + n] != ' ')
-            		n++;
+				while (operator[j + n] && operator[j + n] != ' ')
+					n++;
 				if (!ft_strncmp(cmd[i], &operator[j], n))
 					return (i);
 				j += n;
-        		if (operator[j])
-            		j++;
-			}	
+				if (operator[j])
+					j++;
+			}
 			i++;
 		}
 	}
-	return -1;
+	return (-1);
 }
 
-static char  **ft_init_rdr(t_cmd **cmd, char **cmd_char, t_rdr **next)
+void		ft_init_rdr_bis(t_rdr *rdr, char **cmd_char)
+{
+	rdr->path = NULL;
+	rdr->next = NULL;
+	rdr->e_rdr = what_operator(cmd_char[0], RDR_LIST);
+	free(cmd_char[0]);
+	cmd_char[0] = NULL;
+}
+
+static char	**ft_init_rdr(t_cmd **cmd, char **cmd_char, t_rdr **next)
 {
 	int		i;
 	int		n;
 	t_rdr	*rdr;
 
-	i = 1;
 	if (!(rdr = malloc(sizeof(t_rdr))))
-		exit(1);// fonction pour quitte
-	rdr->path = NULL;
-	rdr->next = NULL;
-	// printf("cmd_char[0] : %s\n", cmd_char[0]);
-	rdr->e_rdr = what_operator(cmd_char[0], RDR_LIST);
-	free(cmd_char[0]);
-	cmd_char[0] = NULL;
+		exit(EXIT_FAILURE);
+	ft_init_rdr_bis(rdr, cmd_char);
+	i = 1;
 	if (!cmd_char[1])
 		return (NULL);
 	rdr->path = cmd_char[1];
@@ -105,26 +104,20 @@ static char  **ft_init_rdr(t_cmd **cmd, char **cmd_char, t_rdr **next)
 	return (cmd_char);
 }
 
-t_cmd *char_to_struct_cmd(char **cmd_char)
+t_cmd		*char_to_struct_cmd(char **cmd_char)
 {
-	int n;
+	int		n;
 	t_cmd	*cmd;
 
 	if (!cmd_char)
 		return (NULL);
 	if (!(cmd = malloc(sizeof(t_cmd))))
-		exit(1);// fonction pour quitte
+		exit(1);
 	cmd->argv = cmd_char;
 	cmd->rdr = NULL;
 	cmd->next = NULL;
 	cmd->type = path_or_cmd(*cmd_char);
 	n = cmd_by_cmd(cmd_char, OPERATOR_LIST);
-	/*if (n != -1 && !ft_strncmp(cmd_char[n], "|", 2))
-	{
-		free(cmd_char[n]);
-		cmd_char[n] = NULL;
-		cmd->next = char_to_struct_cmd(&cmd_char[n + 1]);
-	}*/
 	if (n != -1 && ft_strncmp(cmd_char[n], "|", 2))
 	{
 		cmd_char = ft_init_rdr(&cmd, &cmd_char[n], &cmd->rdr);
@@ -133,7 +126,6 @@ t_cmd *char_to_struct_cmd(char **cmd_char)
 	}
 	if (n != -1 && cmd_char[n] && !ft_strncmp(cmd_char[n], "|", 2))
 	{
-		// printf("pass here\n");
 		free(cmd_char[n]);
 		cmd_char[n] = NULL;
 		cmd->next = char_to_struct_cmd(&cmd_char[n + 1]);

@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:40:09 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/02 16:48:09 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/03 14:57:17 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,11 +99,16 @@ char					*ft_get_cmd_r(char *cmd_line);
 int						ft_parse_cmdline(char *cmd_line);
 int						ft_manage_rdr(t_cmd *cmd);
 int						ft_redirect_cmd(t_cmd *cmd);
+void					echo_cmd(char **argv);
+void					cd_cmd(t_cmd *cmd);
+void					ft_unset_cmd(char **argv);
+void					ft_export_cmd(t_cmd *cmd);
 int						ft_exec(t_cmd *cmd);
 int						ft_redirection(t_rdr *rdr, int *p_fd);
 void					ft_inthandler();
 void					ft_quithandler();
 t_cmd					*ft_init_cmd(char *unique_cmd);
+int						path_or_cmd(char *argv);
 t_cmd					*char_to_struct_cmd(char **cmd_char);
 void					free_cmd_list(t_cmd **cmd);
 int						this_is_operator(char *txt, char *operator);
