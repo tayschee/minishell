@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 14:55:25 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/03 15:05:09 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/03 15:17:13 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,7 @@ void	cd_cmd(t_cmd *cmd)
 	else if (cmd->argv[2] || (val = chdir(cmd->argv[1])) == -1)
 	{
 		if (cmd->argv[2])
-		{
 			ft_putendl_fd("minishell: cd: too many arguments", 1);
-		}
 		else if (val == -1)
 		{
 			ft_putstr_fd("minishell: cd: ", 1);
