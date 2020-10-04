@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 14:12:53 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/04 23:32:57 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/04 23:45:31 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int		ft_exec(t_cmd *cmd)
 	return (EXIT_SUCCESS);
 }
 
-int				ft_cmd_treatment(t_cmd *cmd)
+int		ft_cmd_treatment(t_cmd *cmd)
 {
 	if (!cmd)
 		return (EXIT_FAILURE);
