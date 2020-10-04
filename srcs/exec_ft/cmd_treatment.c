@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 14:12:53 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/04 23:45:31 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/05 00:13:30 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +75,14 @@ int		ft_cmd_treatment(t_cmd *cmd)
 {
 	if (!cmd)
 		return (EXIT_FAILURE);
-	else if (!cmd->next && cmd->type == CMD)
-	{
-		if (cmd->rdr)
-			ft_manage_rdr(cmd);
-		else
-			ft_redirect_cmd(cmd);
-	}
-	else if (!cmd->next && cmd->type == PATH)
-		ft_exec(cmd);
-	else
+	else if (cmd->next)
 		ft_exec_pipe(cmd);
+	else if (cmd->rdr)
+		ft_manage_rdr(cmd);
+	else if (cmd->type == CMD)
+		ft_redirect_cmd(cmd);
+	else if (cmd->type == PATH)
+		ft_exec(cmd);
 	if (g_shell.status && cmd->type == PATH)
 	{
 		ft_putstr_fd(cmd->argv[0], STDOUT_FILENO);
