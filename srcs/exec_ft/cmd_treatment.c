@@ -6,95 +6,65 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 14:12:53 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/04 23:08:47 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/04 23:32:57 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_conditionnal(t_cmd *cmd)
+char	*ft_get_path(char *paths, int instc)
 {
-	if (cmd->type == CMD)
+	int		path_s;
+	int		path_end;
+
+	path_s = 0;
+	while (paths[path_s] && instc)
 	{
-		if (cmd->rdr)
-			exit(ft_manage_rdr(cmd));
-		else
-			exit(ft_redirect_cmd(cmd));
+		if (paths[path_s] == ':')
+			instc--;
+		path_s++;
 	}
-	else
-	{
-		if (cmd->rdr)
-			exit(ft_manage_rdr(cmd));
-		else
-			exit(ft_exec_paths(cmd));
-	}
+	if (!paths[path_s])
+		return (0);
+	if (paths[path_s] == ':')
+		path_s++;
+	path_end = path_s + 1;
+	while (paths[path_end] && paths[path_end] != ':')
+		path_end++;
+	return (ft_substr(paths, path_s, path_end - path_s));
 }
 
-void	pipe_loop(t_cmd *cmd, t_list *pid_lst, int *fd_current, int *fd_prev)
+int		ft_exec_paths(t_cmd *cmd)
 {
-	while (cmd->next)
+	char	*path_inst;
+	char	*path_str;
+	char	*first_cmd;
+	int		instc;
+
+	instc = 0;
+	first_cmd = ft_strdup(cmd->argv[0]);
+	if (execve(cmd->argv[0], cmd->argv, g_shell.envp) == -1)
 	{
-		pipe(fd_current);
-		g_shell.cpid = fork();
-		if (!g_shell.cpid)
+		while ((path_inst = ft_get_path(ft_get_env(g_shell.envp,
+					"PATH", '='), instc)))
 		{
-			close(fd_current[0]);
-			dup2(*fd_prev, STDIN_FILENO);
-			dup2(fd_current[1], STDOUT_FILENO);
-			exec_conditionnal(cmd);
+			path_str = ft_strjoin(path_inst, "/");
+			path_str = ft_strjoin(path_str, first_cmd);
+			cmd->argv[0] = path_str;
+			if (execve(path_str, cmd->argv, g_shell.envp) == -1)
+				instc++;
+			else
+				return (EXIT_SUCCESS);
 		}
-		ft_append_elt(&pid_lst, (int *)&(g_shell.cpid));
-		pid_lst = pid_lst->next;
-		close(fd_current[1]);
-		close(*fd_prev);
-		*fd_prev = fd_current[0];
-		cmd = cmd->next;
 	}
+	return (127);
 }
 
-void	ft_wait_pidlst(t_list *head_lst)
+int		ft_exec(t_cmd *cmd)
 {
-	while (head_lst)
-	{
-		wait(head_lst->data);
-		head_lst = head_lst->next;
-	}
-}
-
-int		ft_exec_pipe(t_cmd *cmd)
-{
-	int		fd_current[2];
-	int		fd_prev;
-	t_list	*pid_lst;
-	t_list	*head_lst;
-
-	pid_lst = ft_calloc(sizeof(t_list), 1);
-	head_lst = pid_lst;
-	pipe(fd_current);
 	g_shell.cpid = fork();
 	if (!g_shell.cpid)
-	{
-		close(fd_current[0]);
-		dup2(fd_current[1], STDOUT_FILENO);
-		exec_conditionnal(cmd);
-	}
-	ft_append_elt(&pid_lst, (int *)&(g_shell.cpid));
-	close(fd_current[1]);
-	fd_prev = fd_current[0];
-	cmd = cmd->next;
-	pipe_loop(cmd, pid_lst, fd_current, &fd_prev);
-	while (cmd->next)
-	{
-		cmd = cmd->next;
-	}
-	g_shell.cpid = fork();
-	if (!g_shell.cpid)
-	{
-		dup2(fd_prev, STDIN_FILENO);
-		exec_conditionnal(cmd);
-	}
-	close(fd_current[0]);
-	ft_wait_pidlst(head_lst);
+		exit(ft_exec_paths(cmd));
 	wait(&g_shell.cpid);
 	g_shell.status = WEXITSTATUS(g_shell.cpid);
 	g_shell.cpid = 0;
