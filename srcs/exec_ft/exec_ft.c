@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/15 17:03:57 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/03 22:47:05 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/04 12:01:07 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,8 @@ int		ft_exec(t_cmd *cmd)
 	g_shell.cpid = fork();
 	if (!g_shell.cpid)
 		exit(ft_exec_paths(cmd));
-	else
-	{
-		wait(&g_shell.cpid);
-		g_shell.status = WEXITSTATUS(g_shell.cpid);
-		g_shell.cpid = 0;
-	}
+	wait(&g_shell.cpid);
+	g_shell.status = WEXITSTATUS(g_shell.cpid);
+	g_shell.cpid = 0;
 	return (EXIT_SUCCESS);
 }
