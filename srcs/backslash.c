@@ -29,7 +29,29 @@ char    *backslash_for_string(char *str)
     return (str_with_bs);
 }
 
-int     how_many_bs(char *cmd)
+int         skip_bs(char *cmd, char *new_cmd)
+{
+    int i;
+
+    i = 0;
+    while (cmd[i] == '\\')
+    {
+        if (new_cmd)
+            new_cmd[i] = cmd[i];
+        i++;
+        if (cmd[i])
+        {
+            if (new_cmd)
+                new_cmd[i] = cmd[i];
+            i++;
+        }
+    }
+    //if (i > 0)
+      //  i--;
+    return(i);
+}
+
+static int     how_many_bs(char *cmd)
 {
     int i;
     int bs;
@@ -66,7 +88,10 @@ char        *cmd_without_bs(char *cmd)
     while (cmd[++i])
     {
         if (cmd[i] == '\\')
-            i++;
+        {
+            if (cmd[i + 1] == '\\')
+                i++;
+        }
         cmd_no_bs[bs] = cmd[i];
         if (!cmd[i])
             break ;

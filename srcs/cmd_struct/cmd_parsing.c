@@ -7,23 +7,24 @@ static char *cmd_with_split_word(char *cmd, char *operator, int j)
 
     if (!(new_cmd = ft_calloc(j + 1, sizeof(char))))
         return (NULL);
-    i = -1;
+    i = 0;
     j = 0;
-    while (cmd[++i])
+    while (cmd[i])
     {
+        j += skip_bs(&cmd[i], &new_cmd[j]);
+        i += skip_bs(&cmd[i], NULL);
         if (ft_strchr(operator, cmd[i]))
         {
-            if (i == 0 || ((cmd[i - 1] != ' ' && cmd[i - 1] != 92)
-            && (cmd[i] != cmd[i - 1] || (i >= 2 && cmd[i - 2] == '\\'))))
+            if (i == 0 || cmd[i - 1] != ' ')
                 new_cmd[j++] = ' ';
-            new_cmd[j] = cmd[i];
-            if ((i == 0 || cmd[i - 1] != '\\') &&
-            (cmd[i + 1] != cmd[i] && cmd[i + 1] != ' '))
-                new_cmd[++j] = ' ';
+            new_cmd[j++] = cmd[i++]; 
+            if (cmd[i + 1] == cmd[i])
+                new_cmd[j++] = cmd[i++];
+            if (cmd[i + 1] != ' ')
+                new_cmd[j++] = ' ';
         }
         else
-            new_cmd[j] = cmd[i];
-        j++;
+            new_cmd[j++] = cmd[i++];
     }
     return (new_cmd);
 }
@@ -33,23 +34,22 @@ static char *split_word(char *cmd, char *operator)
     int i;
     int j;
 
-    i = 0;
+    i = -1;
     j = 0;
-    while(cmd[i])
+    while(cmd[++i])
     {
+        i += skip_bs(&cmd[i], NULL);
         if (ft_strchr(operator, cmd[i]))
         {
-            if (i == 0 || ((cmd[i - 1] != ' ' && cmd[i - 1] != '\\') &&
-            (cmd[i] != cmd[i - 1] || (i >= 2 && cmd[i - 2] == '\\'))))
-                j++;  
-            if ((i == 0 || cmd[i - 1] == '\\')
-            && (cmd[i + 1] != cmd[i] && cmd[i + 1] != ' '))
+            if (i == 0 || cmd[i - 1] != ' ')
+                j++;
+            if (cmd[i + 1] == cmd[i])
+                i++;
+            if (cmd[i + 1] != ' ')
                 j++;
         }
-        j++;
-        i++;
     }
-    return(cmd_with_split_word(cmd, operator, j));
+    return(cmd_with_split_word(cmd, operator, j + i));
 }
 
 static int    check_error_rdr(char **cmd)
@@ -93,7 +93,7 @@ char	**ft_get_argv(char *cmd)
 		if (*cmd == '\"' || *cmd == '\'')
 		{
 			argv[i] = ft_get_string(cmd);
-            argv[i] = backslash_for_string(argv[i]);
+            //argv[i] = backslash_for_string(argv[i]);
 			cmd += 2;
 		}
 		else
@@ -119,8 +119,8 @@ t_cmd    *ft_init_cmd(char *unique_cmd)
     if (unique_cmd)
         free(unique_cmd);
     cmd_divise = ft_get_argv(cmd_sentence);
-    if (cmd_sentence)
-        free(cmd_sentence);
+    //if (cmd_sentence)
+      //  free(cmd_sentence);
     if (check_error_rdr(cmd_divise) < 0)
         cmd = char_to_struct_cmd(cmd_divise);
     save = cmd;

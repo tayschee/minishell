@@ -113,4 +113,5 @@ int						count_struct(t_cmd	*cmd);
 t_cmd					*fork_all(t_cmd *cmd);
 char					*cmd_without_bs(char *cmd);
 char					*backslash_for_string(char *str);
+int						skip_bs(char *cmd, char *new_cmd);
 #endif
