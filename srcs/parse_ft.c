@@ -87,15 +87,15 @@ char	*ft_get_cmd_r(char *cmd_line)
 	i = 0;
 	while (cmd_line[i])
 	{
-		if (cmd_line[i] == '\\' || !ft_strnchr("$~", cmd_line[i], 2))
+		if (/*cmd_line[i] == '\\' || */!ft_strnchr("$~", cmd_line[i], 2))
 		{
-			if (cmd_line[i] == '\\')
+			/*if (cmd_line[i] == '\\')
 			{
 				tmp = cmd_line;
-				cmd_line = ft_delete(cmd_line, "\\", i);
-				free(tmp);
-			}
-			i++;
+				//cmd_line = ft_delete(cmd_line, "\\", i);
+				//free(tmp);
+			}*/
+			i++; // je laisse en commentaire au cas ou vu que c'est pas mon code mais si tu valides effaces
 		}
 		else
 		{

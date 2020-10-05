@@ -22,7 +22,8 @@ SRCS	=	srcs/main.c \
 			srcs/exec_ft/exec_ft.c \
 			srcs/exec_ft/ft_redirect_cmd.c \
 			srcs/redirect_ft.c \
-			srcs/signal_handling.c 
+			srcs/signal_handling.c \
+			srcs/backslash.c
 			
 OBJS	=	$(SRCS:.c=.o)
 

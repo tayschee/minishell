@@ -43,7 +43,6 @@ static void     redirect_stdin_stdout(int *p_fd[2], t_cmd *cmd, int mlc_size, in
                 dup2(p_fd[pos][0], STDIN_FILENO);
         else
         {
-                printf("last\n");
                 dup2(p_fd[pos][0], STDIN_FILENO);
                 dup2(p_fd[pos - 1][1], STDOUT_FILENO);
         }

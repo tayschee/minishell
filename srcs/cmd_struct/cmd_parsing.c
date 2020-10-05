@@ -91,8 +91,9 @@ char	**ft_get_argv(char *cmd)
 	while (*cmd)
 	{
 		if (*cmd == '\"' || *cmd == '\'')
-		{	
+		{
 			argv[i] = ft_get_string(cmd);
+            argv[i] = backslash_for_string(argv[i]);
 			cmd += 2;
 		}
 		else
