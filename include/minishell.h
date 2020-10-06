@@ -123,4 +123,6 @@ int						ft_exec_pipe(t_cmd *cmd);
 char					*backslash_for_string(char *str);
 int						skip_bs(char *cmd, char *new_cmd);
 char					quote_management(char *txt);
+void					inc_shlvl(char **envp);
+
 #endif

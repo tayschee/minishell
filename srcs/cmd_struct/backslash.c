@@ -76,8 +76,6 @@ char        *cmd_without_bs(char *cmd)
     char *cmd_no_bs;
 
     i = 0;
-    printf("cmd : %s\n", cmd);
-
     if ((bs = how_many_bs(cmd)) == 0)
         return (cmd);
     while (cmd[i])
@@ -98,7 +96,6 @@ char        *cmd_without_bs(char *cmd)
             break ;
         bs++;
     }
-    printf("cmd_no_bs : %s\n", cmd_no_bs);
     free(cmd);
     return (cmd_no_bs);
 }
