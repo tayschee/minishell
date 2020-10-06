@@ -6,13 +6,13 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:37:55 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/02 13:18:33 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/07 10:37:42 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_show_prompt_line()
+void	ft_show_prompt_line(void)
 {
 	ft_putstr_fd(ANSI_COLOR_BLUE, 1);
 	if (ft_get_env(g_shell.envp, "USER", '='))
@@ -29,7 +29,7 @@ void	ft_show_prompt_line()
 		ft_putstr_fd("minishell:", 1);
 	ft_putstr_fd(ANSI_COLOR_GREEN, 1);
 	ft_putstr_fd(g_shell.r_cwd, 1);
-	write (1, "$ " , 2);
+	write(1, "$ ", 2);
 	ft_putstr_fd(ANSI_COLOR_RESET, 1);
 }
 
@@ -42,8 +42,8 @@ int		ft_syntax_ok(char *cmd_line, char c)
 	{
 		while (*(cmd_line + i) && (*(cmd_line + i) != c ||
 			(*(cmd_line + i) == c && ((ft_count_elt(cmd_line + i, "\"") % 2) ||
-					(ft_count_elt(cmd_line + i, "\'") % 2)))))
-				i++;
+			(ft_count_elt(cmd_line + i, "\'") % 2)))))
+			i++;
 		if (!*(cmd_line + i))
 			return (1);
 		*(cmd_line + i) = '\0';
@@ -62,7 +62,7 @@ int		ft_syntax_ok(char *cmd_line, char c)
 	return (1);
 }
 
-int		ft_read_input()
+int		ft_read_input(void)
 {
 	char *line;
 	char *cmd_line;
@@ -71,10 +71,10 @@ int		ft_read_input()
 	ft_show_prompt_line();
 	while (get_next_line(0, &line) == 1)
 	{
-		cmd_line = ft_multiline_mng(line); 
-		cmd_line_r = ft_get_cmd_r(cmd_line); 
+		cmd_line = ft_multiline_mng(line);
+		cmd_line_r = ft_get_cmd_r(cmd_line);
 		if (ft_syntax_ok(cmd_line_r, ';') && ft_syntax_ok(cmd_line_r, '|'))
-			ft_parse_cmdline(cmd_line_r);
+			ft_get_subcmd(cmd_line_r);
 		free(cmd_line_r);
 		ft_show_prompt_line();
 	}
@@ -102,12 +102,12 @@ int		ft_init_shell(char **envp)
 	return (EXIT_SUCCESS);
 }
 
-int		main(int ac, char **av, char **envp) 
+int		main(int ac, char **av, char **envp)
 {
-	g_garb_cltor = 0; 
-	signal(SIGINT, ft_inthandler); 
+	g_garb_cltor = 0;
+	signal(SIGINT, ft_inthandler);
 	signal(SIGQUIT, ft_quithandler);
-	if (!ac || !av || !envp)  
+	if (!ac || !av || !envp)
 		return (EXIT_FAILURE);
 	ft_init_shell(envp);
 	if (ft_read_input() == EXIT_FAILURE)

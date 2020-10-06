@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_ft.c                                          :+:      :+:    :+:   */
+/*   cmd_treatment.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/09/15 17:03:57 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/02 16:48:56 by abarot           ###   ########.fr       */
+/*   Created: 2020/09/23 14:12:53 by abarot            #+#    #+#             */
+/*   Updated: 2020/10/06 20:13:49 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*ft_get_path(char *paths, int instc)
 	return (ft_substr(paths, path_s, path_end - path_s));
 }
 
-void	ft_exec_paths(t_cmd *cmd)
+int		ft_exec_paths(t_cmd *cmd)
 {
 	char	*path_inst;
 	char	*path_str;
@@ -54,46 +54,40 @@ void	ft_exec_paths(t_cmd *cmd)
 			if (execve(path_str, cmd->argv, g_shell.envp) == -1)
 				instc++;
 			else
-				exit(EXIT_SUCCESS);
+				return (EXIT_SUCCESS);
 		}
-		exit(127);
 	}
+	return (127);
 }
 
 int		ft_exec(t_cmd *cmd)
 {
-	int ex;
-
-	ex = EXIT_SUCCESS;
 	g_shell.cpid = fork();
 	if (!g_shell.cpid)
+		exit(ft_exec_paths(cmd));
+	wait(&g_shell.cpid);
+	g_shell.status = WEXITSTATUS(g_shell.cpid);
+	g_shell.cpid = 0;
+	return (EXIT_SUCCESS);
+}
+
+int		ft_cmd_treatment(t_cmd *cmd)
+{
+	if (!cmd)
+		return (EXIT_FAILURE);
+	else if (cmd->next)
+		ft_exec_pipe(cmd);
+	else if (cmd->rdr)
+		ft_manage_rdr(cmd);
+	else if (cmd->type == CMD)
+		ft_redirect_cmd(cmd);
+	else if (cmd->type == PATH)
+		ft_exec(cmd);
+	if (g_shell.status && cmd->type == PATH)
 	{
-		cmd = fork_all(cmd);
-		if (g_shell.cpid)
-			wait(&g_shell.cpid);
-		if (cmd->type == CMD)
-		{
-			if (cmd->rdr)
-				ex = ft_manage_rdr(cmd);
-			else
-			{
-				ex = ft_redirect_cmd(cmd);
-			}
-			exit(ex);
-		}
-		else
-		{
-			if (cmd->rdr)
-				ft_manage_rdr(cmd);
-			else
-				ft_exec_paths(cmd);
-		}
-	}
-	else
-	{
-		wait(&g_shell.cpid);
-		g_shell.status = WEXITSTATUS(g_shell.cpid);
-		g_shell.cpid = 0;
+		ft_putstr_fd(cmd->argv[0], STDOUT_FILENO);
+		ft_putstr_fd(": command not found\n", STDOUT_FILENO);
+		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
 }
