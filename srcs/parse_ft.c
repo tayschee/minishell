@@ -117,24 +117,21 @@ char	*ft_get_cmd_r(char *cmd_line)
 char	*ft_multiline_mng(char *line)
 {
 	char	*cmd_line;
+	char	c;
 
 	cmd_line = line;
-	while (ft_count_elt(cmd_line, "\"") % 2 != 0 || 
-			ft_count_elt(cmd_line, "\'") % 2 != 0 ||
-			(ft_strchr(line, '\\') && *(ft_strchr(line, '\\') + 1) == '\0'))
+	while ((c = quote_management(cmd_line)))
 	{
 		ft_append_elt(&(g_garb_cltor), cmd_line);
-		if (ft_strchr(line, '\\') && *(ft_strchr(line, '\\') + 1) == '\0')
+		if (c == '\\')
 		{
 			cmd_line = ft_delete(cmd_line, "\\", ft_strlen(cmd_line) - 1);
 			ft_append_elt(&(g_garb_cltor), cmd_line);
 		}
 		ft_putstr_fd("> ", 0);
-		if (get_next_line(0, &line) == 0 && (ft_count_elt(line, "\"") % 2 != 1
-				|| ft_count_elt(line, "\'") % 2 != 1 || 
-			(ft_strchr(line, '\\') && *(ft_strchr(line, '\\') + 1) != '\0')))
+		if (get_next_line(0, &line) == 0)
 			return ("\0");
-		if (ft_count_elt(cmd_line, "\"") % 2 != 0 || ft_count_elt(cmd_line, "\'") % 2 != 0)
+		if ((c = quote_management(line)) == '"' || c == '\'')
 		{
 			cmd_line = ft_insert(cmd_line, "\\n", ft_strlen(cmd_line));
 			ft_append_elt(&(g_garb_cltor), cmd_line);

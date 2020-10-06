@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int     this_is_operator(char *cmd, char *operator)
+int         this_is_operator(char *cmd, char *operator)
 {
     int i;
     int n;
@@ -11,7 +11,7 @@ int     this_is_operator(char *cmd, char *operator)
     while(operator[i])
     {
         n = 0;
-	    while(operator[i + n] && operator[i + n] != ' ')
+        while(operator[i + n] && operator[i + n] != ' ')
             n++;
         j++;
 	    if (!ft_strncmp(cmd, &operator[i], n))
@@ -34,4 +34,34 @@ int count_struct(t_cmd *cmd)
         cmd = cmd->next;
     }
     return (i);
+}
+
+char    quote_management(char *txt)
+{
+    char    c;
+    int     i;
+
+    i = 0;
+    c = 0;
+    while (txt[i])
+    {
+        if (txt[i] == '\\')
+            c = txt[i++];
+        else if (txt[i] == '"' || txt[i] == '\'')
+            c = txt[i];
+        while ((c == '"' || c == '\'') && txt[++i])
+        {
+            if (txt[i] == c)
+            {
+                c = 0;
+                break;
+            }
+        }
+        if (txt[i])
+        {
+            c = 0;
+            i++;
+        }
+    }
+    return (c);
 }
