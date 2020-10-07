@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 14:55:25 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/07 16:31:13 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/07 16:34:50 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ void	ft_export_cmd(t_cmd *cmd)
 		cmd->next->argv[1] = 0;
 		cmd->next->next = 0;
 		ft_exec_pipe(cmd);
-		// free_cmd_list(&cmd);
 	}
 	else
 	{

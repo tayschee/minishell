@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 14:12:53 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/07 14:50:41 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/07 16:55:00 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,12 @@ int		ft_exec(t_cmd *cmd)
 		exit(ft_exec_paths(cmd));
 	wait(&g_shell.cpid);
 	g_shell.status = WEXITSTATUS(g_shell.cpid);
+	if (g_shell.status && cmd->type == PATH)
+	{
+		ft_putstr_fd(cmd->argv[0], STDOUT_FILENO);
+		ft_putstr_fd(": command not found\n", STDOUT_FILENO);
+		return (EXIT_FAILURE);
+	}
 	g_shell.cpid = 0;
 	return (EXIT_SUCCESS);
 }
@@ -83,11 +89,5 @@ int		ft_cmd_treatment(t_cmd *cmd)
 		ft_redirect_cmd(cmd);
 	else if (cmd->type == PATH)
 		ft_exec(cmd);
-	if (g_shell.status && cmd->type == PATH)
-	{
-		ft_putstr_fd(cmd->argv[0], STDOUT_FILENO);
-		ft_putstr_fd(": command not found\n", STDOUT_FILENO);
-		return (EXIT_FAILURE);
-	}
 	return (EXIT_SUCCESS);
 }

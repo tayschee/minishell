@@ -6,9 +6,12 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:40:09 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/07 16:23:12 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/07 17:08:10 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+// - gestion $? pour pipe 
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -40,6 +43,7 @@
 
 typedef struct s_cmd	t_cmd;
 typedef struct s_rdr	t_rdr;
+typedef struct s_pipe	t_pipe;
 
 enum					e_type
 {
@@ -67,6 +71,13 @@ struct					s_cmd
 	char				**argv;
 	t_rdr				*rdr;
 	t_cmd				*next;
+};
+
+struct					s_pipe
+{
+	pid_t				pid;
+	char				*cmd;
+	t_pipe				*next;
 };
 
 typedef struct			s_tcap
