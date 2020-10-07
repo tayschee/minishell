@@ -1,5 +1,6 @@
 #include <minishell.h>
 
+
 char    *backslash_for_string(char *str)
 {
     int i;
@@ -46,8 +47,6 @@ int         skip_bs(char *cmd, char *new_cmd)
             i++;
         }
     }
-    //if (i > 0)
-      //  i--;
     return(i);
 }
 
@@ -77,6 +76,8 @@ char        *cmd_without_bs(char *cmd)
     char *cmd_no_bs;
 
     i = 0;
+    printf("cmd : %s\n", cmd);
+
     if ((bs = how_many_bs(cmd)) == 0)
         return (cmd);
     while (cmd[i])
@@ -89,14 +90,15 @@ char        *cmd_without_bs(char *cmd)
     {
         if (cmd[i] == '\\')
         {
-            if (cmd[i + 1] == '\\')
-                i++;
+            //if (cmd[i + 1] == '\\')
+            i++;
         }
         cmd_no_bs[bs] = cmd[i];
         if (!cmd[i])
             break ;
         bs++;
     }
+    printf("cmd_no_bs : %s\n", cmd_no_bs);
     free(cmd);
     return (cmd_no_bs);
 }
