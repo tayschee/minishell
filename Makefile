@@ -6,7 +6,7 @@
 #    By: abarot <abarot@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/02 20:31:48 by abarot            #+#    #+#              #
-#    Updated: 2020/10/07 10:51:04 by abarot           ###   ########.fr        #
+#    Updated: 2020/10/07 12:37:16 by abarot           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ SRCS	=	srcs/main.c \
 			srcs/parse_ft/get_cmd_r.c \
 			srcs/parse_ft/get_subcmd.c \
 			srcs/cmd_struct/cmd_parsing.c \
+			srcs/cmd_struct/ft_get_argv.c \
 			srcs/cmd_struct/backslash.c \
 			srcs/cmd_struct/free_cmd.c \
 			srcs/cmd_struct/init_cmd_struct.c \
