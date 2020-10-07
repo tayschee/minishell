@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:37:55 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/03 15:11:02 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/07 10:37:42 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,11 @@ int		ft_read_input(void)
 		cmd_line_r = ft_get_cmd_r(cmd_line);
 		if (ft_syntax_ok(cmd_line_r, ';') && ft_syntax_ok(cmd_line_r, '|'))
 			ft_get_subcmd(cmd_line_r);
+		free(cmd_line_r);
 		ft_show_prompt_line();
 	}
-	ft_putendl_fd("exit", STDIN_FILENO);
+	free(line);
+	ft_putendl_fd("exit", 1);
 	return (EXIT_SUCCESS);
 }
 

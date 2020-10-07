@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:40:09 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/03 21:52:20 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/07 10:40:47 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ int						ft_exec(t_cmd *cmd);
 int						ft_redirection(t_rdr *rdr, int *p_fd);
 void					ft_inthandler();
 void					ft_quithandler();
+int						ft_get_subcmd(char *cmd_line);
 t_cmd					*ft_init_cmd(char *unique_cmd);
 int						path_or_cmd(char *argv);
 t_cmd					*char_to_struct_cmd(char **cmd_char);
@@ -118,4 +119,5 @@ int						count_struct(t_cmd	*cmd);
 t_cmd					*fork_all(t_cmd *cmd);
 char					*cmd_without_bs(char *cmd);
 int						ft_exec_pipe(t_cmd *cmd);
+char					*backslash_for_string(char *str);
 #endif

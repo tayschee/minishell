@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 14:10:25 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/03 14:20:23 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/07 10:42:54 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ char		**ft_get_argv(char *cmd)
 		if (*cmd == '\"' || *cmd == '\'')
 		{
 			argv[i] = ft_get_string(cmd);
+			argv[i] = backslash_for_string(argv[i]);
 			cmd += 2;
 		}
 		else
@@ -127,6 +128,8 @@ t_cmd		*ft_init_cmd(char *unique_cmd)
 
 	cmd = NULL;
 	cmd_sentence = split_word(unique_cmd, "<>|");
+	if (unique_cmd)
+		free(unique_cmd);
 	cmd_divise = ft_get_argv(cmd_sentence);
 	if (cmd_sentence)
 		free(cmd_sentence);

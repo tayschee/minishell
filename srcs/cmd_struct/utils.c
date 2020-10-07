@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 14:46:13 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/03 14:52:07 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/07 10:48:43 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,55 +46,6 @@ int			count_struct(t_cmd *cmd)
 		cmd = cmd->next;
 	}
 	return (i);
-}
-
-static char	*cmd_without_bs2(char *cmd, int i)
-{
-	int		j;
-	char	*cmd_without_bs;
-
-	j = 0;
-	if (!(cmd_without_bs = ft_calloc(sizeof(char), (i + 1))))
-		return (NULL);
-	i = 0;
-	while (cmd[i])
-	{
-		if (cmd[i] != '\\')
-		{
-			cmd_without_bs[j] = cmd[i];
-			j++;
-		}
-		i++;
-	}
-	free(cmd);
-	return (cmd_without_bs);
-}
-
-char		*cmd_without_bs(char *cmd)
-{
-	int	i;
-	int	j;
-	int	bs;
-
-	i = 0;
-	j = 0;
-	bs = 0;
-	if (cmd)
-	{
-		while (cmd[i])
-		{
-			if (cmd[i] == '\\')
-			{
-				bs = 1;
-				j++;
-			}
-			i++;
-		}
-		if (bs == 1)
-			return (cmd_without_bs2(cmd, j));
-		return (cmd);
-	}
-	return (NULL);
 }
 
 int			path_or_cmd(char *argv)
