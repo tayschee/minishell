@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 14:55:25 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/03 15:17:13 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/07 16:31:13 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,11 +98,21 @@ void	ft_export_cmd(t_cmd *cmd)
 	{
 		free(cmd->argv[0]);
 		free(cmd->argv);
-		if (!(cmd->argv = ft_calloc(3, sizeof(char *))))
+		if (!(cmd->argv = ft_calloc(2, sizeof(char *))) ||
+			!(cmd->next = ft_calloc(1, sizeof(t_cmd))) ||
+			!(cmd->next->argv = ft_calloc(2, sizeof(char *))))
 			return ;
-		cmd->argv[0] = ft_strdup("declare");
-		cmd->argv[1] = ft_strdup("-x");
-		ft_exec(cmd);
+		cmd->type = CMD;
+		cmd->next->type = PATH;
+		cmd->next->rdr = cmd->rdr;
+		cmd->rdr = 0;
+		cmd->argv[0] = ft_strdup("env_declare");
+		cmd->argv[1] = 0;
+		cmd->next->argv[0] = ft_strdup("sort");
+		cmd->next->argv[1] = 0;
+		cmd->next->next = 0;
+		ft_exec_pipe(cmd);
+		// free_cmd_list(&cmd);
 	}
 	else
 	{
@@ -113,3 +123,4 @@ void	ft_export_cmd(t_cmd *cmd)
 		}
 	}
 }
+

@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 15:12:05 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/07 12:53:42 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/07 16:11:21 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,21 @@ char	*ft_replace_var(char *res, char *cmd_line, int index)
 {
 	char	*var;
 	char	*var_dol;
+	// char	*tmp;
 
 	if (*(cmd_line + 1) == '?')
 		return (ft_replace_statusvar(res, index));
 	var = ft_search_var(g_shell.envp, cmd_line + 1);
+	// if (*cmd_line == '{')
+	// {
+	// 	tmp = var;
+	// 	var = ft_strjoin("{", var); 
+	// 	free(tmp);
+	// 	tmp = var;
+	// 	var = ft_strjoin(var, "}"); 
+	// 	free(tmp);
+	// 	printf("\n\n");
+	// }
 	if (var)
 	{
 		var_dol = ft_strjoin("$", var);

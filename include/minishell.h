@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:40:09 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/07 12:36:33 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/07 16:23:12 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,4 +123,5 @@ int						ft_exec_pipe(t_cmd *cmd);
 char					*backslash_for_string(char *str);
 int						skip_bs(char *cmd, char *new_cmd);
 char					quote_management(char *txt);
+void					ft_env_declare(char **envp);
 #endif
