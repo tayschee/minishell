@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/01 11:13:46 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/07 15:52:01 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/07 18:07:58 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ char	*ft_search_var(char **envp, char *str)
 		start++;
 		end++;
 	}
-	while (envp[i] && ft_strncmp(envp[i], str + start, ft_varsize(envp[i], '=') - end))
+	while (envp[i] && ft_strncmp(envp[i], str + start,
+			ft_varsize(envp[i], '=') - end))
 		i++;
 	if (envp[i])
 		return (ft_substr(str, start, ft_varsize(envp[i], '=')));

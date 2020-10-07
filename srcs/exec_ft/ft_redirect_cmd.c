@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 16:00:15 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/07 16:31:23 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/07 18:00:19 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,26 @@ void	ft_env_declare(char **envp)
 		ft_putendl_fd(envp[i], STDOUT_FILENO);
 		i++;
 	}
+}
+
+void	ft_create_env_declare(t_cmd *cmd)
+{
+	free(cmd->argv[0]);
+	free(cmd->argv);
+	if (!(cmd->argv = ft_calloc(2, sizeof(char *))) ||
+		!(cmd->next = ft_calloc(1, sizeof(t_cmd))) ||
+		!(cmd->next->argv = ft_calloc(2, sizeof(char *))))
+		exit(EXIT_FAILURE);
+	cmd->type = CMD;
+	cmd->next->type = PATH;
+	cmd->next->rdr = cmd->rdr;
+	cmd->rdr = 0;
+	cmd->argv[0] = ft_strdup("env_declare");
+	cmd->argv[1] = 0;
+	cmd->next->argv[0] = ft_strdup("sort");
+	cmd->next->argv[1] = 0;
+	cmd->next->next = 0;
+	ft_exec_pipe(cmd);
 }
 
 void	ft_set_cwd(void)

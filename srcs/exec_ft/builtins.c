@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 14:55:25 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/07 16:34:50 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/07 18:07:47 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,24 +95,7 @@ void	ft_export_cmd(t_cmd *cmd)
 
 	i = 0;
 	if (!cmd->argv[1])
-	{
-		free(cmd->argv[0]);
-		free(cmd->argv);
-		if (!(cmd->argv = ft_calloc(2, sizeof(char *))) ||
-			!(cmd->next = ft_calloc(1, sizeof(t_cmd))) ||
-			!(cmd->next->argv = ft_calloc(2, sizeof(char *))))
-			return ;
-		cmd->type = CMD;
-		cmd->next->type = PATH;
-		cmd->next->rdr = cmd->rdr;
-		cmd->rdr = 0;
-		cmd->argv[0] = ft_strdup("env_declare");
-		cmd->argv[1] = 0;
-		cmd->next->argv[0] = ft_strdup("sort");
-		cmd->next->argv[1] = 0;
-		cmd->next->next = 0;
-		ft_exec_pipe(cmd);
-	}
+		ft_create_env_declare(cmd);
 	else
 	{
 		while (cmd->argv[i + 1])

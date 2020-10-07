@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 14:46:13 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/07 10:48:43 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/07 18:18:01 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int			this_is_operator(char *cmd, char *operator)
 {
-	int	i;
-	int	n;
-	int	j;
+	int		i;
+	int		n;
+	int		j;
 
 	i = 0;
 	j = -1;
@@ -58,41 +58,39 @@ int			path_or_cmd(char *argv)
 	return (PATH);
 }
 
-char    quote_management(char *txt)
+char		quote_management(char *txt)
 {
-    char    c;
-    int     i;
+	char	c;
+	int		i;
 
-    i = 0;
-    c = 0;
-    while (txt[i])
-    {
-        if (txt[i] == '\\')
-            c = txt[i++];
-        else if (txt[i] == '"' || txt[i] == '\'')
-            c = txt[i];
-        while ((c == '"' || c == '\'') && txt[++i])
-        {
-            if (txt[i] == c)
-            {
-                c = 0;
-                break;
-            }
-        }
-        if (txt[i])
-        {
-            c = 0;
-            i++;
-        }
-    }
-    return (c);
+	i = 0;
+	c = 0;
+	while (txt[i])
+	{
+		if (txt[i] == '\\')
+			c = txt[i++];
+		else if (txt[i] == '"' || txt[i] == '\'')
+			c = txt[i];
+		while ((c == '"' || c == '\'') && txt[++i])
+			if (txt[i] == c)
+			{
+				c = 0;
+				break ;
+			}
+		if (txt[i])
+		{
+			c = 0;
+			i++;
+		}
+	}
+	return (c);
 }
 
-void	inc_shlvl(char **envp)
+void		inc_shlvl(char **envp)
 {
-	int i;
-	char *shlvl_nb;
-	char *shlvl_txt;
+	int		i;
+	char	*shlvl_nb;
+	char	*shlvl_txt;
 
 	i = ft_atoi(ft_get_env(envp, "SHLVL", '='));
 	i++;

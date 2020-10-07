@@ -6,12 +6,13 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:40:09 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/07 17:08:10 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/07 18:07:43 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// - gestion $? pour pipe 
-
+// abarot:~/Desktop/mini_mini$ export >> test
+// minishell: : No such file or directory
+// ==> ${HOME}
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -115,6 +116,7 @@ void					cd_cmd(t_cmd *cmd);
 void					ft_unset_cmd(char **argv);
 void					ft_export_cmd(t_cmd *cmd);
 int						ft_exec(t_cmd *cmd);
+void					ft_create_env_declare(t_cmd *cmd);
 int						ft_redirection(t_rdr *rdr, int *p_fd);
 void					ft_inthandler();
 void					ft_quithandler();

@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 14:10:25 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/07 13:05:56 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/07 18:06:46 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,59 +14,59 @@
 
 static char	*cmd_with_split_word(char *cmd, char *operator, int j)
 {
-	int i;
-	char *new_cmd;
+	int		i;
+	char	*new_cmd;
 
-    if (!(new_cmd = ft_calloc(j + 1, sizeof(char))))
-        return (NULL);
-    i = 0;
-    j = 0;
-    while (cmd[i])
-    {
-        j += skip_bs(&cmd[i], &new_cmd[j]);
-        i += skip_bs(&cmd[i], NULL);
-        if (ft_strchr(operator, cmd[i]))
-        {
-            if (i == 0 || cmd[i - 1] != ' ')
-                new_cmd[j++] = ' ';
-            new_cmd[j++] = cmd[i++]; 
-            if (cmd[i + 1] == cmd[i])
-                new_cmd[j++] = cmd[i++];
-            if (cmd[i + 1] != ' ')
-                new_cmd[j++] = ' ';
-        }
-        else
-            new_cmd[j++] = cmd[i++];
-    }
-    return (new_cmd);
+	if (!(new_cmd = ft_calloc(j + 1, sizeof(char))))
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (cmd[i])
+	{
+		j += skip_bs(&cmd[i], &new_cmd[j]);
+		i += skip_bs(&cmd[i], NULL);
+		if (ft_strchr(operator, cmd[i]))
+		{
+			if (i == 0 || cmd[i - 1] != ' ')
+				new_cmd[j++] = ' ';
+			new_cmd[j++] = cmd[i++];
+			if (cmd[i + 1] == cmd[i])
+				new_cmd[j++] = cmd[i++];
+			if (cmd[i + 1] != ' ')
+				new_cmd[j++] = ' ';
+		}
+		else
+			new_cmd[j++] = cmd[i++];
+	}
+	return (new_cmd);
 }
 
 static char	*split_word(char *cmd, char *operator)
 {
 	int		i;
-	int 	j;
+	int		j;
 
-    i = -1;
-    j = 0;
-    while(cmd[++i])
-    {
-        i += skip_bs(&cmd[i], NULL);
-        if (ft_strchr(operator, cmd[i]))
-        {
-            if (i == 0 || cmd[i - 1] != ' ')
-                j++;
-            if (cmd[i + 1] == cmd[i])
-                i++;
-            if (cmd[i + 1] != ' ')
-                j++;
-        }
-    }
-    return(cmd_with_split_word(cmd, operator, j + i));
+	i = -1;
+	j = 0;
+	while (cmd[++i])
+	{
+		i += skip_bs(&cmd[i], NULL);
+		if (ft_strchr(operator, cmd[i]))
+		{
+			if (i == 0 || cmd[i - 1] != ' ')
+				j++;
+			if (cmd[i + 1] == cmd[i])
+				i++;
+			if (cmd[i + 1] != ' ')
+				j++;
+		}
+	}
+	return (cmd_with_split_word(cmd, operator, j + i));
 }
 
 static int	check_error_rdr(char **cmd)
 {
-	int i;
+	int		i;
 
 	i = 0;
 	if (cmd)
