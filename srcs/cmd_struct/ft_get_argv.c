@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 12:37:35 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/07 12:45:27 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/07 13:05:43 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void		ft_argv_str_and_char(char **cmd, char **argv, int i)
 
 void		ft_argv_str_or_char(char **cmd, char **argv, int i)
 {
-	if (**cmd != '\"' || **cmd != '\'')
+	if (**cmd != '\"' && **cmd != '\'')
 		argv[i] = ft_get_word_no_quote(*cmd);
 	else
 	{
