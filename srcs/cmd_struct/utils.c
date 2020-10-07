@@ -87,3 +87,19 @@ char    quote_management(char *txt)
     }
     return (c);
 }
+
+void	inc_shlvl(char **envp)
+{
+	int i;
+	char *shlvl_nb;
+	char *shlvl_txt;
+
+	i = ft_atoi(ft_get_env(envp, "SHLVL", '='));
+	i++;
+	shlvl_nb = ft_itoa(i);
+	shlvl_txt = ft_strjoin("SHLVL=", shlvl_nb);
+	if (shlvl_nb)
+		free(shlvl_nb);
+	ft_append_elt(&g_garb_cltor, shlvl_txt);
+	ft_append_env(envp, shlvl_txt);
+}

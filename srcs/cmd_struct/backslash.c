@@ -96,7 +96,6 @@ char        *cmd_without_bs(char *cmd)
             break ;
         bs++;
     }
-    printf("cmd_no_bs : %s\n", cmd_no_bs);
     free(cmd);
     return (cmd_no_bs);
 }
