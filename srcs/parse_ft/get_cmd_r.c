@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 15:12:05 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/08 11:12:36 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/08 16:42:42 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,19 @@ char	*ft_replace_var(char *res, char *cmd_line, int index)
 	return (res);
 }
 
+char	*ft_if_bs_dollar(char *cmd_line, int i)
+{
+	char	*tmp;
+
+	if (cmd_line[i + 1] == '$')
+	{
+		tmp = cmd_line;
+		cmd_line = ft_delete(cmd_line, "\\", i);
+		free(tmp);
+	}
+	return (cmd_line);
+}
+
 char	*ft_get_cmd_r(char *cmd_line)
 {
 	int		i;
@@ -73,7 +86,7 @@ char	*ft_get_cmd_r(char *cmd_line)
 	while (cmd_line[i])
 	{
 		if (cmd_line[i] == '\\')
-			i++;
+			cmd_line = ft_if_bs_dollar(cmd_line, i);
 		else if (ft_strnchr("$~", cmd_line[i], 2))
 		{
 			tmp = cmd_line;

@@ -6,13 +6,13 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 14:10:25 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/08 12:18:18 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/08 16:39:47 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*cmd_with_split_word(char *cmd, char *operator, int j)
+static char	*cmd_with_split_word(char *cmd, char *op, int j)
 {
 	int		i;
 	char	*new_cmd;
@@ -25,7 +25,7 @@ static char	*cmd_with_split_word(char *cmd, char *operator, int j)
 	{
 		j += skip_bs(&cmd[i], &new_cmd[j]);
 		i += skip_bs(&cmd[i], NULL);
-		if (ft_strchr(operator, cmd[i]))
+		if (ft_strchr(op, cmd[i]) && !(cmd[i] == '>' && cmd[i - 1] == '>'))
 		{
 			if (i == 0 || cmd[i - 1] != ' ')
 				new_cmd[j++] = ' ';
@@ -115,7 +115,6 @@ t_cmd		*ft_init_cmd(char *unique_cmd)
 	cmd_sentence = split_word(unique_cmd, "<>|");
 	if (unique_cmd)
 		free(unique_cmd);
-	cmd_sentence = ft_merge_double_rdr(cmd_sentence);
 	cmd_divise = ft_get_argv(cmd_sentence);
 	if (cmd_sentence)
 		free(cmd_sentence);

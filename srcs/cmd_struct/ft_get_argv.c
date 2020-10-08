@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 12:37:35 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/08 12:27:48 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/08 16:19:42 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,17 @@ void		ft_argv_str_and_char(char **cmd, char **argv, int i)
 	char	*argv_tmp;
 
 	tmp = argv[i];
-	if (**cmd == '\"' || **cmd == '\'')
-	{
-		argv_tmp = ft_get_string(*cmd);
-		argv_tmp = backslash_for_string(argv_tmp);
-		*cmd = *cmd + 2;
-	}
+	if (**cmd != '\"' && **cmd != '\'')
+		argv_tmp = ft_get_word_no_quote(*cmd);
 	else
 	{
-		argv_tmp = ft_get_word_no_quote(*cmd);
+		argv_tmp = ft_get_string(*cmd);
+		tmp = argv_tmp;
+		argv_tmp = ft_replace_in_str(argv_tmp, "\\", "\\\\");
+		*cmd = *cmd + 2 - (ft_strlen(argv_tmp) - ft_strlen(tmp));
+		free(tmp);
 	}
+	tmp = argv[i];
 	argv[i] = ft_strjoin(argv[i], argv_tmp);
 	*cmd = *cmd + ft_strlen(argv_tmp);
 	free(tmp);
@@ -36,13 +37,17 @@ void		ft_argv_str_and_char(char **cmd, char **argv, int i)
 
 void		ft_argv_str_or_char(char **cmd, char **argv, int i)
 {
+	char	*tmp;
+
 	if (**cmd != '\"' && **cmd != '\'')
 		argv[i] = ft_get_word_no_quote(*cmd);
 	else
 	{
 		argv[i] = ft_get_string(*cmd);
-		argv[i] = backslash_for_string(argv[i]);
-		*cmd = *cmd + 2;
+		tmp = argv[i];
+		argv[i] = ft_replace_in_str(argv[i], "\\", "\\\\");
+		*cmd = *cmd + 2 - (ft_strlen(argv[i]) - ft_strlen(tmp));
+		free(tmp);
 	}
 	*cmd = *cmd + ft_strlen(argv[i]);
 }
@@ -57,6 +62,8 @@ char		**ft_get_argv(char *cmd)
 		return (0);
 	while (*cmd)
 	{
+		while (*cmd == ' ')
+			cmd++;
 		while (*cmd && *cmd != ' ')
 		{
 			if (argv[i])
@@ -64,37 +71,7 @@ char		**ft_get_argv(char *cmd)
 			else
 				ft_argv_str_or_char(&cmd, argv, i);
 		}
-		while (*cmd == ' ')
-			cmd++;
 		i++;
 	}
 	return (argv);
-}
-
-char		*ft_merge_double_rdr(char *cmd)
-{
-	int		i;
-	char	c;
-
-	i = 0;
-	c = 0;
-	while (cmd[i])
-	{
-		if (cmd[i] == '"' || cmd[i] == '\'')
-		{
-			if (c == cmd[i] && (!i || (i && cmd[i - 1] != '\\')))
-				c = 0;
-			else if (!c && (!i || (i && cmd[i - 1] != '\\')))
-				c = cmd[i];
-		}
-		if (!c && !ft_strncmp(cmd + i, "> >", 3)
-			&& (!i || (i && cmd[i - 1] != '\\')))
-		{
-			ft_append_elt(&g_garb_cltor, cmd);
-			cmd = ft_delete(cmd, " ", i + 1);
-			i++;
-		}
-		i++;
-	}
-	return (cmd);
 }

@@ -6,11 +6,9 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:40:09 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/08 12:28:46 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/08 16:38:50 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// echo "\>\>">> test   ==> check suppression de '"">' dans get string 
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -122,7 +120,6 @@ void					ft_inthandler();
 void					ft_quithandler();
 int						ft_get_subcmd(char *cmd_line);
 t_cmd					*ft_init_cmd(char *unique_cmd);
-char					*ft_merge_double_rdr(char *cmd);
 char					**ft_get_argv(char *cmd);
 int						path_or_cmd(char *argv);
 t_cmd					*char_to_struct_cmd(char **cmd_char);
