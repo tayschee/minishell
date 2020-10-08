@@ -6,13 +6,12 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:40:09 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/07 18:07:43 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/08 11:19:20 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// abarot:~/Desktop/mini_mini$ export >> test
+// export >> test
 // minishell: : No such file or directory
-// ==> ${HOME}
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -109,6 +108,8 @@ void					ft_show_prompt_line();
 char					*ft_multiline_mng(char *line);
 char					*ft_get_cmd_r(char *cmd_line);
 int						ft_get_subcmd(char *cmd_line);
+char					*backslash_for_string(char *str);
+int						skip_bs(char *cmd, char *new_cmd);
 int						ft_manage_rdr(t_cmd *cmd);
 int						ft_redirect_cmd(t_cmd *cmd);
 void					echo_cmd(char **argv);
@@ -133,8 +134,9 @@ int						count_struct(t_cmd	*cmd);
 t_cmd					*fork_all(t_cmd *cmd);
 char					*cmd_without_bs(char *cmd);
 int						ft_exec_pipe(t_cmd *cmd);
-char					*backslash_for_string(char *str);
-int						skip_bs(char *cmd, char *new_cmd);
+void					exec_conditionnal(t_cmd *cmd);
+int						ft_append_pipe_struc(t_pipe *pipe,
+						pid_t pid, char *cmd);
 char					quote_management(char *txt);
 void					inc_shlvl(char **envp);
 void					ft_env_declare(char **envp);

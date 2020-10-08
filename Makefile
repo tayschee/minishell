@@ -6,7 +6,7 @@
 #    By: abarot <abarot@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/02 20:31:48 by abarot            #+#    #+#              #
-#    Updated: 2020/10/07 13:13:38 by abarot           ###   ########.fr        #
+#    Updated: 2020/10/08 11:09:32 by abarot           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRCS	=	srcs/main.c \
 			srcs/exec_ft/ft_redirect_cmd.c \
 			srcs/exec_ft/builtins.c \
 			srcs/exec_ft/ft_exec_pipe.c \
+			srcs/exec_ft/ft_exec_pipe_2.c \
 			srcs/exec_ft/redirect_ft.c
 			
 OBJS	=	$(SRCS:.c=.o)
