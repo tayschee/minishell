@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 14:55:25 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/03 15:17:13 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/08 11:06:58 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,15 +95,7 @@ void	ft_export_cmd(t_cmd *cmd)
 
 	i = 0;
 	if (!cmd->argv[1])
-	{
-		free(cmd->argv[0]);
-		free(cmd->argv);
-		if (!(cmd->argv = ft_calloc(3, sizeof(char *))))
-			return ;
-		cmd->argv[0] = ft_strdup("declare");
-		cmd->argv[1] = ft_strdup("-x");
-		ft_exec(cmd);
-	}
+		ft_create_env_declare(cmd);
 	else
 	{
 		while (cmd->argv[i + 1])

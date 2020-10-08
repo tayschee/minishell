@@ -6,67 +6,67 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 14:10:25 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/03 14:20:23 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/08 16:39:47 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*cmd_with_split_word(char *cmd, char *operator, int j)
+static char	*cmd_with_split_word(char *cmd, char *op, int j)
 {
 	int		i;
 	char	*new_cmd;
 
 	if (!(new_cmd = ft_calloc(j + 1, sizeof(char))))
 		return (NULL);
-	i = -1;
+	i = 0;
 	j = 0;
-	while (cmd[++i])
+	while (cmd[i])
 	{
-		if (ft_strchr(operator, cmd[i]))
+		j += skip_bs(&cmd[i], &new_cmd[j]);
+		i += skip_bs(&cmd[i], NULL);
+		if (ft_strchr(op, cmd[i]) && !(cmd[i] == '>' && cmd[i - 1] == '>'))
 		{
-			if (i == 0 || ((cmd[i - 1] != ' ' && cmd[i - 1] != 92)
-			&& (cmd[i] != cmd[i - 1] || (i >= 2 && cmd[i - 2] == '\\'))))
+			if (i == 0 || cmd[i - 1] != ' ')
 				new_cmd[j++] = ' ';
-			new_cmd[j] = cmd[i];
-			if ((i == 0 || cmd[i - 1] != '\\') &&
-			(cmd[i + 1] != cmd[i] && cmd[i + 1] != ' '))
-				new_cmd[++j] = ' ';
+			new_cmd[j++] = cmd[i++];
+			if (cmd[i + 1] == cmd[i])
+				new_cmd[j++] = cmd[i++];
+			if (cmd[i + 1] != ' ')
+				new_cmd[j++] = ' ';
 		}
 		else
-			new_cmd[j] = cmd[i];
-		j++;
+			new_cmd[j++] = cmd[i++];
 	}
 	return (new_cmd);
 }
 
 static char	*split_word(char *cmd, char *operator)
 {
-	int i;
-	int j;
+	int		i;
+	int		j;
 
-	i = 0;
+	i = -1;
 	j = 0;
-	while (cmd[i])
+	while (cmd[++i])
 	{
+		i += skip_bs(&cmd[i], NULL);
 		if (ft_strchr(operator, cmd[i]))
 		{
-			if (i == 0 || ((cmd[i - 1] != ' ' && cmd[i - 1] != '\\') &&
-			(cmd[i] != cmd[i - 1] || (i >= 2 && cmd[i - 2] == '\\'))))
+			if (i == 0 || cmd[i - 1] != ' ')
 				j++;
-			if ((i == 0 || cmd[i - 1] == '\\')
-			&& (cmd[i + 1] != cmd[i] && cmd[i + 1] != ' '))
+			if (cmd[i + 1] == cmd[i])
+				i++;
+			if (cmd[i + 1] != ' ')
 				j++;
 		}
-		j++;
-		i++;
 	}
-	return (cmd_with_split_word(cmd, operator, j));
+	return (cmd_with_split_word(cmd, operator, j + i));
 }
 
 static int	check_error_rdr(char **cmd)
 {
-	int i;
+	int		i;
 
 	i = 0;
 	if (cmd)
@@ -92,47 +92,10 @@ static int	check_error_rdr(char **cmd)
 	return (-1);
 }
 
-char		**ft_get_argv(char *cmd)
+void		ft_retreive_bs_in_cmd(t_cmd *cmd)
 {
-	char	**argv;
 	int		i;
 
-	i = 0;
-	if (!(argv = ft_calloc(ft_count_elt(cmd, " ") + 2, sizeof(char *))))
-		return (0);
-	while (*cmd)
-	{
-		if (*cmd == '\"' || *cmd == '\'')
-		{
-			argv[i] = ft_get_string(cmd);
-			cmd += 2;
-		}
-		else
-			argv[i] = ft_get_word(cmd);
-		cmd += ft_strlen(argv[i]);
-		while (*cmd == ' ')
-			cmd++;
-		i++;
-	}
-	return (argv);
-}
-
-t_cmd		*ft_init_cmd(char *unique_cmd)
-{
-	t_cmd	*save;
-	char	*cmd_sentence;
-	char	**cmd_divise;
-	t_cmd	*cmd;
-	int		i;
-
-	cmd = NULL;
-	cmd_sentence = split_word(unique_cmd, "<>|");
-	cmd_divise = ft_get_argv(cmd_sentence);
-	if (cmd_sentence)
-		free(cmd_sentence);
-	if (check_error_rdr(cmd_divise) < 0)
-		cmd = char_to_struct_cmd(cmd_divise);
-	save = cmd;
 	while (cmd)
 	{
 		i = -1;
@@ -140,6 +103,23 @@ t_cmd		*ft_init_cmd(char *unique_cmd)
 			cmd->argv[i] = cmd_without_bs(cmd->argv[i]);
 		cmd = cmd->next;
 	}
-	cmd = save;
+}
+
+t_cmd		*ft_init_cmd(char *unique_cmd)
+{
+	char	*cmd_sentence;
+	char	**cmd_divise;
+	t_cmd	*cmd;
+
+	cmd = NULL;
+	cmd_sentence = split_word(unique_cmd, "<>|");
+	if (unique_cmd)
+		free(unique_cmd);
+	cmd_divise = ft_get_argv(cmd_sentence);
+	if (cmd_sentence)
+		free(cmd_sentence);
+	if (check_error_rdr(cmd_divise) < 0)
+		cmd = char_to_struct_cmd(cmd_divise);
+	ft_retreive_bs_in_cmd(cmd);
 	return (cmd);
 }

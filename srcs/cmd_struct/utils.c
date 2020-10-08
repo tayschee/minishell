@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 14:46:13 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/03 14:52:07 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/07 18:18:01 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int			this_is_operator(char *cmd, char *operator)
 {
-	int	i;
-	int	n;
-	int	j;
+	int		i;
+	int		n;
+	int		j;
 
 	i = 0;
 	j = -1;
@@ -48,55 +48,6 @@ int			count_struct(t_cmd *cmd)
 	return (i);
 }
 
-static char	*cmd_without_bs2(char *cmd, int i)
-{
-	int		j;
-	char	*cmd_without_bs;
-
-	j = 0;
-	if (!(cmd_without_bs = ft_calloc(sizeof(char), (i + 1))))
-		return (NULL);
-	i = 0;
-	while (cmd[i])
-	{
-		if (cmd[i] != '\\')
-		{
-			cmd_without_bs[j] = cmd[i];
-			j++;
-		}
-		i++;
-	}
-	free(cmd);
-	return (cmd_without_bs);
-}
-
-char		*cmd_without_bs(char *cmd)
-{
-	int	i;
-	int	j;
-	int	bs;
-
-	i = 0;
-	j = 0;
-	bs = 0;
-	if (cmd)
-	{
-		while (cmd[i])
-		{
-			if (cmd[i] == '\\')
-			{
-				bs = 1;
-				j++;
-			}
-			i++;
-		}
-		if (bs == 1)
-			return (cmd_without_bs2(cmd, j));
-		return (cmd);
-	}
-	return (NULL);
-}
-
 int			path_or_cmd(char *argv)
 {
 	if (ft_issamestr(argv, "exit") || ft_issamestr(argv, "cd") ||
@@ -105,4 +56,48 @@ int			path_or_cmd(char *argv)
 		ft_issamestr(argv, "env"))
 		return (CMD);
 	return (PATH);
+}
+
+char		quote_management(char *txt)
+{
+	char	c;
+	int		i;
+
+	i = 0;
+	c = 0;
+	while (txt[i])
+	{
+		if (txt[i] == '\\')
+			c = txt[i++];
+		else if (txt[i] == '"' || txt[i] == '\'')
+			c = txt[i];
+		while ((c == '"' || c == '\'') && txt[++i])
+			if (txt[i] == c)
+			{
+				c = 0;
+				break ;
+			}
+		if (txt[i])
+		{
+			c = 0;
+			i++;
+		}
+	}
+	return (c);
+}
+
+void		inc_shlvl(char **envp)
+{
+	int		i;
+	char	*shlvl_nb;
+	char	*shlvl_txt;
+
+	i = ft_atoi(ft_get_env(envp, "SHLVL", '='));
+	i++;
+	shlvl_nb = ft_itoa(i);
+	shlvl_txt = ft_strjoin("SHLVL=", shlvl_nb);
+	if (shlvl_nb)
+		free(shlvl_nb);
+	ft_append_elt(&g_garb_cltor, shlvl_txt);
+	ft_append_env(envp, shlvl_txt);
 }

@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:40:09 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/03 21:52:20 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/08 17:23:36 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@
 
 typedef struct s_cmd	t_cmd;
 typedef struct s_rdr	t_rdr;
+typedef struct s_pipe	t_pipe;
 
 enum					e_type
 {
@@ -67,6 +68,14 @@ struct					s_cmd
 	char				**argv;
 	t_rdr				*rdr;
 	t_cmd				*next;
+};
+
+struct					s_pipe
+{
+	char				*cmd;
+	pid_t				pid;
+	int					status;
+	t_pipe				*next;
 };
 
 typedef struct			s_tcap
@@ -97,6 +106,8 @@ void					ft_show_prompt_line();
 char					*ft_multiline_mng(char *line);
 char					*ft_get_cmd_r(char *cmd_line);
 int						ft_get_subcmd(char *cmd_line);
+char					*backslash_for_string(char *str);
+int						skip_bs(char *cmd, char *new_cmd);
 int						ft_manage_rdr(t_cmd *cmd);
 int						ft_redirect_cmd(t_cmd *cmd);
 void					echo_cmd(char **argv);
@@ -104,10 +115,13 @@ void					cd_cmd(t_cmd *cmd);
 void					ft_unset_cmd(char **argv);
 void					ft_export_cmd(t_cmd *cmd);
 int						ft_exec(t_cmd *cmd);
+void					ft_create_env_declare(t_cmd *cmd);
 int						ft_redirection(t_rdr *rdr, int *p_fd);
 void					ft_inthandler();
 void					ft_quithandler();
+int						ft_get_subcmd(char *cmd_line);
 t_cmd					*ft_init_cmd(char *unique_cmd);
+char					**ft_get_argv(char *cmd);
 int						path_or_cmd(char *argv);
 t_cmd					*char_to_struct_cmd(char **cmd_char);
 void					free_cmd_list(t_cmd **cmd);
@@ -118,4 +132,10 @@ int						count_struct(t_cmd	*cmd);
 t_cmd					*fork_all(t_cmd *cmd);
 char					*cmd_without_bs(char *cmd);
 int						ft_exec_pipe(t_cmd *cmd);
+void					exec_conditionnal(t_cmd *cmd);
+int						ft_append_pipe_struc(t_pipe *pipe,
+						pid_t pid, char *cmd);
+char					quote_management(char *txt);
+void					inc_shlvl(char **envp);
+void					ft_env_declare(char **envp);
 #endif

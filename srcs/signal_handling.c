@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/04 16:26:16 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/02 15:01:45 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/07 16:34:09 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_inthandler(void)
 {
 	if (g_shell.cpid)
 	{
-		kill(g_shell.cpid, SIGQUIT);
+		kill(g_shell.cpid, SIGINT);
 		g_shell.cpid = 0;
 		write(1, "\n", 1);
 	}

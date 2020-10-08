@@ -6,7 +6,7 @@
 #    By: abarot <abarot@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/15 12:18:43 by abarot            #+#    #+#              #
-#    Updated: 2020/10/01 12:33:08 by abarot           ###   ########.fr        #
+#    Updated: 2020/10/07 11:40:51 by abarot           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,8 +23,8 @@ SRCS	=	srcs/ft_addtoa.c srcs/ft_atoi.c srcs/ft_bzero.c srcs/ft_calloc.c srcs/ft_
 			srcs/ft_toupper.c srcs/ft_toupper_string.c srcs/ft_utoa.c srcs/get_next_line.c \
 			srcs/ft_count_line.c srcs/ft_max_value.c srcs/ft_count_elt.c srcs/ft_replace_in_str.c \
 			srcs/ft_list_size.c srcs/ft_list_to_array.c srcs/ft_clear_list.c srcs/ft_append_elt.c \
-			srcs/ft_isspace.c srcs/ft_issamestr.c srcs/ft_insert.c srcs/ft_get_word.c srcs/ft_get_string.c \
-			srcs/ft_delete.c srcs/ft_putchar.c srcs/ft_clear_tab.c srcs/ft_replace.c srcs/ft_strnchr.c \
+			srcs/ft_isspace.c srcs/ft_issamestr.c srcs/ft_insert.c srcs/ft_get_word.c srcs/ft_get_word_no_quote.c \
+			srcs/ft_get_string.c srcs/ft_delete.c srcs/ft_putchar.c srcs/ft_clear_tab.c srcs/ft_replace.c srcs/ft_strnchr.c \
 			srcs/ft_get_env.c srcs/ft_show_tab.c srcs/ft_varsize.c srcs/ft_retreive_env.c srcs/ft_append_env.c \
 			srcs/ft_search_var.c srcs/ft_init_stdfd.c srcs/ft_restore_stdfd.c srcs/ft_replace_stdfd.c 
 

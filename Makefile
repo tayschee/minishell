@@ -6,7 +6,7 @@
 #    By: abarot <abarot@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/02 20:31:48 by abarot            #+#    #+#              #
-#    Updated: 2020/10/04 23:30:44 by abarot           ###   ########.fr        #
+#    Updated: 2020/10/08 11:09:32 by abarot           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,8 @@ SRCS	=	srcs/main.c \
 			srcs/parse_ft/get_cmd_r.c \
 			srcs/parse_ft/get_subcmd.c \
 			srcs/cmd_struct/cmd_parsing.c \
+			srcs/cmd_struct/ft_get_argv.c \
+			srcs/cmd_struct/backslash.c \
 			srcs/cmd_struct/free_cmd.c \
 			srcs/cmd_struct/init_cmd_struct.c \
 			srcs/cmd_struct/utils.c \
@@ -25,7 +27,8 @@ SRCS	=	srcs/main.c \
 			srcs/exec_ft/ft_redirect_cmd.c \
 			srcs/exec_ft/builtins.c \
 			srcs/exec_ft/ft_exec_pipe.c \
-			srcs/exec_ft/redirect_ft.c 
+			srcs/exec_ft/ft_exec_pipe_2.c \
+			srcs/exec_ft/redirect_ft.c
 			
 OBJS	=	$(SRCS:.c=.o)
 
