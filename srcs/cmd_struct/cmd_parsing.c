@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 14:10:25 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/07 18:06:46 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/08 12:18:18 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,24 +92,10 @@ static int	check_error_rdr(char **cmd)
 	return (-1);
 }
 
-t_cmd		*ft_init_cmd(char *unique_cmd)
+void		ft_retreive_bs_in_cmd(t_cmd *cmd)
 {
-	t_cmd	*save;
-	char	*cmd_sentence;
-	char	**cmd_divise;
-	t_cmd	*cmd;
 	int		i;
 
-	cmd = NULL;
-	cmd_sentence = split_word(unique_cmd, "<>|");
-	if (unique_cmd)
-		free(unique_cmd);
-	cmd_divise = ft_get_argv(cmd_sentence);
-	if (cmd_sentence)
-		free(cmd_sentence);
-	if (check_error_rdr(cmd_divise) < 0)
-		cmd = char_to_struct_cmd(cmd_divise);
-	save = cmd;
 	while (cmd)
 	{
 		i = -1;
@@ -117,6 +103,24 @@ t_cmd		*ft_init_cmd(char *unique_cmd)
 			cmd->argv[i] = cmd_without_bs(cmd->argv[i]);
 		cmd = cmd->next;
 	}
-	cmd = save;
+}
+
+t_cmd		*ft_init_cmd(char *unique_cmd)
+{
+	char	*cmd_sentence;
+	char	**cmd_divise;
+	t_cmd	*cmd;
+
+	cmd = NULL;
+	cmd_sentence = split_word(unique_cmd, "<>|");
+	if (unique_cmd)
+		free(unique_cmd);
+	cmd_sentence = ft_merge_double_rdr(cmd_sentence);
+	cmd_divise = ft_get_argv(cmd_sentence);
+	if (cmd_sentence)
+		free(cmd_sentence);
+	if (check_error_rdr(cmd_divise) < 0)
+		cmd = char_to_struct_cmd(cmd_divise);
+	ft_retreive_bs_in_cmd(cmd);
 	return (cmd);
 }
