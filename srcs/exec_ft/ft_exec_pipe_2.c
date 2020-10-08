@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/08 11:09:12 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/08 11:10:14 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/08 17:22:03 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int		ft_append_pipe_struc(t_pipe *pipe, pid_t pid, char *cmd)
 		return (EXIT_FAILURE);
 	n_pipe->pid = pid;
 	n_pipe->cmd = cmd;
+	n_pipe->status = 0;
 	n_pipe->next = 0;
 	while (pipe->next)
 		pipe = pipe->next;

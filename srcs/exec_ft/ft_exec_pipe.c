@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/15 17:03:57 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/08 11:15:35 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/08 17:24:24 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	ft_last_pipe(t_cmd *cmd, t_pipe *pinfo, int *fd_current, int *fd_prev)
 	ft_append_pipe_struc(pinfo, g_shell.cpid, cmd->argv[0]);
 	while (pinfo)
 	{
-		wait(&(pinfo->pid));
+		waitpid(pinfo->pid, &pinfo->status, 0);
 		pinfo = pinfo->next;
 	}
 }
@@ -73,9 +73,8 @@ void	ft_check_and_free_pinfo(t_pipe *pipe_info)
 
 	while (pipe_info)
 	{
-		if (WEXITSTATUS(pipe_info->pid) == 127)
+		if (WEXITSTATUS(pipe_info->status) == 127)
 		{
-			g_shell.status = WEXITSTATUS(pipe_info->pid);
 			ft_putstr_fd(pipe_info->cmd, STDOUT_FILENO);
 			ft_putstr_fd(": command not found\n", STDOUT_FILENO);
 		}

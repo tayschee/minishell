@@ -1,0 +1,9 @@
+coco2.txt
+coco.txt
+include
+libft
+Makefile
+minishell
+srcs
+test
+test2

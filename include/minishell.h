@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:40:09 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/08 16:38:50 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/08 17:23:36 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,9 @@ struct					s_cmd
 
 struct					s_pipe
 {
-	pid_t				pid;
 	char				*cmd;
+	pid_t				pid;
+	int					status;
 	t_pipe				*next;
 };
 
