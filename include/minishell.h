@@ -6,9 +6,11 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:40:09 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/08 17:23:36 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/08 17:50:23 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+// echo $?\$?
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
