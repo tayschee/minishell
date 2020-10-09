@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 15:12:05 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/08 18:15:56 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/08 18:48:26 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,13 @@ char	*ft_get_cmd_r(char *cmd_line)
 	{
 		if (cmd_line[i] == '\\')
 			cmd_line = ft_if_bs_dollar(cmd_line, i);
-		else if (ft_strnchr("$~", cmd_line[i], 2))
+		else if (!ft_strncmp(cmd_line + i, "${}", 3))
+		{
+			free(cmd_line);
+			ft_putendl_fd("minishell: ${}: bad substitution", STDOUT_FILENO);
+			return (0);
+		}
+		else if (ft_strnchr("$~", cmd_line[i], 2) && cmd_line[i + 1])
 		{
 			tmp = cmd_line;
 			if (cmd_line[i] == '~' && !(ft_count_elt(cmd_line + i, "\'") % 2)

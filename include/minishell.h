@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:40:09 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/08 18:16:06 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/09 10:53:26 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 
 # define CMD_LIST "exit cd export unset env echo"
 # define OPERATOR_LIST "> >> < | <<"
-# define RDR_LIST "> >> <"
+# define RDR_LIST "> >> < <<"
 
 # define UNEXP_NL "minishell: syntax error near unexpected token `newline'\n"
 
@@ -53,6 +53,7 @@ enum					e_rdr
 	RDR_OUT,
 	RDR_OUT_APPEND,
 	RDR_IN,
+	RDR_IN_FEED,
 };
 
 struct					s_rdr
@@ -116,7 +117,6 @@ void					ft_unset_cmd(char **argv);
 void					ft_export_cmd(t_cmd *cmd);
 int						ft_exec(t_cmd *cmd);
 void					ft_create_env_declare(t_cmd *cmd);
-int						ft_redirection(t_rdr *rdr, int *p_fd);
 void					ft_inthandler();
 void					ft_quithandler();
 int						ft_get_subcmd(char *cmd_line);

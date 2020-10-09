@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 14:10:25 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/08 17:57:08 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/09 11:15:37 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ static char	*cmd_with_split_word(char *cmd, char *op, int j)
 	{
 		j += skip_bs(&cmd[i], &new_cmd[j]);
 		i += skip_bs(&cmd[i], NULL);
-		if (ft_strchr(op, cmd[i]) && !(cmd[i] == '>' && cmd[i - 1] == '>'))
+		if (ft_strchr(op, cmd[i]) && !(cmd[i] == '>' && cmd[i - 1] == '>') &&
+		!(cmd[i] == '<' && cmd[i - 1] == '<'))
 		{
 			if (i == 0 || cmd[i - 1] != ' ')
 				new_cmd[j++] = ' ';
