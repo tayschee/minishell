@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:40:09 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/09 10:53:26 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/09 11:52:02 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,8 @@ void					ft_show_prompt_line();
 char					*ft_multiline_mng(char *line);
 char					*ft_get_cmd_r(char *cmd_line);
 int						ft_get_subcmd(char *cmd_line);
-char					*backslash_for_string(char *str);
 int						skip_bs(char *cmd, char *new_cmd);
+void					ft_retreive_bs_in_cmd(t_cmd *cmd);
 int						ft_manage_rdr(t_cmd *cmd);
 int						ft_redirect_cmd(t_cmd *cmd);
 void					echo_cmd(char **argv);

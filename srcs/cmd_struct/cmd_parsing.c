@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 14:10:25 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/09 11:15:37 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/09 12:00:30 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,19 +91,6 @@ static int	check_error_rdr(char **cmd)
 		}
 	}
 	return (-1);
-}
-
-void		ft_retreive_bs_in_cmd(t_cmd *cmd)
-{
-	int		i;
-
-	while (cmd)
-	{
-		i = -1;
-		while (cmd->argv[++i])
-			cmd->argv[i] = cmd_without_bs(cmd->argv[i]);
-		cmd = cmd->next;
-	}
 }
 
 t_cmd		*ft_init_cmd(char *unique_cmd)

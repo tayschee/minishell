@@ -6,40 +6,11 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 18:08:21 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/08 19:01:22 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/09 11:51:34 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char		*backslash_for_string(char *str)
-{
-	int		i;
-	int		bs;
-	char	*str_with_bs;
-
-	i = -1;
-	bs = 0;
-	while (str[++i])
-	{
-		if (str[i] == '\\')
-			bs++;
-	}
-	if (bs == 0)
-		return (str);
-	if (!(str_with_bs = ft_calloc(sizeof(char), i + bs + 1)))
-		return (NULL);
-	i = -1;
-	bs = 0;
-	while (str[++i])
-	{
-		str_with_bs[bs++] = str[i];
-		if (str[i] == '\\')
-			str_with_bs[bs++] = '\\';
-	}
-	free(str);
-	return (str_with_bs);
-}
 
 int			skip_bs(char *cmd, char *new_cmd)
 {
@@ -59,6 +30,19 @@ int			skip_bs(char *cmd, char *new_cmd)
 		}
 	}
 	return (i);
+}
+
+void		ft_retreive_bs_in_cmd(t_cmd *cmd)
+{
+	int		i;
+
+	while (cmd)
+	{
+		i = -1;
+		while (cmd->argv[++i])
+			cmd->argv[i] = cmd_without_bs(cmd->argv[i]);
+		cmd = cmd->next;
+	}
 }
 
 static int	how_many_bs(char *cmd)
