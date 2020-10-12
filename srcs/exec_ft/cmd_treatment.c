@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 14:12:53 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/13 14:23:35 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/13 15:20:43 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ char	*ft_get_path(char *paths, int instc)
 {
 	int		path_s;
 	int		path_end;
+	char	*path;
+	char	*tmp;
 
 	path_s = 0;
 	while (paths[path_s] && instc)
@@ -31,7 +33,29 @@ char	*ft_get_path(char *paths, int instc)
 	path_end = path_s + 1;
 	while (paths[path_end] && paths[path_end] != ':')
 		path_end++;
-	return (ft_substr(paths, path_s, path_end - path_s));
+	tmp = ft_substr(paths, path_s, path_end - path_s);
+	path = ft_strjoin(tmp, "/");
+	free(tmp);
+	return (path);
+}
+
+int		ft_exec_(char *path_str, char *first_cmd, t_cmd *cmd, int res)
+{
+	if (res == EXIT_SUCCESS)
+	{
+		free(path_str);
+		free(first_cmd);
+		ft_clear_list(&g_garb_cltor);
+		free_cmd_list(&cmd);
+		return (res);
+	}
+	else
+	{
+		free(first_cmd);
+		free_cmd_list(&cmd);
+		ft_clear_list(&g_garb_cltor);
+		return (res);
+	}
 }
 
 int		ft_exec_paths(t_cmd *cmd)
@@ -40,7 +64,6 @@ int		ft_exec_paths(t_cmd *cmd)
 	char	*path_str;
 	char	*first_cmd;
 	int		instc;
-	char	*tmp;
 
 	instc = 0;
 	first_cmd = ft_strdup(cmd->argv[0]);
@@ -49,27 +72,19 @@ int		ft_exec_paths(t_cmd *cmd)
 		while ((path_inst = ft_get_path(ft_get_env(g_shell.envp,
 					"PATH", '='), instc)))
 		{
-			path_str = ft_strjoin(path_inst, "/");
+			path_str = ft_strjoin(path_inst, first_cmd);
 			free(path_inst);
-			tmp = path_str;
-			path_str = ft_strjoin(path_str, first_cmd);
-			free(tmp);
-			cmd->argv[0] = ft_strdup(path_str);
+			cmd->argv[0] = path_str;
 			if (execve(path_str, cmd->argv, g_shell.envp) == -1)
 			{
 				free(path_str);
-				free(cmd->argv[0]);
 				instc++;
 			}
 			else
-			{
-				free(path_str);
-				free(cmd->argv[0]);
-				return (EXIT_SUCCESS);
-			}
+				return (ft_exec_(path_str, first_cmd, cmd, EXIT_SUCCESS));
 		}
 	}
-	return (127);
+	return (ft_exec_(0, first_cmd, cmd, 127));
 }
 
 int		ft_exec(t_cmd *cmd)
