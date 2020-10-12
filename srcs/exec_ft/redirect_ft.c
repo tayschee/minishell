@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/01 15:23:28 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/09 13:17:24 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/13 15:36:11 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,9 @@ int		ft_redirection(t_rdr *rdr, int *fd, int *feed)
 	return (EXIT_SUCCESS);
 }
 
-void	ft_feed(t_cmd *cmd, int *fd, int *fd_save)
+void	ft_feed(t_cmd *cmd, int *fd, int *fd_save, int *p_fd)
 {
-	char 	*line;
-	int		p_fd[2];
+	char	*line;
 
 	pipe(p_fd);
 	write(STDOUT_FILENO, "> ", 2);
@@ -94,6 +93,7 @@ int		ft_manage_rdr(t_cmd *cmd)
 	int		fd[3];
 	int		fd_save[3];
 	int		feed;
+	int		p_fd[2];
 
 	feed = 0;
 	ft_init_stdfd(fd, fd_save);
@@ -104,7 +104,7 @@ int		ft_manage_rdr(t_cmd *cmd)
 		return (EXIT_FAILURE);
 	}
 	if (feed)
-		ft_feed(cmd, fd, fd_save);
+		ft_feed(cmd, fd, fd_save, p_fd);
 	else
 	{
 		ft_replace_stdfd(fd);
