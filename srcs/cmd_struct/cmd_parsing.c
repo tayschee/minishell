@@ -6,7 +6,7 @@
 /*   By: tbigot <tbigot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 14:10:25 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/12 17:34:39 by tbigot           ###   ########.fr       */
+/*   Updated: 2020/10/12 17:39:32 by tbigot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static char	*cmd_with_split_word(char *cmd, char *op, int j)
 			new_cmd[j++] = cmd[i++];
 			if (cmd[i - 1] == cmd[i])
 				new_cmd[j++] = cmd[i++];
-			if (cmd[i + 1] != ' ')
+			if (cmd[i] && cmd[i + 1] != ' ')
 				new_cmd[j++] = ' ';
 		}
 		else
