@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_treatment.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tbigot <tbigot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 14:12:53 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/13 15:20:43 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/12 15:57:10 by tbigot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,5 +115,6 @@ int		ft_cmd_treatment(t_cmd *cmd)
 		ft_redirect_cmd(cmd);
 	else if (cmd->type == PATH)
 		ft_exec(cmd);
+	free_cmd_list(&cmd);
 	return (EXIT_SUCCESS);
 }
