@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:40:09 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/13 14:00:55 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/13 15:43:26 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ typedef struct			s_shell
 	char				*r_cwd;
 	char				**envp;
 	char				*tilde;
+	int					exit;
 	int					status;
 	pid_t				cpid;
 	struct stat			stat;

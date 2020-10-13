@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 16:00:15 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/13 15:01:05 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/13 15:56:22 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int		ft_redirect_cmd(t_cmd *cmd)
 {
 	g_shell.status = EXIT_SUCCESS;
 	if (ft_issamestr(cmd->argv[0], "exit"))
-		exit(EXIT_SUCCESS);
+		g_shell.exit = 1;
 	else if (ft_issamestr(cmd->argv[0], "cd"))
 		cd_cmd(cmd);
 	else if (ft_issamestr(cmd->argv[0], "echo"))
