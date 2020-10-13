@@ -6,9 +6,11 @@
 /*   By: tbigot <tbigot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:40:09 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/13 19:43:51 by tbigot           ###   ########.fr       */
+/*   Updated: 2020/10/13 21:20:15 by tbigot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+// echo '\$HOME'
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
