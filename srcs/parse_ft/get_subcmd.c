@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 15:13:04 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/13 15:58:51 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/13 16:09:54 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int		ft_get_subcmd(char *cmd_line)
 		if (!(cmd_struc = ft_init_cmd(cmd)))
 			return (EXIT_FAILURE);
 		ft_cmd_treatment(cmd_struc);
-		free_cmd_list(&cmd_struc);
 		while (*cmd_line && *cmd_line != ';')
 			cmd_line++;
 		if (*cmd_line)
