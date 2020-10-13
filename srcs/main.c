@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:37:55 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/13 16:08:32 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/14 15:21:17 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ft_show_prompt_line(void)
 	ft_putstr_fd(ANSI_COLOR_RESET, 1);
 }
 
-int		ft_syntax_ok(char *cmd_line, char c)
+int		syntax(char *cmd_line, char c)
 {
 	int		i;
 
@@ -69,14 +69,14 @@ int		ft_read_input(void)
 	char *cmd_line_r;
 
 	ft_show_prompt_line();
-	while (get_next_line(0, &line) == 1)
+	while (get_next_line(STDIN_FILENO, &line) == 1)
 	{
 		cmd_line = ft_multiline_mng(line);
+		g_shell.in_multil = 0;
 		cmd_line_r = ft_get_cmd_r(cmd_line);
-		if (cmd_line_r)
+		if (cmd_line_r && syntax(cmd_line_r, ';') && syntax(cmd_line_r, '|'))
 		{
-			if (ft_syntax_ok(cmd_line_r, ';') && ft_syntax_ok(cmd_line_r, '|'))
-				ft_get_subcmd(cmd_line_r);
+			ft_get_subcmd(cmd_line_r);
 			free(cmd_line_r);
 		}
 		if (g_shell.exit == 1)
@@ -94,6 +94,7 @@ int		ft_read_input(void)
 int		ft_init_shell(char **envp)
 {
 	g_shell.cpid = 0;
+	g_shell.in_multil = 0;
 	g_shell.exit = 0;
 	g_shell.envp = envp;
 	if (!(g_shell.tilde = ft_get_env(g_shell.envp, "HOME", '=')))

@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 15:12:05 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/14 11:31:47 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/14 14:59:27 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ char	*ft_replace_brackets(char *res, char *var, int index)
 	res = ft_replace(res, var_dol,
 		ft_get_env(g_shell.envp, var, '='), index);
 	free(var_dol);
+	free(var);
 	return (res);
 }
 
@@ -68,10 +69,11 @@ char	*ft_if_dollar_or_tilde(char *cmd_line, int i)
 {
 	char	*tmp;
 
-	if (!ft_strncmp(cmd_line + i, "${}", 3))
+	if (!ft_strncmp(cmd_line + i, "${", 2) && (*(cmd_line + i + 2) == 0 ||
+		ft_strchr("[]()${}\n", *(cmd_line + i + 2))))
 	{
-		free(cmd_line);
 		ft_putendl_fd("minishell: ${}: bad substitution", STDOUT_FILENO);
+		free(cmd_line);
 		return (0);
 	}
 	tmp = cmd_line;
@@ -92,9 +94,11 @@ char	*ft_get_cmd_r(char *cmd_line)
 	int		i;
 
 	i = 0;
+	if (!cmd_line)
+		return (0);
 	while (cmd_line[i])
 	{
-		i += skip_bs(&cmd_line[i], NULL); 
+		i += skip_bs(&cmd_line[i], NULL);
 		if (ft_strnchr("$~", cmd_line[i], 2) && cmd_line[i + 1])
 		{
 			if (!(cmd_line = ft_if_dollar_or_tilde(cmd_line, i)))
