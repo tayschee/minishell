@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirect_cmd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tbigot <tbigot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 16:00:15 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/13 16:07:47 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/13 20:58:54 by tbigot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,19 @@
 void	ft_env_declare(char **envp)
 {
 	int	i;
+	int j;
 
 	i = 0;
 	while (envp[i])
 	{
+		j = 0;
 		ft_putstr_fd("declare -x ", STDOUT_FILENO);
-		ft_putendl_fd(envp[i], STDOUT_FILENO);
+		while (envp[i][j] != '=')
+			j++;
+		write(STDOUT_FILENO, envp[i], j + 1);
+		write(STDOUT_FILENO, "\"", 1);
+		write(STDOUT_FILENO, &envp[i][j + 1], ft_strlen(&envp[i][j + 1]));
+		write(STDOUT_FILENO, "\"\n", 2);
 		i++;
 	}
 }
@@ -75,6 +82,9 @@ int		ft_redirect_cmd(t_cmd *cmd)
 	else if (ft_issamestr(cmd->argv[0], "unset"))
 		ft_unset_cmd(cmd->argv);
 	else if (ft_issamestr(cmd->argv[0], "env"))
+	{
+		ft_append_env(g_shell.envp, "_=env");
 		ft_show_tab(g_shell.envp);
+	}
 	return (EXIT_SUCCESS);
 }

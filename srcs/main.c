@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tbigot <tbigot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:37:55 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/14 15:21:17 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/13 19:44:10 by tbigot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ int		main(int ac, char **av, char **envp)
 	g_garb_cltor = 0;
 	inc_shlvl(envp);
 	ft_init_shell(envp);
+	ft_append_env(envp, "_=minishell");
 	signal(SIGINT, ft_inthandler);
 	signal(SIGQUIT, ft_quithandler);
 	if (!ac || !av || !envp)

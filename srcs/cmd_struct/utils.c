@@ -6,7 +6,7 @@
 /*   By: tbigot <tbigot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 14:46:13 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/13 15:52:59 by tbigot           ###   ########.fr       */
+/*   Updated: 2020/10/13 20:59:32 by tbigot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,20 +85,4 @@ char		quote_management(char *txt)
 		}
 	}
 	return (c);
-}
-
-void		inc_shlvl(char **envp)
-{
-	int		i;
-	char	*shlvl_nb;
-	char	*shlvl_txt;
-
-	i = ft_atoi(ft_get_env(envp, "SHLVL", '='));
-	i++;
-	shlvl_nb = ft_itoa(i);
-	shlvl_txt = ft_strjoin("SHLVL=", shlvl_nb);
-	if (shlvl_nb)
-		free(shlvl_nb);
-	ft_append_elt(&g_garb_cltor, shlvl_txt);
-	ft_append_env(envp, shlvl_txt);
 }

@@ -6,7 +6,7 @@
 /*   By: tbigot <tbigot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:40:09 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/13 15:55:50 by tbigot           ###   ########.fr       */
+/*   Updated: 2020/10/13 19:43:51 by tbigot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,4 +139,5 @@ int						ft_append_pipe_struc(t_pipe *pipe,
 char					quote_management(char *txt);
 void					inc_shlvl(char **envp);
 void					ft_env_declare(char **envp);
+void					change_env_(t_cmd *cmd);
 #endif

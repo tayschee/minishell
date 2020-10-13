@@ -6,7 +6,7 @@
 /*   By: tbigot <tbigot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 14:12:53 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/12 15:57:10 by tbigot           ###   ########.fr       */
+/*   Updated: 2020/10/13 19:47:59 by tbigot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,13 +108,18 @@ int		ft_cmd_treatment(t_cmd *cmd)
 	if (!cmd)
 		return (EXIT_FAILURE);
 	else if (cmd->next)
+	{
 		ft_exec_pipe(cmd);
+		ft_append_env(g_shell.envp, "_=");
+	}
 	else if (cmd->rdr)
 		ft_manage_rdr(cmd);
 	else if (cmd->type == CMD)
 		ft_redirect_cmd(cmd);
 	else if (cmd->type == PATH)
 		ft_exec(cmd);
+	if (!cmd->next && (strcmp(cmd->argv[0], "export") || !cmd->argv[1]))
+		change_env_(cmd);
 	free_cmd_list(&cmd);
 	return (EXIT_SUCCESS);
 }
