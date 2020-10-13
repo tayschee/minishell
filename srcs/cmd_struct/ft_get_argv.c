@@ -6,7 +6,7 @@
 /*   By: tbigot <tbigot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 12:37:35 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/13 15:47:40 by tbigot           ###   ########.fr       */
+/*   Updated: 2020/10/13 15:52:58 by tbigot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,15 @@ void			ft_argv_str_and_char(char **cmd, char **argv, int i)
 	else
 	{
 		argv_tmp = ft_get_string(*cmd);
-		tmp = argv_tmp;
-		argv_tmp = ft_replace_in_str(argv_tmp, "\\", "\\\\");
-		*cmd = *cmd + 2 - (ft_strlen(argv_tmp) - ft_strlen(tmp));
-		free(tmp);
+		if (**cmd == '\'')
+		{
+			tmp = argv[i];
+			argv[i] = ft_replace_in_str(argv[i], "\\", "\\\\");
+			*cmd = *cmd + 2 - (ft_strlen(argv[i]) - ft_strlen(tmp));
+			free(tmp);
+		}
+		else
+			*cmd = *cmd + 2;
 	}
 	tmp = argv[i];
 	argv[i] = ft_strjoin(argv[i], argv_tmp);
@@ -44,10 +49,15 @@ void			ft_argv_str_or_char(char **cmd, char **argv, int i)
 	else
 	{
 		argv[i] = ft_get_string(*cmd);
-		tmp = argv[i];
-		argv[i] = ft_replace_in_str(argv[i], "\\", "\\\\");
-		*cmd = *cmd + 2 - (ft_strlen(argv[i]) - ft_strlen(tmp));
-		free(tmp);
+		if (**cmd == '\'')
+		{
+			tmp = argv[i];
+			argv[i] = ft_replace_in_str(argv[i], "\\", "\\\\");
+			*cmd = *cmd + 2 - (ft_strlen(argv[i]) - ft_strlen(tmp));
+			free(tmp);
+		}
+		else
+			*cmd = *cmd + 2;
 	}
 	*cmd = *cmd + ft_strlen(argv[i]);
 }

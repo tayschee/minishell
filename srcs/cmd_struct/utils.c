@@ -6,7 +6,7 @@
 /*   By: tbigot <tbigot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 14:46:13 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/13 15:47:42 by tbigot           ###   ########.fr       */
+/*   Updated: 2020/10/13 15:52:59 by tbigot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,11 @@ char		quote_management(char *txt)
 	{
 		if (txt[i] == '\\')
 			c = txt[i++];
-		else if ((txt[i] == '"' || txt[i] == '\'') && (!i || txt[i - 1] != '"'))
+		else if ((txt[i] == '"' || txt[i] == '\'')
+					&& (!i || txt[i - 1] != '\\'))
 			c = txt[i];
 		while ((c == '"' || c == '\'') && txt[++i])
-			if (txt[i] == c)
+			if (txt[i] == c && txt[i - 1] != '\\')
 			{
 				c = 0;
 				break ;
