@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:40:09 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/09 11:52:02 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/13 14:00:55 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,6 @@ int						ft_exec(t_cmd *cmd);
 void					ft_create_env_declare(t_cmd *cmd);
 void					ft_inthandler();
 void					ft_quithandler();
-int						ft_get_subcmd(char *cmd_line);
 t_cmd					*ft_init_cmd(char *unique_cmd);
 char					**ft_get_argv(char *cmd);
 int						path_or_cmd(char *argv);

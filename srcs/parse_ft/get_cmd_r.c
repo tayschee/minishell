@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 15:12:05 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/09 11:46:09 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/13 14:33:59 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*ft_replace_var(char *res, char *cmd_line, int index)
 	return (res);
 }
 
-int		ft_if_dollar_or_tilde(char *cmd_line, int i)
+char	*ft_if_dollar_or_tilde(char *cmd_line, int i)
 {
 	char	*tmp;
 
@@ -72,7 +72,7 @@ int		ft_if_dollar_or_tilde(char *cmd_line, int i)
 	{
 		free(cmd_line);
 		ft_putendl_fd("minishell: ${}: bad substitution", STDOUT_FILENO);
-		return (EXIT_FAILURE);
+		return (0);
 	}
 	tmp = cmd_line;
 	if (cmd_line[i] == '~' && !(ft_count_elt(cmd_line + i, "\'") % 2)
@@ -84,7 +84,7 @@ int		ft_if_dollar_or_tilde(char *cmd_line, int i)
 	else
 		cmd_line = ft_strdup(cmd_line);
 	free(tmp);
-	return (EXIT_SUCCESS);
+	return (cmd_line);
 }
 
 char	*ft_get_cmd_r(char *cmd_line)
@@ -97,7 +97,7 @@ char	*ft_get_cmd_r(char *cmd_line)
 	{
 		if (cmd_line[i] == '\\')
 		{
-			if (cmd_line[i + 1] == '$')
+			if (cmd_line[i + 1] == '$' && cmd_line[i - 1] != '\\')
 			{
 				tmp = cmd_line;
 				cmd_line = ft_delete(cmd_line, "\\", i);
@@ -106,7 +106,7 @@ char	*ft_get_cmd_r(char *cmd_line)
 		}
 		else if (ft_strnchr("$~", cmd_line[i], 2) && cmd_line[i + 1])
 		{
-			if (ft_if_dollar_or_tilde(cmd_line, i) == EXIT_FAILURE)
+			if ((cmd_line = ft_if_dollar_or_tilde(cmd_line, i)) == 0)
 				return (0);
 		}
 		i++;

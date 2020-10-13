@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 14:12:53 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/09 11:11:42 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/13 14:23:35 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int		ft_exec_paths(t_cmd *cmd)
 	char	*path_str;
 	char	*first_cmd;
 	int		instc;
+	char	*tmp;
 
 	instc = 0;
 	first_cmd = ft_strdup(cmd->argv[0]);
@@ -49,12 +50,23 @@ int		ft_exec_paths(t_cmd *cmd)
 					"PATH", '='), instc)))
 		{
 			path_str = ft_strjoin(path_inst, "/");
+			free(path_inst);
+			tmp = path_str;
 			path_str = ft_strjoin(path_str, first_cmd);
-			cmd->argv[0] = path_str;
+			free(tmp);
+			cmd->argv[0] = ft_strdup(path_str);
 			if (execve(path_str, cmd->argv, g_shell.envp) == -1)
+			{
+				free(path_str);
+				free(cmd->argv[0]);
 				instc++;
+			}
 			else
+			{
+				free(path_str);
+				free(cmd->argv[0]);
 				return (EXIT_SUCCESS);
+			}
 		}
 	}
 	return (127);

@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 16:00:15 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/07 18:00:19 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/13 14:27:04 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,9 @@ void	ft_set_cwd(void)
 	if (!(g_shell.r_cwd = ft_replace_in_str(g_shell.cwd, g_shell.tilde, "~")))
 	{
 		free(g_shell.r_cwd);
-		g_shell.r_cwd = ft_strdup(getcwd(g_shell.cwd, PATH_MAX));
+		g_shell.r_cwd = ft_strdup(g_shell.cwd);
 	}
+	ft_append_elt(&g_garb_cltor, g_shell.cwd);
 	ft_append_elt(&g_garb_cltor, g_shell.r_cwd);
 }
 
