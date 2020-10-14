@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_parsing.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbigot <tbigot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 14:10:25 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/12 17:39:32 by tbigot           ###   ########.fr       */
+/*   Updated: 2020/10/14 13:36:20 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static char	*cmd_with_split_word(char *cmd, char *op, int j)
 	{
 		j += skip_bs(&cmd[i], &new_cmd[j]);
 		i += skip_bs(&cmd[i], NULL);
-		if (ft_strchr(op, cmd[i]))
+		if (cmd[i] && ft_strchr(op, cmd[i]))
 		{
 			if (i == 0 || cmd[i - 1] != ' ')
 				new_cmd[j++] = ' ';
@@ -35,7 +35,7 @@ static char	*cmd_with_split_word(char *cmd, char *op, int j)
 			if (cmd[i] && cmd[i + 1] != ' ')
 				new_cmd[j++] = ' ';
 		}
-		else
+		else if (cmd[i])
 			new_cmd[j++] = cmd[i++];
 	}
 	return (new_cmd);
@@ -46,12 +46,12 @@ static char	*split_word(char *cmd, char *operator)
 	int		i;
 	int		j;
 
-	i = -1;
+	i = 0;
 	j = 0;
-	while (cmd[++i])
+	while (cmd[i])
 	{
 		i += skip_bs(&cmd[i], NULL);
-		if (ft_strchr(operator, cmd[i]))
+		if (cmd[i] && ft_strchr(operator, cmd[i]))
 		{
 			if (i == 0 || cmd[i - 1] != ' ')
 				j++;
@@ -60,6 +60,8 @@ static char	*split_word(char *cmd, char *operator)
 			if (cmd[i + 1] != ' ')
 				j++;
 		}
+		if (cmd[i])
+			i++;
 	}
 	return (cmd_with_split_word(cmd, operator, j + i));
 }
