@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 14:46:13 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/13 15:23:28 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/14 14:48:21 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char		quote_management(char *txt)
 			c = txt[i++];
 		else if (txt[i] == '"' || txt[i] == '\'')
 			c = txt[i];
-		while ((c == '"' || c == '\'') && txt[++i])
+		while ((c == '"' || c == '\'' || c == '{') && txt[++i])
 			if (txt[i] == c)
 			{
 				c = 0;

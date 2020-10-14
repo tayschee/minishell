@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:40:09 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/14 12:40:01 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/14 14:43:44 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 # define OPERATOR_LIST "> >> < | <<"
 # define RDR_LIST "> >> < <<"
 # define UNEXP_NL "minishell: syntax error near unexpected token `newline'\n"
-# define UN_EOF	"minishell: unexpected EOF while looking for matching \'\"\'"
+# define UN_EOF	"minishell: unexpected EOF"
 
 typedef struct s_cmd	t_cmd;
 typedef struct s_rdr	t_rdr;
