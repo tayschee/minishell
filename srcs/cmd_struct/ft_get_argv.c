@@ -6,13 +6,13 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 12:37:35 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/14 15:58:06 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/14 16:58:26 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void		ft_argv_str_and_char(char **cmd, char **argv, int i)
+void			ft_argv_str_and_char(char **cmd, char **argv, int i)
 {
 	char	*tmp;
 	char	*argv_tmp;
@@ -40,7 +40,7 @@ void		ft_argv_str_and_char(char **cmd, char **argv, int i)
 	free(argv_tmp);
 }
 
-void		ft_argv_str_or_char(char **cmd, char **argv, int i)
+void			ft_argv_str_or_char(char **cmd, char **argv, int i)
 {
 	char	*tmp;
 
@@ -62,7 +62,7 @@ void		ft_argv_str_or_char(char **cmd, char **argv, int i)
 	*cmd = *cmd + ft_strlen(argv[i]);
 }
 
-char		**ft_get_argv(char *cmd)
+char			**ft_get_argv(char *cmd)
 {
 	char	**argv;
 	int		i;
@@ -77,9 +77,13 @@ char		**ft_get_argv(char *cmd)
 		while (*cmd && *cmd != ' ')
 		{
 			if (argv[i])
+			{
 				ft_argv_str_and_char(&cmd, argv, i);
+			}
 			else
+			{
 				ft_argv_str_or_char(&cmd, argv, i);
+			}
 		}
 		i++;
 	}

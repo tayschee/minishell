@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 15:13:04 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/14 16:55:39 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/14 16:57:49 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,29 @@
 
 int		ft_get_cmd_end(char *cmd_line)
 {
-	unsigned int	i;
-	char			*coma_add;
+	int		i;
+	char	c;
 
 	i = 0;
 	while (cmd_line[i])
 	{
-		coma_add = ft_strchr(cmd_line + i, ';'); 
-		if (!coma_add)
-			return (ft_strlen(cmd_line));
-		else if (!(ft_count_elt(coma_add, "\"") % 2) &&
-			!(ft_count_elt(coma_add, "\'") % 2) && 
-			*(coma_add - 1) != '\\')
+		if (cmd_line[i] == ';')
+			return (i);
+		i += skip_bs(&cmd_line[i], NULL);
+		while (cmd_line[i] && ((c = cmd_line[i]) == '"' || c == '\''))
+		{
+			i++;
+			if (cmd_line[i] == '\\' && c == '"')
 			{
-				i = coma_add - cmd_line;
-				break ;
+				i++;
+				if (cmd_line[i])
+					i++;
 			}
-		else
-			i = coma_add - cmd_line + 1;
+			if (c == cmd_line[i])
+				c = 0;
+		}
+		if (cmd_line[i])
+			i++;
 	}
 	return (i);
 }
@@ -51,8 +56,8 @@ int		ft_get_subcmd(char *cmd_line)
 		if (!(cmd_struc = ft_init_cmd(cmd)))
 			return (EXIT_FAILURE);
 		ft_cmd_treatment(cmd_struc);
-		cmd_line = cmd_line + cmd_end;
-		if (*cmd_line)
+		cmd_line += cmd_end;
+		if (*cmd_line == ';')
 			cmd_line++;
 	}
 	return (EXIT_SUCCESS);
