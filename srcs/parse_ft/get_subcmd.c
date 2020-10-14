@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 15:13:04 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/14 14:06:35 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/14 16:55:39 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,26 @@
 
 int		ft_get_cmd_end(char *cmd_line)
 {
-	if (!(ft_strchr(cmd_line, ';')))
-		return (ft_strlen(cmd_line));
-	else if (!(ft_count_elt(cmd_line, "\"") % 2) ||
-			!(ft_count_elt(cmd_line, "\'") % 2))
-		return (ft_strchr(cmd_line, ';') - cmd_line);
-	else
-		return (ft_strlen(cmd_line));
+	unsigned int	i;
+	char			*coma_add;
+
+	i = 0;
+	while (cmd_line[i])
+	{
+		coma_add = ft_strchr(cmd_line + i, ';'); 
+		if (!coma_add)
+			return (ft_strlen(cmd_line));
+		else if (!(ft_count_elt(coma_add, "\"") % 2) &&
+			!(ft_count_elt(coma_add, "\'") % 2) && 
+			*(coma_add - 1) != '\\')
+			{
+				i = coma_add - cmd_line;
+				break ;
+			}
+		else
+			i = coma_add - cmd_line + 1;
+	}
+	return (i);
 }
 
 int		ft_get_subcmd(char *cmd_line)
@@ -38,8 +51,7 @@ int		ft_get_subcmd(char *cmd_line)
 		if (!(cmd_struc = ft_init_cmd(cmd)))
 			return (EXIT_FAILURE);
 		ft_cmd_treatment(cmd_struc);
-		while (*cmd_line && *cmd_line != ';')
-			cmd_line++;
+		cmd_line = cmd_line + cmd_end;
 		if (*cmd_line)
 			cmd_line++;
 	}
