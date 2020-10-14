@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_cmd_r.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbigot <tbigot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 15:12:05 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/13 10:54:07 by tbigot           ###   ########.fr       */
+/*   Updated: 2020/10/14 11:27:41 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*ft_replace_var(char *res, char *cmd_line, int index)
 	{
 		var = ft_get_word(cmd_line + 1);
 		var_dol = ft_strjoin("$", var);
-		res = ft_replace(res, var_dol, "", index);
+		res = ft_delete(res, var_dol, index);
 	}
 	free(var);
 	free(var_dol);
@@ -90,27 +90,18 @@ char	*ft_if_dollar_or_tilde(char *cmd_line, int i)
 char	*ft_get_cmd_r(char *cmd_line)
 {
 	int		i;
-	//char	*tmp;
 
 	i = 0;
 	while (cmd_line[i])
 	{
-		i += skip_bs(&cmd_line[i], NULL); // j'ai ajouter cette ligne
-		/*if (cmd_line[i] && cmd_line[i] == '\\' && cmd_line[i + 1] == '$')
-		{
-			if (cmd_line[i - 1] != '\\')
-			{
-				tmp = cmd_line;
-				cmd_line = ft_delete(cmd_line, "\\", i);
-				free(tmp);
-			}
-		}*/ /*je te laisse verifier ca marche avec plein de bs maintenant */
+		i += skip_bs(&cmd_line[i], NULL); 
 		if (ft_strnchr("$~", cmd_line[i], 2) && cmd_line[i + 1])
 		{
-			if ((cmd_line = ft_if_dollar_or_tilde(cmd_line, i)) == 0)
+			if (!(cmd_line = ft_if_dollar_or_tilde(cmd_line, i)))
 				return (0);
 		}
-		i++;
+		else
+			i++;
 	}
 	return (cmd_line);
 }
