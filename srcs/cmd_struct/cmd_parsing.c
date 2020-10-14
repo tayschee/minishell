@@ -6,7 +6,7 @@
 /*   By: tbigot <tbigot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 14:10:25 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/14 11:08:19 by tbigot           ###   ########.fr       */
+/*   Updated: 2020/10/14 12:46:42 by tbigot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static char	*cmd_with_split_word(char *cmd, char *op, int j)
 		else if (cmd[i])
 			new_cmd[j++] = cmd[i++];
 	}
-	printf("new_cmd : %s\n", new_cmd);
+	//printf("new_cmd : %s\n", new_cmd);
 	return (new_cmd);
 }
 
@@ -62,7 +62,7 @@ static char	*split_word(char *cmd, char *operator)
 	return (cmd_with_split_word(cmd, operator, j + i));
 }
 
-static int	check_error_rdr(char **cmd)
+static int	check_error_rdr(char **cmd, int end)
 {
 	int		i;
 
@@ -75,13 +75,13 @@ static int	check_error_rdr(char **cmd)
 			&& (!cmd[i + 1] || this_is_operator(cmd[i + 1],
 			OPERATOR_LIST) > 0))
 			{
-				write(1, UNEXP_NL, ft_strlen(UNEXP_NL));
+				print_msg_error(end);
 				return (EXIT_FAILURE);
 			}
 			if (!ft_strncmp(cmd[i], "|", 2) && (i == 0 ||
 			this_is_operator(cmd[i - 1], OPERATOR_LIST) > 0))
 			{
-				write(1, UNEXP_NL, ft_strlen(UNEXP_NL));
+				print_msg_error(end);
 				return (EXIT_FAILURE);
 			}
 			i++;
@@ -103,7 +103,7 @@ t_cmd		*ft_init_cmd(char *unique_cmd)
 	cmd_divise = ft_get_argv(cmd_sentence);
 	if (cmd_sentence)
 		free(cmd_sentence);
-	if (check_error_rdr(cmd_divise) < 0)
+	if (check_error_rdr(cmd_divise, g_end_of_cmd) < 0)
 		cmd = char_to_struct_cmd(cmd_divise);
 	ft_retreive_bs_in_cmd(cmd);
 	return (cmd);

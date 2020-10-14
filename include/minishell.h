@@ -6,7 +6,7 @@
 /*   By: tbigot <tbigot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:40:09 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/13 21:20:15 by tbigot           ###   ########.fr       */
+/*   Updated: 2020/10/14 12:46:39 by tbigot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 # define CMD_LIST "exit cd export unset env echo"
 # define OPERATOR_LIST "> >> < | <<"
 # define RDR_LIST "> >> < <<"
-# define UNEXP_NL "minishell: syntax error near unexpected token `newline'\n"
+# define UNEXP_NL "minishell: syntax error near unexpected token '"
 # define UN_EOF	"minishell: unexpected EOF"
 
 typedef struct s_cmd	t_cmd;
@@ -105,6 +105,7 @@ typedef struct			s_shell
 t_shell g_shell;
 t_tcap g_tcap;
 t_list *g_garb_cltor;
+int g_end_of_cmd;
 
 void					ft_set_cwd();
 void					ft_show_prompt_line();
@@ -142,4 +143,5 @@ char					quote_management(char *txt);
 void					inc_shlvl(char **envp);
 void					ft_env_declare(char **envp);
 void					change_env_(t_cmd *cmd);
+void					print_msg_error(int end);
 #endif

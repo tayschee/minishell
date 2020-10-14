@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_subcmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tbigot <tbigot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 15:13:04 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/14 18:32:37 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/14 13:09:16 by tbigot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,11 @@ int		ft_get_cmd_end(char *cmd_line)
 	char	c;
 
 	i = 0;
-	while (cmd_line[i])
+	while (cmd_line[i] && cmd_line[i] != ';')
 	{
-		if (cmd_line[i] == ';')
-			return (i);
 		i += skip_bs(&cmd_line[i], NULL);
-		while (cmd_line[i] && ((c = cmd_line[i]) == '"' || c == '\''))
+		c = cmd_line[i];
+		while (cmd_line[i] && (c == '"' || c == '\''))
 		{
 			i++;
 			if (cmd_line[i] == '\\' && c == '"')
@@ -53,6 +52,9 @@ int		ft_get_subcmd(char *cmd_line)
 	while (*cmd_line)
 	{
 		cmd_end = ft_get_cmd_end(cmd_line);
+		g_end_of_cmd = cmd_line[cmd_end] == ';' ? 1 : 0;
+		if (g_end_of_cmd == 1 && cmd_line[cmd_end + 1] == ';')
+			g_end_of_cmd = 2;
 		cmd = ft_substr(cmd_line, 0, cmd_end);
 		if (!(cmd_struc = ft_init_cmd(cmd)))
 			return (EXIT_FAILURE);

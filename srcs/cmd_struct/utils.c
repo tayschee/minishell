@@ -6,7 +6,7 @@
 /*   By: tbigot <tbigot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 14:46:13 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/13 20:59:32 by tbigot           ###   ########.fr       */
+/*   Updated: 2020/10/14 12:50:46 by tbigot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,15 @@ char		quote_management(char *txt)
 		}
 	}
 	return (c);
+}
+
+void	print_msg_error(int end)
+{
+	write(1, UNEXP_NL, ft_strlen(UNEXP_NL));
+	if (end == 1)
+		write(1, ";'\n", 3);
+	else if (end == 2)
+		write(1, ";;'\n", 4);
+	else
+		write(1, "newline'\n", 10);
 }
