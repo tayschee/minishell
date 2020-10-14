@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/28 17:50:53 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/08 16:37:05 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/14 11:43:11 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@ char	*ft_replace(char *old_str, char *to_rpl, char *elt, int index)
 	ft_memcpy(n_str, old_str, index);
 	ft_memcpy(n_str + index, elt, ft_strlen(elt));
 	ft_memcpy(n_str + index + ft_strlen(elt), old_str + index +
-	ft_strlen(to_rpl), ft_strlen(old_str) - index);
+	ft_strlen(to_rpl), ft_strlen(old_str) - index - ft_strlen(to_rpl));
 	return (n_str);
 }
