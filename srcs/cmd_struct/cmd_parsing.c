@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_parsing.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tbigot <tbigot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 14:10:25 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/14 16:58:12 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/14 11:08:19 by tbigot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,16 @@ static char	*cmd_with_split_word(char *cmd, char *op, int j)
 		i += skip_bs(&cmd[i], NULL);
 		if (cmd[i] && ft_strchr(op, cmd[i]))
 		{
-			if (i == 0 || cmd[i - 1] != ' ')
-				new_cmd[j++] = ' ';
+			new_cmd[j++] = ' ';
 			new_cmd[j++] = cmd[i++];
 			if (cmd[i - 1] == cmd[i])
 				new_cmd[j++] = cmd[i++];
-			if (cmd[i] && cmd[i + 1] != ' ')
-				new_cmd[j++] = ' ';
+			new_cmd[j++] = ' ';
 		}
 		else if (cmd[i])
 			new_cmd[j++] = cmd[i++];
 	}
+	printf("new_cmd : %s\n", new_cmd);
 	return (new_cmd);
 }
 
@@ -53,12 +52,9 @@ static char	*split_word(char *cmd, char *operator)
 		i += skip_bs(&cmd[i], NULL);
 		if (cmd[i] && ft_strchr(operator, cmd[i]))
 		{
-			if (i == 0 || cmd[i - 1] != ' ')
-				j++;
+			j += 2;
 			if (cmd[i + 1] == cmd[i])
 				i++;
-			if (cmd[i + 1] != ' ')
-				j++;
 		}
 		if (cmd[i])
 			i++;
