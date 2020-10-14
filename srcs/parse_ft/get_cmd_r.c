@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 15:12:05 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/14 14:59:27 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/14 17:27:14 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,9 @@ char	*ft_if_dollar_or_tilde(char *cmd_line, int i)
 		return (0);
 	}
 	tmp = cmd_line;
-	if (cmd_line[i] == '~' && !(ft_count_elt(cmd_line + i, "\'") % 2)
-		&& !(ft_count_elt(cmd_line + i, "\"") % 2))
+	if (cmd_line[i] == '~' && !(ft_count_elt(cmd_line + i, "\"") % 2))
 		cmd_line = ft_replace(cmd_line, "~", g_shell.tilde, i);
-	else if (cmd_line[i] == '$' && !(ft_count_elt(cmd_line + i,
-			"\'") % 2))
+	else if (cmd_line[i] == '$')
 		cmd_line = ft_replace_var(cmd_line, cmd_line + i, i);
 	else
 		cmd_line = ft_strdup(cmd_line);
@@ -99,7 +97,8 @@ char	*ft_get_cmd_r(char *cmd_line)
 	while (cmd_line[i])
 	{
 		i += skip_bs(&cmd_line[i], NULL);
-		if (ft_strnchr("$~", cmd_line[i], 2) && cmd_line[i + 1])
+		if (ft_strnchr("$~", cmd_line[i], 2) && cmd_line[i + 1] && 
+			!(ft_count_elt(cmd_line + i, "\'") % 2))
 		{
 			if (!(cmd_line = ft_if_dollar_or_tilde(cmd_line, i)))
 				return (0);

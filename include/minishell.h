@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbigot <tbigot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:40:09 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/13 15:55:50 by tbigot           ###   ########.fr       */
+/*   Updated: 2020/10/14 17:16:30 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+// echo '\$HOME'
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
