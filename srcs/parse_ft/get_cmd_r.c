@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 15:12:05 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/14 11:31:47 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/14 12:18:54 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ char	*ft_get_cmd_r(char *cmd_line)
 	int		i;
 
 	i = 0;
+	if (!cmd_line)
+		return (0);
 	while (cmd_line[i])
 	{
 		i += skip_bs(&cmd_line[i], NULL); 

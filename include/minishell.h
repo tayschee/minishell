@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:40:09 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/13 15:43:26 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/14 12:40:01 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@
 # define CMD_LIST "exit cd export unset env echo"
 # define OPERATOR_LIST "> >> < | <<"
 # define RDR_LIST "> >> < <<"
-
 # define UNEXP_NL "minishell: syntax error near unexpected token `newline'\n"
+# define UN_EOF	"minishell: unexpected EOF while looking for matching \'\"\'"
 
 typedef struct s_cmd	t_cmd;
 typedef struct s_rdr	t_rdr;
@@ -93,6 +93,7 @@ typedef struct			s_shell
 	char				*r_cwd;
 	char				**envp;
 	char				*tilde;
+	int					in_multil;
 	int					exit;
 	int					status;
 	pid_t				cpid;
