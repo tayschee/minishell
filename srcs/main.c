@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:37:55 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/14 17:28:00 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/14 18:32:55 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ int		ft_read_input(void)
 		{
 			if (syntax(cmd_line, ';') && syntax(cmd_line, '|'))
 				ft_get_subcmd(cmd_line);
-			free(cmd_line);
 		}
 		if (g_shell.exit == 1)
 			break ;
