@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 15:12:05 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/14 13:34:03 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/14 13:53:15 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ char	*ft_if_dollar_or_tilde(char *cmd_line, int i)
 {
 	char	*tmp;
 
-	if (!ft_strncmp(cmd_line + i, "${}", 3))
+	if (!ft_strncmp(cmd_line + i, "${", 2) && 
+		ft_strchr("[]()$", *(cmd_line + i + 2)))
 	{
 		free(cmd_line);
 		ft_putendl_fd("minishell: ${}: bad substitution", STDOUT_FILENO);
