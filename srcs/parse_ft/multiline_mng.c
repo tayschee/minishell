@@ -6,11 +6,34 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 15:11:24 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/14 13:01:56 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/14 13:33:30 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*ft_join_multiline_cmd(char *cmd_line, char *line)
+{
+	char	*tmp;
+
+	if (!g_shell.in_multil)
+	{
+		free(cmd_line);
+		cmd_line = ft_strjoin(line, "");
+		free(line);
+	}
+	else
+	{
+		tmp = line;
+		line = ft_strjoin("\n", line);
+		free(tmp);
+		tmp = cmd_line;
+		cmd_line = ft_strjoin(cmd_line, line);
+		free(tmp);
+		free(line);
+	}
+	return (cmd_line);
+}
 
 char	*ft_multiline_mng(char *line)
 {
@@ -31,26 +54,12 @@ char	*ft_multiline_mng(char *line)
 		ft_putstr_fd("> ", STDOUT_FILENO);
 		if (!get_next_line(STDOUT_FILENO, &line))
 		{
-			if (ft_strchr(line, EOF))
-				ft_putendl_fd(UN_EOF, STDOUT_FILENO);
+			ft_putendl_fd(UN_EOF, STDOUT_FILENO);
 			free(line);
 			free(cmd_line);
 			return (0);
 		}
-		if (!g_shell.in_multil)
-		{
-			free(cmd_line);
-			cmd_line = line;
-		}
-		else
-		{
-			tmp = line;
-			line = ft_strjoin("\n", line);
-			free(tmp);
-			tmp = cmd_line;
-			cmd_line = ft_strjoin(cmd_line, line);
-			free(tmp);
-		}
+		cmd_line = ft_join_multiline_cmd(cmd_line, line);
 	}
 	return (cmd_line);
 }

@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:37:55 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/14 12:49:22 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/14 13:33:41 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ft_show_prompt_line(void)
 	ft_putstr_fd(ANSI_COLOR_RESET, 1);
 }
 
-int		ft_syntax_ok(char *cmd_line, char c)
+int		syntax(char *cmd_line, char c)
 {
 	int		i;
 
@@ -73,17 +73,10 @@ int		ft_read_input(void)
 	{
 		cmd_line = ft_multiline_mng(line);
 		g_shell.in_multil = 0;
-		if (ft_count_elt(cmd_line_r, "\"") % 2 ||
-			ft_count_elt(cmd_line_r, "\'") % 2)
-		{
-			free(cmd_line);
-			cmd_line = NULL;
-		}
 		cmd_line_r = ft_get_cmd_r(cmd_line);
-		if (cmd_line_r)
+		if (cmd_line_r && syntax(cmd_line_r, ';') && syntax(cmd_line_r, '|'))
 		{
-			if (ft_syntax_ok(cmd_line_r, ';') && ft_syntax_ok(cmd_line_r, '|'))
-				ft_get_subcmd(cmd_line_r);
+			ft_get_subcmd(cmd_line_r);
 			free(cmd_line_r);
 		}
 		if (g_shell.exit == 1)
