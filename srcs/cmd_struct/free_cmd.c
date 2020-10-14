@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tbigot <tbigot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/02 16:23:38 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/03 14:27:45 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/14 14:23:40 by tbigot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void			free_cmd_list(t_cmd **cmd)
 	t_cmd	*save;
 	t_cmd	*before;
 
-	nul = 0;
+	nul = 1;
 	save = *cmd;
 	while (*cmd)
 	{
@@ -79,8 +79,8 @@ void			free_cmd_list(t_cmd **cmd)
 			before = *cmd;
 			*cmd = (*cmd)->next;
 		}
-		if (before)
-			nul = 1;
+		if (!before)
+			nul = 0;
 		free_cmd(*cmd, nul);
 		if (before)
 		{
