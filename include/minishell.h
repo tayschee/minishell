@@ -6,7 +6,7 @@
 /*   By: tbigot <tbigot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:40:09 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/15 16:08:38 by tbigot           ###   ########.fr       */
+/*   Updated: 2020/10/15 16:55:53 by tbigot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,4 +146,5 @@ void					change_env_(t_cmd *cmd);
 void					print_msg_error(int end);
 int 					end_of_tilde(char *txt);
 int 					bad_character_in_tilde(char *bad_c, char *in_tilde, char end);
+int 					verif_export_word(char *txt);
 #endif
