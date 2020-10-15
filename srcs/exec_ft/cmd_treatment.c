@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_treatment.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbigot <tbigot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 14:12:53 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/13 21:20:27 by tbigot           ###   ########.fr       */
+/*   Updated: 2020/10/15 15:11:21 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,53 +39,43 @@ char	*ft_get_path(char *paths, int instc)
 	return (path);
 }
 
-int		ft_exec_(char *first_cmd, t_cmd *cmd, int res)
-{
-	if (res == EXIT_SUCCESS)
-	{
-		free(first_cmd);
-		ft_clear_list(&g_garb_cltor);
-		free_cmd_list(&cmd);
-		return (res);
-	}
-	else
-	{
-		cmd->argv[0] = first_cmd;
-		free_cmd_list(&cmd);
-		ft_clear_list(&g_garb_cltor);
-		return (res);
-	}
-}
-
 int		ft_exec_paths(t_cmd *cmd)
 {
 	char	*path_inst;
-	char	*path_str;
 	char	*first_cmd;
 	int		instc;
+	char	**argv_cp;
 
 	instc = 0;
 	first_cmd = ft_strdup(cmd->argv[0]);
-	free(cmd->argv[0]);
-	cmd->argv[0] = first_cmd;
-	if (execve(cmd->argv[0], cmd->argv, g_shell.envp) == -1)
+	argv_cp = 0;
+	if (!(argv_cp = ft_copy_tab(argv_cp, cmd->argv)))
+		return (EXIT_FAILURE);
+	if (execve(argv_cp[0], argv_cp, g_shell.envp) == -1)
 	{
 		while ((path_inst = ft_get_path(ft_get_env(g_shell.envp,
 					"PATH", '='), instc)))
 		{
-			path_str = ft_strjoin(path_inst, first_cmd);
+			free(argv_cp[0]);
+			argv_cp[0] = ft_strjoin(path_inst, first_cmd);
 			free(path_inst);
-			cmd->argv[0] = path_str;
-			if (execve(path_str, cmd->argv, g_shell.envp) == -1)
-			{
-				free(path_str);
+			if (execve(argv_cp[0], argv_cp, g_shell.envp) == -1)
 				instc++;
-			}
 			else
-				return (ft_exec_(first_cmd, cmd, EXIT_SUCCESS));
+			{
+				ft_clear_tab(argv_cp);
+				return (EXIT_SUCCESS);
+			}
 		}
+		ft_clear_tab(argv_cp);
+		return (127);
 	}
-	return (ft_exec_(first_cmd, cmd, 127));
+	else
+	{
+		ft_clear_tab(argv_cp);
+		return (EXIT_SUCCESS);
+
+	}
 }
 
 int		ft_exec(t_cmd *cmd)
