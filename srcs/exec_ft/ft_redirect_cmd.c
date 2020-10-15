@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirect_cmd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tbigot <tbigot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 16:00:15 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/15 16:09:43 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/15 14:18:05 by tbigot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,11 @@ void	ft_env_declare(char **envp)
 
 void	ft_create_env_declare(t_cmd *cmd)
 {
+	t_cmd	*save;
+
+	save = cmd->next;
 	free(cmd->argv[0]);
-	free(cmd->argv);
-	if (!(cmd->argv = ft_calloc(2, sizeof(char *))) ||
-		!(cmd->next = ft_calloc(1, sizeof(t_cmd))) ||
+	if (!(cmd->next = ft_calloc(1, sizeof(t_cmd))) ||
 		!(cmd->next->argv = ft_calloc(2, sizeof(char *))))
 		exit(EXIT_FAILURE);
 	cmd->type = CMD;
@@ -48,7 +49,8 @@ void	ft_create_env_declare(t_cmd *cmd)
 	cmd->argv[1] = 0;
 	cmd->next->argv[0] = ft_strdup("sort");
 	cmd->next->argv[1] = 0;
-	cmd->next->next = 0;
+	ft_append_elt(&g_garb_cltor, cmd->next->argv);
+	cmd->next->next = save;
 	ft_exec_pipe(cmd);
 }
 
