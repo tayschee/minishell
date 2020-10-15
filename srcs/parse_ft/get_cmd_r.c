@@ -6,9 +6,10 @@
 /*   By: tbigot <tbigot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 15:12:05 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/15 17:07:23 by tbigot           ###   ########.fr       */
+/*   Updated: 2020/10/15 17:09:36 by tbigot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
@@ -19,6 +20,21 @@ char	*ft_replace_statusvar(char *res, int index)
 	var = ft_itoa(g_shell.status);
 	res = ft_replace(res, "$?", var, index);
 	free(var);
+	return (res);
+}
+
+char	*ft_replace_brackets_(char *res, char *var, int index)
+{
+	char	*var_dol;
+	char	*tmp;
+
+	var_dol = ft_strjoin("${", var);
+	tmp = var_dol;
+	var_dol = ft_strjoin(var_dol, "}");
+	free(tmp);
+	res = ft_replace(res, var_dol,
+		ft_get_env(g_shell.envp, var, '='), index);
+	free(var_dol);
 	return (res);
 }
 
@@ -38,20 +54,12 @@ char	*ft_replace_brackets(char *res, int index)
 	{
 		var = ft_strjoin("${", tmp);
 		var_dol = ft_strjoin(var, "}");
-		free(tmp);
 		res = ft_replace(res, var_dol, "", index);
+		free(var_dol);
 	}
 	else
-	{
-		free(tmp);
-		var_dol = ft_strjoin("${", var);
-		tmp = var_dol;
-		var_dol = ft_strjoin(var_dol, "}");
-		free(tmp);
-		res = ft_replace(res, var_dol,
-			ft_get_env(g_shell.envp, var, '='), index);
-	}
-	free(var_dol);
+		res = ft_replace_brackets_(res, var, index);
+	free(tmp);
 	free(var);
 	return (res);
 }
