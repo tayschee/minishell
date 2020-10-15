@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 14:12:53 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/15 15:49:11 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/15 18:24:00 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,10 @@ int		ft_rtr_exec(char **argv, int rtr_val)
 int		ft_exec_paths(t_cmd *cmd)
 {
 	char	*path_inst;
-	char	*first_cmd;
 	int		instc;
 	char	**argv_cp;
 
 	instc = 0;
-	first_cmd = ft_strdup(cmd->argv[0]);
 	argv_cp = 0;
 	if (!(argv_cp = ft_copy_tab(argv_cp, cmd->argv)))
 		return (EXIT_FAILURE);
@@ -63,15 +61,15 @@ int		ft_exec_paths(t_cmd *cmd)
 					"PATH", '='), instc)))
 		{
 			free(argv_cp[0]);
-			argv_cp[0] = ft_strjoin(path_inst, first_cmd);
+			argv_cp[0] = ft_strjoin(path_inst, cmd->argv[0]);
 			free(path_inst);
 			if (execve(argv_cp[0], argv_cp, g_shell.envp) != -1)
-				return (ft_rtr_exec(argv_cp,EXIT_SUCCESS));
+				return (ft_rtr_exec(argv_cp, EXIT_SUCCESS));
 			instc++;
 		}
 		return (ft_rtr_exec(argv_cp, 127));
 	}
-	return (ft_rtr_exec(argv_cp,EXIT_SUCCESS));
+	return (ft_rtr_exec(argv_cp, EXIT_SUCCESS));
 }
 
 int		ft_exec(t_cmd *cmd)
@@ -80,7 +78,7 @@ int		ft_exec(t_cmd *cmd)
 	if (!g_shell.cpid)
 		exit(ft_exec_paths(cmd));
 	waitpid(g_shell.cpid, &g_shell.status, 0);
-	if (WEXITSTATUS(g_shell.status) == 127 && cmd->type == PATH)
+	if (WEXITSTATUS(g_shell.status) == 127)
 	{
 		ft_putstr_fd(cmd->argv[0], STDOUT_FILENO);
 		ft_putstr_fd(": command not found\n", STDOUT_FILENO);

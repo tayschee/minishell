@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 14:55:25 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/15 15:52:12 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/15 17:49:57 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,12 +102,15 @@ void	ft_export_cmd(t_cmd *cmd)
 		ft_create_env_declare(cmd);
 	else
 	{
-		while (cmd->argv[i + 1])
+		i = 1;
+		while (cmd->argv[i])
 		{
-			ft_append_env(g_shell.envp, cmd->argv[i + 1]);
-			while (cmd->argv[i + 1][j] && cmd->argv[i + 1][j] != '=')
+			tmp = ft_strdup(cmd->argv[i]);
+			ft_append_env(g_shell.envp, tmp);
+			ft_append_elt(&g_garb_cltor, tmp);
+			while (cmd->argv[i][j] && cmd->argv[i][j] != '=')
 				j++;
-			tmp = ft_substr(cmd->argv[i + 1], 0, j);
+			tmp = ft_substr(cmd->argv[i], 0, j);
 			cmd_clone = ft_strjoin("_=", tmp);
 			if (tmp)
 				free(tmp);
