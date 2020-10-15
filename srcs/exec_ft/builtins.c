@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbigot <tbigot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 14:55:25 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/13 20:58:45 by tbigot           ###   ########.fr       */
+/*   Updated: 2020/10/15 15:52:12 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ void	ft_create_oldpwd(void)
 
 	tmp = ft_strjoin("OLDPWD=", g_shell.cwd);
 	ft_append_env(g_shell.envp, tmp);
-	free(tmp);
+	ft_append_elt(&g_garb_cltor, tmp);
 	ft_set_cwd();
 	tmp = ft_strjoin("PWD=", g_shell.cwd);
 	ft_append_env(g_shell.envp, tmp);
-	free(tmp);
+	ft_append_elt(&g_garb_cltor, tmp);
 }
 
 void	cd_cmd(t_cmd *cmd)

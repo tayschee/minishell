@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbigot <tbigot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:37:55 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/13 21:20:02 by tbigot           ###   ########.fr       */
+/*   Updated: 2020/10/15 15:35:59 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int		ft_read_input(void)
 	}
 	if (g_shell.exit == 0)
 	{
-		free(line);
+		(line) ? free(line) : 0;
 		ft_putendl_fd("exit", 1);
 	}
 	return (EXIT_SUCCESS);

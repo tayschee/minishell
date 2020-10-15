@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirect_cmd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbigot <tbigot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 16:00:15 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/13 20:58:54 by tbigot           ###   ########.fr       */
+/*   Updated: 2020/10/15 15:58:03 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void	ft_set_cwd(void)
 	g_shell.cwd = getcwd(g_shell.cwd, PATH_MAX);
 	if (!(g_shell.r_cwd = ft_replace_in_str(g_shell.cwd, g_shell.tilde, "~")))
 	{
-		free(g_shell.r_cwd);
 		g_shell.r_cwd = ft_strdup(g_shell.cwd);
 	}
 	ft_append_elt(&g_garb_cltor, g_shell.cwd);

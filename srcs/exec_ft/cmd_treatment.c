@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 14:12:53 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/15 15:11:21 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/15 15:49:11 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,12 @@ char	*ft_get_path(char *paths, int instc)
 	return (path);
 }
 
+int		ft_rtr_exec(char **argv, int rtr_val)
+{
+	ft_clear_tab(argv);
+	return (rtr_val);
+}
+
 int		ft_exec_paths(t_cmd *cmd)
 {
 	char	*path_inst;
@@ -59,23 +65,13 @@ int		ft_exec_paths(t_cmd *cmd)
 			free(argv_cp[0]);
 			argv_cp[0] = ft_strjoin(path_inst, first_cmd);
 			free(path_inst);
-			if (execve(argv_cp[0], argv_cp, g_shell.envp) == -1)
-				instc++;
-			else
-			{
-				ft_clear_tab(argv_cp);
-				return (EXIT_SUCCESS);
-			}
+			if (execve(argv_cp[0], argv_cp, g_shell.envp) != -1)
+				return (ft_rtr_exec(argv_cp,EXIT_SUCCESS));
+			instc++;
 		}
-		ft_clear_tab(argv_cp);
-		return (127);
+		return (ft_rtr_exec(argv_cp, 127));
 	}
-	else
-	{
-		ft_clear_tab(argv_cp);
-		return (EXIT_SUCCESS);
-
-	}
+	return (ft_rtr_exec(argv_cp,EXIT_SUCCESS));
 }
 
 int		ft_exec(t_cmd *cmd)
