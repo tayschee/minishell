@@ -6,7 +6,7 @@
 #    By: tbigot <tbigot@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/02 20:31:48 by abarot            #+#    #+#              #
-#    Updated: 2020/10/13 18:04:01 by tbigot           ###   ########.fr        #
+#    Updated: 2020/10/15 15:34:53 by tbigot           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,8 @@ SRCS	=	srcs/main.c \
 			srcs/exec_ft/ft_exec_pipe.c \
 			srcs/exec_ft/ft_exec_pipe_2.c \
 			srcs/exec_ft/redirect_ft.c \
-			srcs/add_to_env.c
+			srcs/add_to_env.c \
+			srcs/parse_ft/error_dollar_tilde.c
 			
 OBJS	=	$(SRCS:.c=.o)
 
