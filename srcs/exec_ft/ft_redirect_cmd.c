@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 16:00:15 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/15 15:58:03 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/15 16:07:46 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ void	ft_create_env_declare(t_cmd *cmd)
 
 void	ft_set_cwd(void)
 {
+	if (!(g_shell.cwd = ft_calloc(1, PATH_MAX)))
+		return ;
 	g_shell.cwd = getcwd(g_shell.cwd, PATH_MAX);
 	if (!(g_shell.r_cwd = ft_replace_in_str(g_shell.cwd, g_shell.tilde, "~")))
 	{
