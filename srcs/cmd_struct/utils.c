@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tbigot <tbigot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 14:46:13 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/15 15:50:05 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/15 13:57:51 by tbigot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,17 +67,16 @@ char		quote_management(char *txt)
 	c = 0;
 	while (txt[i])
 	{
-		if (txt[i] == '\\')
-			c = txt[i++];
-		else if ((txt[i] == '"' || txt[i] == '\'')
-					&& (!i || txt[i - 1] != '\\'))
-			c = txt[i];
+		c = txt[i];
+		if (c == '\\')
+			i++;
 		while ((c == '"' || c == '\'') && txt[++i])
-			if (txt[i] == c && txt[i - 1] != '\\')
-			{
-				c = 0;
+		{
+			if (c == '"' && txt[i] == '\\')
+				i++;
+			else if (txt[i] == c)
 				break ;
-			}
+		}
 		if (txt[i])
 		{
 			c = 0;
@@ -87,7 +86,7 @@ char		quote_management(char *txt)
 	return (c);
 }
 
-void	print_msg_error(int end)
+void		print_msg_error(int end)
 {
 	write(1, UNEXP_NL, ft_strlen(UNEXP_NL));
 	if (end == 1)
