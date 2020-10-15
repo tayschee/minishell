@@ -6,7 +6,11 @@
 /*   By: tbigot <tbigot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 15:12:05 by abarot            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2020/10/15 16:13:27 by tbigot           ###   ########.fr       */
+=======
+/*   Updated: 2020/10/16 16:09:43 by abarot           ###   ########.fr       */
+>>>>>>> 5500c28badfef32a38bf65716beeda014f7606ec
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +26,35 @@ char	*ft_replace_statusvar(char *res, int index)
 	return (res);
 }
 
-char	*ft_replace_brackets(char *res, char *var, int index)
+char	*ft_replace_brackets(char *res, int index)
 {
 	char	*tmp;
+	char	*var;
 	char	*var_dol;
+	int		end;
 
-	var_dol = ft_strjoin("${", var);
-	tmp = var_dol;
-	var_dol = ft_strjoin(var_dol, "}");
-	free(tmp);
-	res = ft_replace(res, var_dol,
-		ft_get_env(g_shell.envp, var, '='), index);
+	end = index + 2;
+	while (res[end] && res[end] != '}')
+		end++;
+	tmp = ft_substr(res, index + 2, end - index - 2);
+	var = ft_search_var(g_shell.envp, tmp);
+	if (!var)
+	{
+		var = ft_strjoin("${", tmp);
+		var_dol = ft_strjoin(var, "}");
+		free(tmp);
+		res = ft_replace(res, var_dol, "", index);
+	}
+	else
+	{
+		free(tmp);
+		var_dol = ft_strjoin("${", var);
+		tmp = var_dol;
+		var_dol = ft_strjoin(var_dol, "}");
+		free(tmp);
+		res = ft_replace(res, var_dol,
+			ft_get_env(g_shell.envp, var, '='), index);
+	}
 	free(var_dol);
 	free(var);
 	return (res);
@@ -45,10 +67,10 @@ char	*ft_replace_var(char *res, char *cmd_line, int index)
 
 	if (*(cmd_line + 1) == '?')
 		return (ft_replace_statusvar(res, index));
+	if (*(cmd_line + 1) == '{')
+		return (ft_replace_brackets(res, index));
 	var = ft_search_var(g_shell.envp, cmd_line + 1);
-	if (*(cmd_line + 1) == '{' && var)
-		return (ft_replace_brackets(res, var, index));
-	else if (var)
+	if (var)
 	{
 		var_dol = ft_strjoin("$", var);
 		res = ft_replace(res, var_dol,
