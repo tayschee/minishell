@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 12:37:35 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/14 16:58:26 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/16 15:34:22 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ void			ft_argv_str_and_char(char **cmd, char **argv, int i)
 		argv_tmp = ft_get_string(*cmd);
 		if (**cmd == '\'')
 		{
-			tmp = argv[i];
-			argv[i] = ft_replace_in_str(argv[i], "\\", "\\\\");
-			*cmd = *cmd + 2 - (ft_strlen(argv[i]) - ft_strlen(tmp));
+			tmp = argv_tmp;
+			argv_tmp = ft_replace_in_str(argv_tmp, "\\", "\\\\");
+			*cmd = *cmd + 2 + ft_strlen(argv_tmp) - ft_strlen(tmp);
 			free(tmp);
 		}
 		else
@@ -53,7 +53,7 @@ void			ft_argv_str_or_char(char **cmd, char **argv, int i)
 		{
 			tmp = argv[i];
 			argv[i] = ft_replace_in_str(argv[i], "\\", "\\\\");
-			*cmd = *cmd + 2 - (ft_strlen(argv[i]) - ft_strlen(tmp));
+			*cmd = *cmd + 2 + ft_strlen(argv[i]) - ft_strlen(tmp);
 			free(tmp);
 		}
 		else

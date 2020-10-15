@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_parsing.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbigot <tbigot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 14:10:25 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/14 12:46:42 by tbigot           ###   ########.fr       */
+/*   Updated: 2020/10/16 15:34:11 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static char	*cmd_with_split_word(char *cmd, char *op, int j)
 		else if (cmd[i])
 			new_cmd[j++] = cmd[i++];
 	}
-	//printf("new_cmd : %s\n", new_cmd);
 	return (new_cmd);
 }
 
