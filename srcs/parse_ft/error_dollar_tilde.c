@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 15:31:51 by tbigot            #+#    #+#             */
-/*   Updated: 2020/10/16 16:34:28 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/16 17:46:08 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,24 @@ int		bad_character_in_tilde(char *bad_c, char *in_tilde, char end)
 		i++;
 	}
 	return (1);
+}
+
+int		verif_export_word(char *txt)
+{
+	int 	ret;
+
+	ret = 1;
+	printf("%s\n", txt);
+	if (ft_strchr("}~^&()+=[]%%\"'\\|.,><:; ", *txt))
+		ret = 0;
+	if (!bad_character_in_tilde("${&*()[];' \"\\|<>.", txt, '='))
+		ret = 0;
+	if (ret == 0)
+	{
+		write(2, "bash: export: « ", 17);
+		write(2, txt, end_of_tilde(txt));
+		ft_putendl_fd(" » : identifiant non valable", 2);
+	}
+	printf("ret : %d\n", ret);
+	return (ret);	
 }
