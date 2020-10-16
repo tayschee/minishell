@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 15:13:04 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/08 18:03:10 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/16 15:34:27 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,30 @@
 
 int		ft_get_cmd_end(char *cmd_line)
 {
-	if (!(ft_strchr(cmd_line, ';')))
-		return (ft_strlen(cmd_line));
-	else if (!(ft_count_elt(cmd_line, "\"") % 2) ||
-			!(ft_count_elt(cmd_line, "\'") % 2))
-		return (ft_strchr(cmd_line, ';') - cmd_line);
-	else
-		return (ft_strlen(cmd_line));
+	int		i;
+	char	c;
+
+	i = 0;
+	while (cmd_line[i] && cmd_line[i] != ';')
+	{
+		i += skip_bs(&cmd_line[i], NULL);
+		c = cmd_line[i];
+		while (cmd_line[i] && (c == '"' || c == '\''))
+		{
+			i++;
+			if (cmd_line[i] == '\\' && c == '"')
+			{
+				i++;
+				if (cmd_line[i])
+					i++;
+			}
+			if (c == cmd_line[i])
+				c = 0;
+		}
+		if (cmd_line[i])
+			i++;
+	}
+	return (i);
 }
 
 int		ft_get_subcmd(char *cmd_line)
@@ -29,20 +46,21 @@ int		ft_get_subcmd(char *cmd_line)
 	int		cmd_end;
 	t_cmd	*cmd_struc;
 
+	ft_append_elt(&g_garb_cltor, cmd_line);
 	if (!cmd_line)
 		return (EXIT_SUCCESS);
 	while (*cmd_line)
 	{
 		cmd_end = ft_get_cmd_end(cmd_line);
+		g_end_of_cmd = cmd_line[cmd_end] == ';' ? 1 : 0;
+		if (g_end_of_cmd == 1 && cmd_line[cmd_end + 1] == ';')
+			g_end_of_cmd = 2;
 		cmd = ft_substr(cmd_line, 0, cmd_end);
-		if (cmd)
-			ft_append_elt(&g_garb_cltor, cmd);
 		if (!(cmd_struc = ft_init_cmd(cmd)))
 			return (EXIT_FAILURE);
 		ft_cmd_treatment(cmd_struc);
-		while (*cmd_line && *cmd_line != ';')
-			cmd_line++;
-		if (*cmd_line)
+		cmd_line += cmd_end;
+		if (*cmd_line == ';')
 			cmd_line++;
 	}
 	return (EXIT_SUCCESS);

@@ -6,7 +6,7 @@
 #    By: abarot <abarot@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/15 12:18:43 by abarot            #+#    #+#              #
-#    Updated: 2020/10/07 11:40:51 by abarot           ###   ########.fr        #
+#    Updated: 2020/10/15 15:11:57 by abarot           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ SRCS	=	srcs/ft_addtoa.c srcs/ft_atoi.c srcs/ft_bzero.c srcs/ft_calloc.c srcs/ft_
 			srcs/ft_isspace.c srcs/ft_issamestr.c srcs/ft_insert.c srcs/ft_get_word.c srcs/ft_get_word_no_quote.c \
 			srcs/ft_get_string.c srcs/ft_delete.c srcs/ft_putchar.c srcs/ft_clear_tab.c srcs/ft_replace.c srcs/ft_strnchr.c \
 			srcs/ft_get_env.c srcs/ft_show_tab.c srcs/ft_varsize.c srcs/ft_retreive_env.c srcs/ft_append_env.c \
-			srcs/ft_search_var.c srcs/ft_init_stdfd.c srcs/ft_restore_stdfd.c srcs/ft_replace_stdfd.c 
+			srcs/ft_search_var.c srcs/ft_init_stdfd.c srcs/ft_restore_stdfd.c srcs/ft_replace_stdfd.c \
+			srcs/ft_copy_tab.c
 
 OBJS	=	$(SRCS:.c=.o)
 

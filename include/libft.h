@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/09 17:31:34 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/07 11:39:27 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/15 15:10:56 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,4 +109,5 @@ char					*ft_search_var(char **envp, char *str);
 void					ft_restore_stdfd(int *p_fd, int *saved_fd);
 void					ft_init_stdfd(int *n_fd, int *saved_fd);
 void					ft_replace_stdfd(int *n_fd);
+char					**ft_copy_tab(char **cp, char **argv);
 #endif

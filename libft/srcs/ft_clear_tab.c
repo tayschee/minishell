@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/30 14:36:26 by abarot            #+#    #+#             */
-/*   Updated: 2020/09/29 11:08:57 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/15 18:05:51 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_clear_tab(char **tab)
 	int		i;
 
 	i = 0;
-	while (*tab[i])
+	while (tab[i])
 	{
 		free(tab[i]);
 		i++;

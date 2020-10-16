@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/01 11:10:38 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/07 16:44:03 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/15 17:50:38 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void	ft_append_env(char **envp, char *str)
 		i++;
 	if (!envp[i])
 	{
-		envp[i] = ft_strdup(str);
+		envp[i] = str;
 		envp[i + 1] = 0;
 	}
 	else
-		envp[i] = ft_strdup(str);
+		envp[i] = str;
 }

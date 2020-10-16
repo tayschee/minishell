@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/01 15:23:28 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/05 00:14:42 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/13 15:36:11 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,27 +20,36 @@ void	ft_show_fileerr(char *file)
 	ft_putendl_fd(strerror(errno), STDOUT_FILENO);
 }
 
-void	ft_get_fdrdr(t_rdr *rdr, int *p_fd)
+void	ft_get_fdrdr(t_rdr *rdr, int *fd)
 {
 	if (rdr && rdr->e_rdr == RDR_OUT)
-		p_fd[WR_END] = open(rdr->path, O_RDWR | O_TRUNC | O_CREAT, 0644);
+		fd[WR_END] = open(rdr->path, O_RDWR | O_TRUNC | O_CREAT, 0644);
 	if (rdr && rdr->e_rdr == RDR_OUT_APPEND)
-		p_fd[WR_END] = open(rdr->path, O_RDWR | O_APPEND | O_CREAT, 0644);
+		fd[WR_END] = open(rdr->path, O_RDWR | O_APPEND | O_CREAT, 0644);
 	if (rdr && rdr->e_rdr == RDR_IN)
-		p_fd[RD_END] = open(rdr->path, O_RDWR, 0644);
+		fd[RD_END] = open(rdr->path, O_RDWR, 0644);
 }
 
-int		ft_redirection(t_rdr *rdr, int *p_fd)
+int		ft_redirection(t_rdr *rdr, int *fd, int *feed)
 {
 	while (rdr)
 	{
-		if (p_fd[WR_END] && (rdr->e_rdr == RDR_OUT ||
+		if (fd[WR_END] && (rdr->e_rdr == RDR_OUT ||
 				rdr->e_rdr == RDR_OUT_APPEND))
-			close(p_fd[WR_END]);
-		else if (p_fd[RD_END] && rdr->e_rdr == RDR_IN)
-			close(p_fd[RD_END]);
-		ft_get_fdrdr(rdr, p_fd);
-		if (p_fd[WR_END] == -1 || p_fd[RD_END] == -1)
+			close(fd[WR_END]);
+		else if (fd[RD_END] && rdr->e_rdr == RDR_IN)
+		{
+			close(fd[RD_END]);
+			*feed = 0;
+		}
+		else if (rdr->e_rdr == RDR_IN_FEED)
+		{
+			*feed = 1;
+			if (fd[RD_END])
+				close(fd[RD_END]);
+		}
+		ft_get_fdrdr(rdr, fd);
+		if (fd[WR_END] == -1 || fd[RD_END] == -1)
 		{
 			ft_show_fileerr(rdr->path);
 			return (EXIT_FAILURE);
@@ -50,23 +59,60 @@ int		ft_redirection(t_rdr *rdr, int *p_fd)
 	return (EXIT_SUCCESS);
 }
 
-int		ft_manage_rdr(t_cmd *cmd)
+void	ft_feed(t_cmd *cmd, int *fd, int *fd_save, int *p_fd)
 {
-	int	p_fd[3];
-	int p_fd_save[3];
+	char	*line;
 
-	ft_init_stdfd(p_fd, p_fd_save);
-	if (ft_redirection(cmd->rdr, p_fd) == EXIT_FAILURE)
+	pipe(p_fd);
+	write(STDOUT_FILENO, "> ", 2);
+	while (get_next_line(STDIN_FILENO, &line) == 1)
 	{
-		close(p_fd_save[RD_END]);
-		close(p_fd_save[WR_END]);
-		return (EXIT_FAILURE);
+		if (!ft_issamestr(line, cmd->rdr->path))
+		{
+			ft_putendl_fd(line, p_fd[WR_END]);
+			free(line);
+			write(STDOUT_FILENO, "> ", 2);
+		}
+		else
+			break ;
 	}
-	ft_replace_stdfd(p_fd);
+	close(p_fd[WR_END]);
+	dup2(p_fd[RD_END], STDIN_FILENO);
+	if (fd[WR_END])
+		dup2(fd[WR_END], STDOUT_FILENO);
 	if (cmd->type == CMD)
 		ft_redirect_cmd(cmd);
 	else
 		ft_exec(cmd);
-	ft_restore_stdfd(p_fd, p_fd_save);
+	dup2(fd_save[RD_END], STDIN_FILENO);
+	close(p_fd[RD_END]);
+}
+
+int		ft_manage_rdr(t_cmd *cmd)
+{
+	int		fd[3];
+	int		fd_save[3];
+	int		feed;
+	int		p_fd[2];
+
+	feed = 0;
+	ft_init_stdfd(fd, fd_save);
+	if (ft_redirection(cmd->rdr, fd, &feed) == EXIT_FAILURE)
+	{
+		close(fd_save[RD_END]);
+		close(fd_save[WR_END]);
+		return (EXIT_FAILURE);
+	}
+	if (feed)
+		ft_feed(cmd, fd, fd_save, p_fd);
+	else
+	{
+		ft_replace_stdfd(fd);
+		if (cmd->type == CMD)
+			ft_redirect_cmd(cmd);
+		else
+			ft_exec(cmd);
+	}
+	ft_restore_stdfd(fd, fd_save);
 	return (EXIT_SUCCESS);
 }

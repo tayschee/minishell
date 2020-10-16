@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 14:46:13 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/07 18:18:01 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/16 19:07:42 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,16 +67,16 @@ char		quote_management(char *txt)
 	c = 0;
 	while (txt[i])
 	{
-		if (txt[i] == '\\')
-			c = txt[i++];
-		else if (txt[i] == '"' || txt[i] == '\'')
-			c = txt[i];
+		c = txt[i];
+		if (c == '\\')
+			i++;
 		while ((c == '"' || c == '\'') && txt[++i])
-			if (txt[i] == c)
-			{
-				c = 0;
+		{
+			if (c == '"' && txt[i] == '\\')
+				i++;
+			else if (txt[i] == c)
 				break ;
-			}
+		}
 		if (txt[i])
 		{
 			c = 0;
@@ -86,18 +86,13 @@ char		quote_management(char *txt)
 	return (c);
 }
 
-void		inc_shlvl(char **envp)
+void		print_msg_error(int end)
 {
-	int		i;
-	char	*shlvl_nb;
-	char	*shlvl_txt;
-
-	i = ft_atoi(ft_get_env(envp, "SHLVL", '='));
-	i++;
-	shlvl_nb = ft_itoa(i);
-	shlvl_txt = ft_strjoin("SHLVL=", shlvl_nb);
-	if (shlvl_nb)
-		free(shlvl_nb);
-	ft_append_elt(&g_garb_cltor, shlvl_txt);
-	ft_append_env(envp, shlvl_txt);
+	write(1, UNEXP_NL, ft_strlen(UNEXP_NL));
+	if (end == 1)
+		write(1, ";'\n", 3);
+	else if (end == 2)
+		write(1, ";;'\n", 4);
+	else
+		write(1, "newline'\n", 10);
 }

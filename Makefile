@@ -6,7 +6,7 @@
 #    By: abarot <abarot@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/02 20:31:48 by abarot            #+#    #+#              #
-#    Updated: 2020/10/08 11:09:32 by abarot           ###   ########.fr        #
+#    Updated: 2020/10/16 19:13:19 by abarot           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ SRCS	=	srcs/main.c \
 			srcs/signal_handling.c \
 			srcs/parse_ft/multiline_mng.c \
 			srcs/parse_ft/get_cmd_r.c \
+			srcs/parse_ft/brackets.c \
 			srcs/parse_ft/get_subcmd.c \
 			srcs/cmd_struct/cmd_parsing.c \
 			srcs/cmd_struct/ft_get_argv.c \
@@ -25,10 +26,13 @@ SRCS	=	srcs/main.c \
 			srcs/cmd_struct/utils.c \
 			srcs/exec_ft/cmd_treatment.c \
 			srcs/exec_ft/ft_redirect_cmd.c \
+			srcs/exec_ft/paths_ft.c \
 			srcs/exec_ft/builtins.c \
 			srcs/exec_ft/ft_exec_pipe.c \
 			srcs/exec_ft/ft_exec_pipe_2.c \
-			srcs/exec_ft/redirect_ft.c
+			srcs/exec_ft/redirect_ft.c \
+			srcs/add_to_env.c \
+			srcs/parse_ft/error_dollar_tilde.c
 			
 OBJS	=	$(SRCS:.c=.o)
 
@@ -50,7 +54,7 @@ all	:
 		make $(NAME)
 
 $(NAME)	: $(OBJS) 
-			gcc $(CFLAGS) $(OBJS) -lcurses -L./libft/. -lft -o $(NAME) -I$(INCL)
+			gcc -g $(CFLAGS) $(OBJS) -lcurses -L./libft/. -lft -o $(NAME) -I$(INCL)
 			
 clean	:
 		$(RM) $(OBJS) && make -C libft fclean

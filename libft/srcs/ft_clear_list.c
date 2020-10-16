@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/30 14:36:26 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/04 23:24:29 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/13 15:22:54 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,4 @@ void	ft_clear_list(t_list **list)
 	}
 	free((*list)->data);
 	free(*list);
-	*list = 0;
 }
