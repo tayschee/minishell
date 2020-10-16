@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 12:37:35 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/16 15:44:43 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/16 18:47:41 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ void			ft_argv_str_and_char(char **cmd, char **argv, int i)
 	else
 	{
 		argv_tmp = ft_get_string(*cmd);
-		if (**cmd == '\'')
+		if (**cmd == '\'' && argv_tmp[0] != '\0')
 		{
 			tmp = argv_tmp;
 			argv_tmp = ft_replace_in_str(argv_tmp, "\\", "\\\\");
-			*cmd = *cmd + 2 + ft_strlen(argv_tmp) - ft_strlen(tmp);
+			*cmd = *cmd + 2 - (ft_count_elt(argv_tmp, "\\") / 2);
 			free(tmp);
 		}
 		else
@@ -49,11 +49,11 @@ void			ft_argv_str_or_char(char **cmd, char **argv, int i)
 	else
 	{
 		argv[i] = ft_get_string(*cmd);
-		if (**cmd == '\'')
+		if (**cmd == '\'' && argv[i][0] != '\0')
 		{
 			tmp = argv[i];
 			argv[i] = ft_replace_in_str(argv[i], "\\", "\\\\");
-			*cmd = *cmd + 2 + ft_strlen(argv[i]) - ft_strlen(tmp);
+			*cmd = *cmd + 2 - (ft_count_elt(argv[i], "\\") / 2);
 			free(tmp);
 		}
 		else
@@ -77,13 +77,9 @@ char			**ft_get_argv(char *cmd)
 		while (*cmd && *cmd != ' ')
 		{
 			if (argv[i])
-			{
 				ft_argv_str_and_char(&cmd, argv, i);
-			}
 			else
-			{
 				ft_argv_str_or_char(&cmd, argv, i);
-			}
 		}
 		i++;
 	}

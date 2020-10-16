@@ -3,14 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbigot <tbigot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:40:09 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/15 16:55:53 by tbigot           ###   ########.fr       */
+/*   Updated: 2020/10/16 18:11:18 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// echo '\$HOME'
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -144,7 +142,8 @@ void					inc_shlvl(char **envp);
 void					ft_env_declare(char **envp);
 void					change_env_(t_cmd *cmd);
 void					print_msg_error(int end);
-int 					end_of_tilde(char *txt);
-int 					bad_character_in_tilde(char *bad_c, char *in_tilde, char end);
-int 					verif_export_word(char *txt);
+int						end_of_tilde(char *txt);
+int						bad_character_in_tilde(char *bad_c, char *in_tilde,
+						char end);
+int						verif_export_word(char *txt);
 #endif

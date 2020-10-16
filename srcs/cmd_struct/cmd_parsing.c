@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 14:10:25 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/16 15:34:11 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/16 18:21:17 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static char	*cmd_with_split_word(char *cmd, char *op, int j)
 	int		i;
 	char	*new_cmd;
 
-	if (!(new_cmd = ft_calloc(j + 1, sizeof(char))))
+	if (!(new_cmd = ft_calloc(j * 2, sizeof(char))))
 		return (NULL);
 	i = 0;
 	j = 0;
