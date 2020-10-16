@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 14:12:53 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/16 13:19:25 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/16 17:30:08 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,31 +45,59 @@ int		ft_rtr_exec(char **argv, int rtr_val)
 	return (rtr_val);
 }
 
-int		ft_exec_paths(t_cmd *cmd)
+int		ft_is_a_path(char *path)
+{
+	if (path[0] == '/')
+		return (1);
+	if (path[0] == '.' && path[1] == '/')
+		return (1);
+	if (path[0] == '.' && path[1] == '.' && path[2] == '/')
+		return (1);
+	return (0);
+}
+
+
+int		ft_try_paths(char **argv_cp)
 {
 	char	*path_inst;
 	int		instc;
-	char	**argv_cp;
+	char	*first_cmd;
 
 	instc = 0;
+	first_cmd = ft_strdup(argv_cp[0]);
+	while ((path_inst = ft_get_path(ft_get_env(g_shell.envp,
+				"PATH", '='), instc)))
+	{
+		free(argv_cp[0]);
+		argv_cp[0] = ft_strjoin(path_inst, first_cmd);
+		free(path_inst);
+		if (execve(argv_cp[0], argv_cp, g_shell.envp) != -1)
+		{
+			free(first_cmd);
+			return (ft_rtr_exec(argv_cp, EXIT_SUCCESS));
+		}
+		instc++;
+	}
+	free(first_cmd);
+	return (ft_rtr_exec(argv_cp, 127));
+}
+
+int		ft_exec_paths(t_cmd *cmd)
+{
+	char	**argv_cp;
+
 	argv_cp = 0;
 	if (!(argv_cp = ft_copy_tab(argv_cp, cmd->argv)))
 		return (EXIT_FAILURE);
-	if (execve(argv_cp[0], argv_cp, g_shell.envp) == -1)
+	if (ft_is_a_path(argv_cp[0]))
 	{
-		while ((path_inst = ft_get_path(ft_get_env(g_shell.envp,
-					"PATH", '='), instc)))
-		{
-			free(argv_cp[0]);
-			argv_cp[0] = ft_strjoin(path_inst, cmd->argv[0]);
-			free(path_inst);
-			if (execve(argv_cp[0], argv_cp, g_shell.envp) != -1)
-				return (ft_rtr_exec(argv_cp, EXIT_SUCCESS));
-			instc++;
-		}
-		return (ft_rtr_exec(argv_cp, 127));
+		if (execve(argv_cp[0], argv_cp, g_shell.envp) == -1)
+			return (ft_rtr_exec(argv_cp, 128));
+		else
+			return (ft_rtr_exec(argv_cp, EXIT_SUCCESS));
 	}
-	return (ft_rtr_exec(argv_cp, EXIT_SUCCESS));
+	else
+		return (ft_try_paths(argv_cp));
 }
 
 int		ft_exec(t_cmd *cmd)
@@ -82,6 +110,14 @@ int		ft_exec(t_cmd *cmd)
 	{
 		ft_putstr_fd(cmd->argv[0], STDOUT_FILENO);
 		ft_putstr_fd(": command not found\n", STDOUT_FILENO);
+		return (EXIT_FAILURE);
+	}
+	if (WEXITSTATUS(g_shell.status) == 128)
+	{
+		ft_putstr_fd("minishell: ", STDOUT_FILENO);
+		ft_putstr_fd(cmd->argv[0], STDOUT_FILENO);
+		ft_putstr_fd(": No such file or directory\n", STDOUT_FILENO);
+		g_shell.status = 127;
 		return (EXIT_FAILURE);
 	}
 	g_shell.cpid = 0;

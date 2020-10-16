@@ -1,5 +1,0 @@
-bad substtitution {}~%^&()+=[]"'\|.,><:; dans premier caractere de ${} -----fait a moitie pas la bonne chos ecrite-------
-bad substitution dans tout les caracteres ${}
-gerer les deux erreur au dessus pour pour export
-echo ${a}} -> (rien) au lieu de -> }
-echo $a {a n'existe pas} -> \n mais ${a} -> (rien nouvelle ligne direct) les deux doivent faire pareil
