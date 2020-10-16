@@ -6,9 +6,10 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 15:12:05 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/16 16:25:12 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/16 16:26:30 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
@@ -95,9 +96,12 @@ char	*ft_if_dollar_or_tilde(char *cmd_line, int i)
 	char	*tmp;
 
 	if (!ft_strncmp(cmd_line + i, "${", 2) && (*(cmd_line + i + 2) == 0 ||
-		ft_strchr("[]()${}\n", *(cmd_line + i + 2))))
+	ft_strchr("}~^&()+=[]%%\"'\\|.,><:; ", *(cmd_line + i + 2)) ||
+	!bad_character_in_tilde("${&*()[];' \"\\|<>.", cmd_line + i + 2, '}')))
 	{
-		ft_putendl_fd("minishell: ${}: bad substitution", STDOUT_FILENO);
+		write(STDOUT_FILENO, "minishell: ${", 13);
+		write(STDOUT_FILENO, cmd_line + i + 2, end_of_tilde(cmd_line + i + 2));
+		ft_putendl_fd(": bad substitution", STDOUT_FILENO);
 		free(cmd_line);
 		return (0);
 	}
