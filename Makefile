@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tbigot <tbigot@student.42.fr>              +#+  +:+       +#+         #
+#    By: abarot <abarot@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/02 20:31:48 by abarot            #+#    #+#              #
-#    Updated: 2020/10/15 15:34:53 by tbigot           ###   ########.fr        #
+#    Updated: 2020/10/16 19:13:19 by abarot           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ SRCS	=	srcs/main.c \
 			srcs/signal_handling.c \
 			srcs/parse_ft/multiline_mng.c \
 			srcs/parse_ft/get_cmd_r.c \
+			srcs/parse_ft/brackets.c \
 			srcs/parse_ft/get_subcmd.c \
 			srcs/cmd_struct/cmd_parsing.c \
 			srcs/cmd_struct/ft_get_argv.c \
@@ -25,6 +26,7 @@ SRCS	=	srcs/main.c \
 			srcs/cmd_struct/utils.c \
 			srcs/exec_ft/cmd_treatment.c \
 			srcs/exec_ft/ft_redirect_cmd.c \
+			srcs/exec_ft/paths_ft.c \
 			srcs/exec_ft/builtins.c \
 			srcs/exec_ft/ft_exec_pipe.c \
 			srcs/exec_ft/ft_exec_pipe_2.c \

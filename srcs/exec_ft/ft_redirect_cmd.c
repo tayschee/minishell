@@ -6,11 +6,31 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/22 16:00:15 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/16 16:49:31 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/16 19:21:53 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	echo_cmd(char **argv)
+{
+	int		lessn;
+	int		i;
+
+	i = 1;
+	lessn = ft_issamestr(argv[1], "-n");
+	if (lessn)
+		i = 2;
+	while (argv[i])
+	{
+		ft_putstr_fd(argv[i], STDOUT_FILENO);
+		if (argv[i + 1])
+			write(STDOUT_FILENO, " ", 1);
+		i++;
+	}
+	if (!lessn)
+		write(STDOUT_FILENO, "\n", 1);
+}
 
 void	ft_env_declare(char **envp)
 {

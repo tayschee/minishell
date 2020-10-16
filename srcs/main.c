@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:37:55 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/16 15:34:02 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/16 19:05:27 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int		ft_read_input(void)
 	ft_show_prompt_line();
 	while (get_next_line(STDIN_FILENO, &line) == 1)
 	{
-		cmd_line = ft_multiline_mng(line); 
+		cmd_line = ft_multiline_mng(line);
 		g_shell.in_multil = 0;
 		cmd_line = ft_get_cmd_r(cmd_line);
 		if (cmd_line)

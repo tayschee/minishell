@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 14:46:13 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/16 14:58:00 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/16 19:07:42 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,7 @@ char		quote_management(char *txt)
 			if (c == '"' && txt[i] == '\\')
 				i++;
 			else if (txt[i] == c)
-			{
-				c = 0;
 				break ;
-			}
 		}
 		if (txt[i])
 		{

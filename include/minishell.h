@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:40:09 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/16 18:11:18 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/16 19:14:37 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ void					ft_set_cwd();
 void					ft_show_prompt_line();
 char					*ft_multiline_mng(char *line);
 char					*ft_get_cmd_r(char *cmd_line);
+char					*ft_replace_brackets(char *res, int index);
+char					*ft_replace_brackets_(char *res, char *var, int index);
 int						ft_get_subcmd(char *cmd_line);
 int						skip_bs(char *cmd, char *new_cmd);
 void					ft_retreive_bs_in_cmd(t_cmd *cmd);
@@ -130,6 +132,8 @@ void					free_cmd_list(t_cmd **cmd);
 int						this_is_operator(char *txt, char *operator);
 int						ft_cmd_treatment(t_cmd *cmd);
 int						ft_exec_paths(t_cmd *cmd);
+char					*ft_get_path(char *paths, int instc);
+int						ft_is_a_path(char *path);
 int						count_struct(t_cmd	*cmd);
 t_cmd					*fork_all(t_cmd *cmd);
 char					*cmd_without_bs(char *cmd);
