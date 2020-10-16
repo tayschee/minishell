@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 15:12:05 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/16 16:07:12 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/16 16:09:43 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,12 @@ char	*ft_replace_brackets(char *res, int index)
 	{
 		var = ft_strjoin("${", tmp);
 		var_dol = ft_strjoin(var, "}");
+		free(tmp);
 		res = ft_replace(res, var_dol, "", index);
 	}
 	else
 	{
+		free(tmp);
 		var_dol = ft_strjoin("${", var);
 		tmp = var_dol;
 		var_dol = ft_strjoin(var_dol, "}");
@@ -49,7 +51,6 @@ char	*ft_replace_brackets(char *res, int index)
 		res = ft_replace(res, var_dol,
 			ft_get_env(g_shell.envp, var, '='), index);
 	}
-	free(tmp);
 	free(var_dol);
 	free(var);
 	return (res);
