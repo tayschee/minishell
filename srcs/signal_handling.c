@@ -6,7 +6,7 @@
 /*   By: tbigot <tbigot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/04 16:26:16 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/13 15:52:47 by tbigot           ###   ########.fr       */
+/*   Updated: 2020/10/19 20:05:49 by tbigot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	ft_quithandler(void)
 		g_shell.cpid = 0;
 		write(1, "Quit (core dumped)\n", 19);
 	}
+	else
+		write(1, "\b\b  \b\b", 6);
 }
 
 void	ft_inthandler(void)
