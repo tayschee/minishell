@@ -6,7 +6,7 @@
 #    By: abarot <abarot@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/02 20:31:48 by abarot            #+#    #+#              #
-#    Updated: 2020/10/16 19:13:19 by abarot           ###   ########.fr        #
+#    Updated: 2020/10/20 11:30:04 by abarot           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ SRCS	=	srcs/main.c \
 			srcs/parse_ft/multiline_mng.c \
 			srcs/parse_ft/get_cmd_r.c \
 			srcs/parse_ft/brackets.c \
+			srcs/parse_ft/syntax_ft.c \
 			srcs/parse_ft/get_subcmd.c \
 			srcs/cmd_struct/cmd_parsing.c \
 			srcs/cmd_struct/ft_get_argv.c \
