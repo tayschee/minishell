@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 15:12:05 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/16 19:14:45 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/19 18:11:08 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,19 @@ char	*ft_replace_brackets(char *res, int index)
 	free(tmp);
 	free(var);
 	return (res);
+}
+
+char	*manage_dollarquote(char *cmd, int *i)
+{
+	char	*tmp;
+
+	if (ft_count_elt(cmd + *i, "\"") % 2)
+		*i = *i + 1;
+	else if (cmd[*i] == '$' && cmd[*i + 1] == '\"')
+	{
+		tmp = cmd;
+		cmd = ft_delete(cmd, "$", *i);
+		free(tmp);
+	}
+	return (cmd);
 }

@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:40:09 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/20 13:46:57 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/19 18:11:57 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void					ft_show_prompt_line();
 char					*ft_multiline_mng(char *line);
 char					*ft_get_cmd_r(char *cmd_line);
 char					*ft_replace_brackets(char *res, int index);
-char					*ft_replace_brackets_(char *res, char *var, int index);
+char					*manage_dollarquote(char *cmd, int *i);
 int						ft_get_subcmd(char *cmd_line);
 int						skip_bs(char *cmd, char *new_cmd);
 void					ft_retreive_bs_in_cmd(t_cmd *cmd);
