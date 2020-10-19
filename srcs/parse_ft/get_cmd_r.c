@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 15:12:05 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/20 12:20:39 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/19 17:33:20 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,8 @@ char	*ft_get_cmd_r(char *cmd)
 	{
 		i += skip_bs(&cmd[i], NULL);
 		skip_squote(cmd, &i);
-		if ((cmd[i] == '~' || (cmd[i] == '$' && (cmd[i + 1] != ' ' &&
-		cmd[i + 1] != '\0'))))
+		if (cmd[i] == '~' || (cmd[i] == '$' && (cmd[i + 1] != ' ' &&
+		cmd[i + 1] != '\0' && cmd[i + 1] != '\"' )))
 		{
 			if (!(cmd = ft_if_dollar_or_tilde(cmd, i)))
 				return (0);
