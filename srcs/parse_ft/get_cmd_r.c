@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 15:12:05 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/16 19:15:18 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/20 10:44:31 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,24 +74,26 @@ char	*ft_if_dollar_or_tilde(char *cmd_line, int i)
 	return (cmd_line);
 }
 
-char	*ft_get_cmd_r(char *cmd_line)
+char	*ft_get_cmd_r(char *cmd)
 {
 	int		i;
 
 	i = 0;
-	if (!cmd_line)
+	if (!cmd)
 		return (0);
-	while (cmd_line[i])
+	while (cmd[i])
 	{
-		i += skip_bs(&cmd_line[i], NULL);
-		if (ft_strnchr("$~", cmd_line[i], 2) && cmd_line[i + 1] &&
-			!(ft_count_elt(cmd_line + i, "\'") % 2))
+		i += skip_bs(&cmd[i], NULL);
+		if ((cmd[i] == '~' || (cmd[i] == '$' && (cmd[i + 1] != ' ' &&
+		cmd[i + 1] != '\0'))) && !(ft_count_elt(cmd + i, "\'") % 2))
 		{
-			if (!(cmd_line = ft_if_dollar_or_tilde(cmd_line, i)))
+			if (!(cmd = ft_if_dollar_or_tilde(cmd, i)))
 				return (0);
+			if (cmd[i] == '~')
+				i++;
 		}
 		else
 			i++;
 	}
-	return (cmd_line);
+	return (cmd);
 }
