@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:37:55 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/20 11:37:49 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/20 13:07:50 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,17 @@ void	ft_show_prompt_line(void)
 int		ft_read_input(void)
 {
 	char *line;
-	char *cmd_line;
+	char *cmd_l;
 
 	ft_show_prompt_line();
 	while (get_next_line(STDIN_FILENO, &line) == 1)
 	{
-		cmd_line = ft_multiline_mng(line);
+		cmd_l = ft_multiline_mng(line);
 		g_shell.in_multil = 0;
-		cmd_line = ft_get_cmd_r(cmd_line);
-		if (cmd_line)
-			(syntax(cmd_line, ';') && syntax(cmd_line, '|')) ?
-			ft_get_subcmd(cmd_line) : free(cmd_line);
+		cmd_l = ft_get_cmd_r(cmd_l);
+		if (cmd_l)
+			(syntax(cmd_l, ';') && syntax(cmd_l, '|') && notempty(cmd_l)) ?
+			ft_get_subcmd(cmd_l) : free(cmd_l);
 		if (g_shell.exit == 1)
 			break ;
 		ft_show_prompt_line();

@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:40:09 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/20 11:29:38 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/20 13:38:56 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ int						ft_get_subcmd(char *cmd_line);
 int						skip_bs(char *cmd, char *new_cmd);
 void					ft_retreive_bs_in_cmd(t_cmd *cmd);
 int						syntax(char *cmd_line, char c);
+int						notempty(char *cmd);
 int						ft_manage_rdr(t_cmd *cmd);
 int						ft_redirect_cmd(t_cmd *cmd);
 void					echo_cmd(char **argv);
@@ -122,6 +123,9 @@ void					cd_cmd(t_cmd *cmd);
 void					ft_unset_cmd(char **argv);
 void					ft_export_cmd(t_cmd *cmd);
 int						ft_exec(t_cmd *cmd);
+int						ft_error_127(t_cmd *cmd);
+int						ft_error_128(t_cmd *cmd);
+int						ft_error_129(t_cmd *cmd);
 void					ft_create_env_declare(t_cmd *cmd);
 void					ft_inthandler();
 void					ft_quithandler();

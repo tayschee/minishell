@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 14:12:53 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/16 19:08:50 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/20 13:40:45 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ int		ft_try_paths(char **argv_cp)
 
 int		ft_exec_paths(t_cmd *cmd)
 {
-	char	**argv_cp;
+	char		**argv_cp;
+	struct stat	tmp;
 
 	argv_cp = 0;
 	if (!(argv_cp = ft_copy_tab(argv_cp, cmd->argv)))
@@ -53,7 +54,12 @@ int		ft_exec_paths(t_cmd *cmd)
 	if (ft_is_a_path(argv_cp[0]))
 	{
 		if (execve(argv_cp[0], argv_cp, g_shell.envp) == -1)
-			return (ft_rtr_exec(argv_cp, 128));
+		{
+			if (stat(argv_cp[0], &tmp) == 0)
+				return (ft_rtr_exec(argv_cp, 129));
+			else
+				return (ft_rtr_exec(argv_cp, 128));
+		}
 		else
 			return (ft_rtr_exec(argv_cp, EXIT_SUCCESS));
 	}
@@ -68,19 +74,11 @@ int		ft_exec(t_cmd *cmd)
 		exit(ft_exec_paths(cmd));
 	waitpid(g_shell.cpid, &g_shell.status, 0);
 	if (WEXITSTATUS(g_shell.status) == 127)
-	{
-		ft_putstr_fd(cmd->argv[0], STDOUT_FILENO);
-		ft_putstr_fd(": command not found\n", STDOUT_FILENO);
-		return (EXIT_FAILURE);
-	}
-	if (WEXITSTATUS(g_shell.status) == 128)
-	{
-		ft_putstr_fd("minishell: ", STDOUT_FILENO);
-		ft_putstr_fd(cmd->argv[0], STDOUT_FILENO);
-		ft_putstr_fd(": No such file or directory\n", STDOUT_FILENO);
-		g_shell.status = 127;
-		return (EXIT_FAILURE);
-	}
+		return (ft_error_127(cmd));
+	else if (WEXITSTATUS(g_shell.status) == 128)
+		return (ft_error_128(cmd));
+	else if (WEXITSTATUS(g_shell.status) == 129)
+		return (ft_error_129(cmd));
 	g_shell.cpid = 0;
 	return (EXIT_SUCCESS);
 }

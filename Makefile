@@ -6,7 +6,7 @@
 #    By: abarot <abarot@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/02 20:31:48 by abarot            #+#    #+#              #
-#    Updated: 2020/10/20 13:00:32 by abarot           ###   ########.fr        #
+#    Updated: 2020/10/20 13:37:29 by abarot           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRCS	=	srcs/main.c \
 			srcs/cmd_struct/utils.c \
 			srcs/exec_ft/cmd_treatment.c \
 			srcs/exec_ft/ft_redirect_cmd.c \
+			srcs/exec_ft/error_mess.c \
 			srcs/exec_ft/paths_ft.c \
 			srcs/exec_ft/builtins.c \
 			srcs/exec_ft/builtins_2.c \
