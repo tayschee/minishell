@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 15:13:04 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/16 15:34:27 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/20 15:14:45 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int		ft_get_subcmd(char *cmd_line)
 	int		cmd_end;
 	t_cmd	*cmd_struc;
 
-	ft_append_elt(&g_garb_cltor, cmd_line);
 	if (!cmd_line)
 		return (EXIT_SUCCESS);
 	while (*cmd_line)

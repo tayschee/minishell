@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 14:10:25 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/16 18:21:17 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/20 15:23:26 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static int	check_error_rdr(char **cmd, int end)
 			i++;
 		}
 	}
-	return (-1);
+	return (EXIT_SUCCESS);
 }
 
 t_cmd		*ft_init_cmd(char *unique_cmd)
@@ -102,8 +102,10 @@ t_cmd		*ft_init_cmd(char *unique_cmd)
 	cmd_divise = ft_get_argv(cmd_sentence);
 	if (cmd_sentence)
 		free(cmd_sentence);
-	if (check_error_rdr(cmd_divise, g_end_of_cmd) < 0)
+	if (check_error_rdr(cmd_divise, g_end_of_cmd) == EXIT_SUCCESS)
 		cmd = char_to_struct_cmd(cmd_divise);
+	else
+		ft_clear_tab(cmd_divise);
 	ft_retreive_bs_in_cmd(cmd);
 	return (cmd);
 }
