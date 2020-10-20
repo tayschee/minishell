@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_dollar_tilde.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tbigot <tbigot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/15 15:31:51 by tbigot            #+#    #+#             */
-/*   Updated: 2020/10/16 19:11:22 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/19 11:17:27 by tbigot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int		verif_export_word(char *txt)
 	{
 		write(2, "bash: export: « ", 17);
 		write(2, txt, end_of_tilde(txt));
-		ft_putendl_fd(" » : identifiant non valable", 2);
+		ft_putendl_fd(" » : not a valid identifier", 2);
 	}
 	return (ret);
 }
