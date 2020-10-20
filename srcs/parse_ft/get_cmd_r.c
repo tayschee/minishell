@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/03 15:12:05 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/20 11:14:17 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/20 12:18:58 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,17 @@ char	*ft_if_dollar_or_tilde(char *cmd_line, int i)
 	return (cmd_line);
 }
 
+void	skip_squote(char *cmd, int *i)
+{
+	if (cmd[*i] == '\'' && !(*i && cmd[*i - 1] == '\\') &&
+	!(ft_count_elt(cmd + *i, "\"") % 2))
+	{
+		*i = *i + 1;
+		while (cmd[*i] && (cmd[*i] != '\'' || (*i && cmd[*i - 1] == '\\')))
+			*i = *i + 1;
+	}
+}
+
 char	*ft_get_cmd_r(char *cmd)
 {
 	int		i;
@@ -84,8 +95,9 @@ char	*ft_get_cmd_r(char *cmd)
 	while (cmd[i])
 	{
 		i += skip_bs(&cmd[i], NULL);
+		skip_squote(cmd, &i);
 		if ((cmd[i] == '~' || (cmd[i] == '$' && (cmd[i + 1] != ' ' &&
-		cmd[i + 1] != '\0'))) && !(ft_count_elt(cmd + i, "\'") % 2))
+		cmd[i + 1] != '\0'))))
 		{
 			if (!(cmd = ft_if_dollar_or_tilde(cmd, i)))
 				return (0);
