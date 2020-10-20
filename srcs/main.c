@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:37:55 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/20 10:45:21 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/20 11:19:00 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ int		syntax(char *cmd_line, char c)
 {
 	int		i;
 
-	i = 0;
 	while (*cmd_line)
 	{
+		i = 0;
 		while (*(cmd_line + i) && (*(cmd_line + i) != c ||
 			(*(cmd_line + i) == c && ((ft_count_elt(cmd_line + i, "\"") % 2) ||
 			(ft_count_elt(cmd_line + i, "\'") % 2) ||
@@ -52,12 +52,12 @@ int		syntax(char *cmd_line, char c)
 		{
 			ft_putstr_fd("minishell: syntax error near unexpected token '", 1);
 			write(1, &c, 1);
+			(c == ';') ? write(1, &c, 1) : 0;
 			ft_putstr_fd("'\n", 1);
 			return (0);
 		}
 		*(cmd_line + i) = c;
 		cmd_line += i + 1;
-		i = 0;
 	}
 	return (1);
 }
