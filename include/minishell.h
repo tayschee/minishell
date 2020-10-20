@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 20:40:09 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/20 13:38:56 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/20 13:46:57 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,9 +123,9 @@ void					cd_cmd(t_cmd *cmd);
 void					ft_unset_cmd(char **argv);
 void					ft_export_cmd(t_cmd *cmd);
 int						ft_exec(t_cmd *cmd);
+int						ft_error_126(t_cmd *cmd);
 int						ft_error_127(t_cmd *cmd);
 int						ft_error_128(t_cmd *cmd);
-int						ft_error_129(t_cmd *cmd);
 void					ft_create_env_declare(t_cmd *cmd);
 void					ft_inthandler();
 void					ft_quithandler();
