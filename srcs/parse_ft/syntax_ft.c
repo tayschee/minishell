@@ -6,7 +6,7 @@
 /*   By: abarot <abarot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 11:30:20 by abarot            #+#    #+#             */
-/*   Updated: 2020/10/20 11:30:37 by abarot           ###   ########.fr       */
+/*   Updated: 2020/10/20 11:47:52 by abarot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int		syntax(char *cmd_line, char c)
 		while (*(cmd_line + i) && (*(cmd_line + i) != c ||
 			(*(cmd_line + i) == c && ((ft_count_elt(cmd_line + i, "\"") % 2) ||
 			(ft_count_elt(cmd_line + i, "\'") % 2) ||
-			*(cmd_line + i - 1) == '\\'))))
+			(i && *(cmd_line + i - 1) == '\\')))))
 			i++;
 		if (!*(cmd_line + i))
 			return (1);
