@@ -48,7 +48,7 @@ make fclean
 
 ## Developpers
 - Taylee BIGOT [(tayschee)](https://github.com/tayschee)
-- Anne Barot [(anBarot)](https://github.com/anBarot)
+- Anne BAROT [(anBarot)](https://github.com/anBarot)
 
 ## Screenshot
 <img width="624" alt="minishell_example" src="https://user-images.githubusercontent.com/57805554/168315779-863d4085-b59f-483e-9b6c-913a0db63e67.png">
