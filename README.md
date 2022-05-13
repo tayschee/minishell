@@ -1,11 +1,13 @@
 # Minishell
 ![42](https://img.shields.io/static/v1?label=&labelColor=000000e&logo=42&message=project&color=000000&style=flate)
 ![Stars](https://img.shields.io/github/stars/tayschee/Minishell?style=social)
+![GitHub anBarot](https://img.shields.io/github/followers/anBarot?label=anBarot&style=social)
+![GitHub tbigot](https://img.shields.io/github/followers/tayschee?label=tayschee&style=social)
 
 ## Summary
 - [About The Project](#about-the-project)
 - [Getting Started](#getting-started)
-- [Developers](#developers)
+- [Developpers](#developpers)
 - [Screenshot](#screenshot)
 
 ## About The Project
