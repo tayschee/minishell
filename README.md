@@ -7,7 +7,7 @@
 ## Summary
 - [About The Project](#about-the-project)
 - [Getting Started](#getting-started)
-- [Developpers](#developpers)
+- [Developers](#developpers)
 - [Screenshot](#screenshot)
 
 ## About The Project
@@ -46,7 +46,7 @@ CTRL-D
 make fclean
 ```
 
-## Developpers
+## Developers
 - Taylee BIGOT [(tayschee)](https://github.com/tayschee)
 - Anne BAROT [(anBarot)](https://github.com/anBarot)
 
